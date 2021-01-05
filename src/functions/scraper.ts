@@ -1,14 +1,15 @@
 import puppeteer from "puppeteer";
 import axios from "axios";
 
-export const scrape = async (link: string) => {
-  console.log(link);
+export const scrape = async (
+  link: string
+): Promise<Item.Item | { error: string }> => {
   if (!link || !link.search("shopee.ph")) {
     throw new Error("Not a valid link");
   }
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  let result: object | undefined;
+  let result: Item.Item | undefined;
 
   // Enable to get website request
   await page.setRequestInterception(true);
@@ -31,7 +32,7 @@ export const scrape = async (link: string) => {
 
   await browser.close();
   if (!result) {
-    return { error: "Error" };
+    return { error: "Error in scraping" };
   }
   return result;
 };
