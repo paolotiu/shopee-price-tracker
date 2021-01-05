@@ -1,17 +1,28 @@
-import { Schema, model } from "mongoose";
+import { requireType } from "./functions";
+import { Schema, model, Document } from "mongoose";
 
-const ItemSchema = new Schema({
-  name: String,
-  itemID: String,
-  shopID: String,
-  price: String,
+export interface IItem extends Document {
+  name: string;
+  itemID: string;
+  shopID: string;
+  price: number;
+  api_url: string;
+  all_prices: [{ price: number; time: Date }];
+}
+
+const ItemSchema: Schema = new Schema({
+  name: requireType(String),
+  itemID: requireType(String),
+  shopID: requireType(String),
+  price: requireType(Number),
+  api_url: requireType(String),
   all_prices: [
     {
-      price: String,
-      time: Date,
+      price: requireType(Number),
+      time: { type: Date, default: Date.now },
     },
   ],
-  links: [{ type: String }],
+  urls: [{ type: String }],
 });
 
-export default model("Item", ItemSchema);
+export default model<IItem>("Item", ItemSchema);

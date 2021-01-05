@@ -1,4 +1,4 @@
-namespace Item {
+export namespace Item {
   export interface Category {
     display_name: string;
     catid: number;
