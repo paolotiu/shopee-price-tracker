@@ -4,6 +4,9 @@ import logger from "morgan";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+//Make console include timestamp
+require("console-stamp")(console, { pattern: "[HH:MM:ss.l]" });
+
 dotenv.config();
 const app = express();
 
