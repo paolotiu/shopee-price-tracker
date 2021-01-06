@@ -41,7 +41,7 @@ export const postItemLink: RequestHandler = async (req, res, next) => {
 
       item.save((err, doc) => {
         if (err) return next({ message: err.message });
-        return res.json({ ...doc, status: "created" });
+        return res.json({ ...doc.toObject(), status: "created" });
       });
     })
     .catch((err: Error) => {
