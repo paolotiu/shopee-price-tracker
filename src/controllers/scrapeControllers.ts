@@ -1,5 +1,6 @@
 import { scrape } from "./../functions/scraper";
 import { RequestHandler } from "express";
+import { updatePrices } from "../functions/updatePrices";
 import Item from "../models/Item";
 export const postItemLink: RequestHandler = async (req, res, next) => {
   const { link } = req.body;
@@ -47,4 +48,10 @@ export const postItemLink: RequestHandler = async (req, res, next) => {
     .catch((err: Error) => {
       return next({ message: err.message, status: 400 });
     });
+};
+
+export const updateItemPrices: RequestHandler = async (req, res, next) => {
+  const response = await updatePrices();
+
+  return res.json(response);
 };
