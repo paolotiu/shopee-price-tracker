@@ -4,13 +4,29 @@ import Item from "../models/Item";
 export const postItemLink: RequestHandler = async (req, res, next) => {
   const { link } = req.body;
   if (!link) return next({ message: "No link provided", status: 400 });
-  const isExist = await Item.findOne({ urls: link }).exec();
-  if (isExist) {
-    return res.send("exists already");
+  const existingDoc = await Item.findOne({ urls: link }).exec();
+  if (existingDoc) {
+    return res.json({ ...existingDoc.toObject(), status: "existing" });
   }
+
   scrape(link)
-    .then((scraped) => {
+    .then(async (scraped) => {
       const data = scraped.item;
+
+      // If item with the same id exsist return that
+      const updatedItem = await Item.findOneAndUpdate(
+        {
+          shopID: data.shopid,
+          itemID: data.itemid,
+        },
+        { $push: { urls: link } },
+        { new: true }
+      ).exec();
+
+      if (updatedItem) {
+        return res.json({ ...updatedItem.toObject(), status: "updated" });
+      }
+
       // Shopee returns the price with 5 zeroes at the end
       const price_max = data.price_max / 10 ** 5;
       const item = new Item({
@@ -25,10 +41,10 @@ export const postItemLink: RequestHandler = async (req, res, next) => {
 
       item.save((err, doc) => {
         if (err) return next({ message: err.message });
-        return res.json(doc);
+        return res.json({ ...doc, status: "created" });
       });
     })
     .catch((err: Error) => {
-      return res.json({ error: err.message });
+      return next({ message: err.message, status: 400 });
     });
 };

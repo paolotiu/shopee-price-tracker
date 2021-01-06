@@ -83,7 +83,7 @@ export namespace Item {
   }
 
   export interface Item {
-    itemid: number;
+    itemid: string;
     price_max_before_discount: number;
     item_status: string;
     can_use_wholesale: boolean;
@@ -135,7 +135,7 @@ export namespace Item {
     image: string;
     recommendation_algorithm?: any;
     is_cc_installment_payment_eligible: boolean;
-    shopid: number;
+    shopid: string;
     normal_stock: number;
     video_info_list: any[];
     installment_plans?: any;

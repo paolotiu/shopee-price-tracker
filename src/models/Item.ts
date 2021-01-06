@@ -8,6 +8,7 @@ export interface IItem extends Document {
   price: number;
   api_url: string;
   all_prices: [{ price: number; time: Date }];
+  urls: string[];
 }
 
 const ItemSchema: Schema = new Schema({
