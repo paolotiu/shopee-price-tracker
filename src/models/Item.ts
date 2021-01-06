@@ -20,7 +20,7 @@ const ItemSchema: Schema = new Schema({
   all_prices: [
     {
       price: requireType(Number),
-      time: { type: Date, default: Date.now },
+      time: { type: Date, default: new Date() },
     },
   ],
   urls: [{ type: String }],

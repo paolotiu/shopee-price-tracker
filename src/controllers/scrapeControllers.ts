@@ -35,7 +35,7 @@ export const postItemLink: RequestHandler = async (req, res, next) => {
         shopID: data.shopid,
         price: price_max,
         api_url: `https://shopee.ph/api/v2/item/get?itemid=${data.itemid}&shopid=${data.shopid}`,
-        all_prices: [{ price: price_max, time: Date.now() }],
+        all_prices: [{ price: price_max, time: new Date() }],
         urls: [link],
       });
 
