@@ -12,7 +12,7 @@ export const signUpUser: RequestHandler = (req, res, next) => {
     if (user)
       return next({
         message: "Username taken",
-        code: "403",
+        status: "403",
       });
 
     const newUser = new User({
