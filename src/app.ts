@@ -4,6 +4,11 @@ import logger from "morgan";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import passport from "passport";
+import PassportLocal from "passport-local";
+import bcrypt from "bcryptjs";
+import { connectToDb } from "./configuration/mongo-connect";
+
 //Make console include timestamp
 require("console-stamp")(console, { pattern: "[HH:MM:ss.l]" });
 
@@ -12,18 +17,11 @@ const app = express();
 
 // Import routes
 import IndexRouter from "./routes";
+import User from "./models/User";
 
 // Setup mongoDB connection
 const DB_URL = process.env.DB_URL as string;
-mongoose
-  .connect(DB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  })
-  .catch((e) => console.log("MongoDB Failed to connect"));
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error: "));
+connectToDb(DB_URL);
 
 // Setup middlewares
 app.use(logger("dev"));
@@ -34,9 +32,6 @@ app.use(cookieParser());
 // Setup routes
 app.use("/", IndexRouter);
 
-app.use((req, res, next) => {
-  return res.json("JIFJIEJ");
-});
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404, "Endpoint not found"));
