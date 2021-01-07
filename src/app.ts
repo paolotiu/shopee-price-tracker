@@ -1,33 +1,48 @@
+import cookieParser from "cookie-parser";
 import express, { NextFunction, Request, Response } from "express";
 import createError from "http-errors";
 import logger from "morgan";
-import cookieParser from "cookie-parser";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
-import passport from "passport";
-import PassportLocal from "passport-local";
-import bcrypt from "bcryptjs";
+import session from "express-session";
+
+import Connect from "connect-mongo";
+import mongoose from "mongoose";
+
+const MongoStore = Connect(session);
 
 //Make console include timestamp
 require("console-stamp")(console, { pattern: "[HH:MM:ss.l]" });
 
+// Set env files
 dotenv.config();
+
+// Make app
 const app = express();
 
-// Import routes
-import IndexRouter from "./routes";
-import User from "./models/User";
-
 // Setup mongoDB connection
-import "./config/mongo-connect";
+import "./config/mongoDB";
 
 // Setup middlewares
 app.use(logger("dev"));
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: "mysecret",
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+    }),
+    name: "spt-jar",
+    // cookie: { maxAge: 10000 },
+  })
+);
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
 // Setup routes
+import IndexRouter from "./routes";
+
 app.use("/", IndexRouter);
 
 // catch 404 and forward to error handler
