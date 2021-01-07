@@ -1,2 +1,8 @@
+import { signUpUser } from "./../controllers/userController";
 import app from "../app";
-import {} from "mongoose";
+import { Router } from "express";
+const router = Router();
+
+router.post("/sign-up", signUpUser);
+
+export { router as userRouter };
