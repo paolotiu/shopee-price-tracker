@@ -7,7 +7,6 @@ import dotenv from "dotenv";
 import passport from "passport";
 import PassportLocal from "passport-local";
 import bcrypt from "bcryptjs";
-import { connectToDb } from "./configuration/mongo-connect";
 
 //Make console include timestamp
 require("console-stamp")(console, { pattern: "[HH:MM:ss.l]" });
@@ -20,8 +19,7 @@ import IndexRouter from "./routes";
 import User from "./models/User";
 
 // Setup mongoDB connection
-const DB_URL = process.env.DB_URL as string;
-connectToDb(DB_URL);
+import "./config/mongo-connect";
 
 // Setup middlewares
 app.use(logger("dev"));
