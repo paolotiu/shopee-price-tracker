@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import User from "../models/User";
 import bcrypt from "bcryptjs";
 import passport from "passport";
+import createHttpError from "http-errors";
 export const signUpUser: RequestHandler = (req, res, next) => {
   const { username, password } = req.body;
 
@@ -10,11 +11,7 @@ export const signUpUser: RequestHandler = (req, res, next) => {
     if (err) return next(err);
 
     // If username taken
-    if (user)
-      return next({
-        message: "Username taken",
-        status: "403",
-      });
+    if (user) return next(createHttpError(409, "username taken"));
 
     const newUser = new User({
       username: username,
