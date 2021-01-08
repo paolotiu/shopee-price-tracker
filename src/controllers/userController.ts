@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import User from "../models/User";
 import bcrypt from "bcryptjs";
+import passport from "passport";
 export const signUpUser: RequestHandler = (req, res, next) => {
   const { username, password } = req.body;
 
@@ -26,4 +27,17 @@ export const signUpUser: RequestHandler = (req, res, next) => {
       return res.json({ message: "Successfully signed in" });
     });
   });
+};
+
+export const loginUser: RequestHandler[] = [
+  passport.authenticate("local", { failWithError: true }),
+  (req, res, next) => {
+    res.json({
+      username: req.user,
+    });
+  },
+];
+
+const loginFailed: RequestHandler = (req, res, next) => {
+  return res.json({ error: "failed" });
 };

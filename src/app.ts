@@ -4,10 +4,9 @@ import createError from "http-errors";
 import logger from "morgan";
 import dotenv from "dotenv";
 import session from "express-session";
-
+import passport from "passport";
 import Connect from "connect-mongo";
 import mongoose from "mongoose";
-
 const MongoStore = Connect(session);
 
 //Make console include timestamp
@@ -21,6 +20,12 @@ const app = express();
 
 // Setup mongoDB connection
 import "./config/mongoDB";
+
+//Setup passport
+import { passportConfig } from "./config/passport";
+passportConfig(passport);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Setup middlewares
 app.use(logger("dev"));
