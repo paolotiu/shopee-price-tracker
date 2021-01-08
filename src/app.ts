@@ -26,13 +26,13 @@ app.use(logger("dev"));
 app.use(
   session({
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     secret: "mysecret",
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
     }),
     name: "spt-jar",
-    // cookie: { maxAge: 10000 },
+    cookie: { maxAge: 1000 * 60 * 60 },
   })
 );
 app.use(cookieParser());
