@@ -35,14 +35,14 @@ export const updatePrices = async () => {
   }
 };
 
-//Cron Job
-const task = cron.schedule(" */15 * * * *", async () => {
-  const res = await updatePrices();
-  if (res.status === "error") {
-    console.log("\x1b[31m%s\x1b[0m", "Destroying update task");
-    console.log(res.message);
-    task.destroy();
-  } else {
-    console.log("\x1b[32m%s\x1b[0m", "Updated");
-  }
-});
+// //Cron Job
+// const task = cron.schedule(" */15 * * * *", async () => {
+//   const res = await updatePrices();
+//   if (res.status === "error") {
+//     console.log("\x1b[31m%s\x1b[0m", "Destroying update task");
+//     console.log(res.message);
+//     task.destroy();
+//   } else {
+//     console.log("\x1b[32m%s\x1b[0m", "Updated");
+//   }
+// });
