@@ -96,6 +96,18 @@ export const deleteItem: RequestHandler[] = [
   },
 ];
 
+// Check item
+export const checkItem: RequestHandler = async (req, res, next) => {
+  const { itemid } = req.body;
+  const item = await Item.findById(itemid).lean().exec();
+
+  if (!item) {
+    return next(createHttpError(404, "Item not found"));
+  }
+
+  return res.json(item);
+};
+
 export const updateItemPrices: RequestHandler = async (req, res, next) => {
   const response = await updatePrices();
 
