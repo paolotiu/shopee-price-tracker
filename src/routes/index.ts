@@ -1,13 +1,13 @@
 import express from "express";
-const router = express.Router();
-import { postItemLink } from "../controllers/scrapeControllers";
+import { itemRouter } from "./item";
 import { userRouter } from "./user";
+const router = express.Router();
 
 router.get("/", (req, res, next) => {
   res.send("Hello World");
 });
 
-router.post("/scrape", postItemLink);
+router.post("/item", itemRouter);
 router.use("/user", userRouter);
 
 export default router;

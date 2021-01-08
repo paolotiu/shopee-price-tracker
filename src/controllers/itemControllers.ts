@@ -1,4 +1,4 @@
-import { scrape } from "./../functions/scraper";
+import { scrape } from "../functions/scraper";
 import { RequestHandler } from "express";
 import { updatePrices } from "../functions/updatePrices";
 import Item from "../models/Item";
