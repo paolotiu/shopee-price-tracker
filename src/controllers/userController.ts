@@ -3,6 +3,7 @@ import User from "../models/User";
 import bcrypt from "bcryptjs";
 import passport from "passport";
 import createHttpError from "http-errors";
+import { isAuth } from "../functions/util";
 export const signUpUser: RequestHandler = (req, res, next) => {
   const { username, password } = req.body;
 
@@ -33,5 +34,18 @@ export const loginUser: RequestHandler[] = [
       username: req.user?.username,
       items: req.user?.items,
     });
+  },
+];
+
+// Return all items tracked by user
+export const checkItems: RequestHandler[] = [
+  isAuth,
+  async (req, res, next) => {
+    const user = await User.findById(req.user?._id)
+      .populate("items")
+      .lean()
+      .exec();
+
+    return res.json(user?.items);
   },
 ];
