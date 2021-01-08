@@ -7,30 +7,44 @@ export const scrape = async (link: string): Promise<Item.RootObject> => {
   }
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  let result: Item.RootObject | undefined;
-
+  let result: Item.RootObject | undefined | null;
+  let closed = false;
   // Enable to get website request
   await page.setRequestInterception(true);
 
   page.on("request", async (request) => {
     if (request.url().includes("shopee.ph/api/v2/item/get")) {
       const url = request.url();
-      const { data } = await axios.get(url);
+      const { data } = await axios.get<Item.RootObject>(url);
       result = data;
-      request.abort();
+      closed = true;
+      // console.log("closing");
+      // await request.abort();
+      if (!data.item) {
+        result = null;
+      }
+      await page.close();
+      await browser.close();
       return;
     }
 
-    request.continue();
+    await request.continue();
   });
 
-  await page.goto(link, {
-    waitUntil: "networkidle0",
-  });
+  await page
+    .goto(link, {
+      waitUntil: "networkidle2",
+    })
+    .catch((e) => {});
 
-  await browser.close();
-  if (!result) {
+  if (!closed) {
+    await browser.close();
+  }
+
+  if (result === undefined) {
     throw new Error("Error in scraping");
+  } else if (result === null) {
+    throw new Error("No item found");
   }
   return result;
 };
