@@ -30,11 +30,8 @@ export const loginUser: RequestHandler[] = [
   passport.authenticate("local", { failWithError: true }),
   (req, res, next) => {
     res.json({
-      username: req.user,
+      username: req.user?.username,
+      items: req.user?.items,
     });
   },
 ];
-
-const loginFailed: RequestHandler = (req, res, next) => {
-  return res.json({ error: "failed" });
-};
