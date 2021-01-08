@@ -21,18 +21,12 @@ const app = express();
 // Setup mongoDB connection
 import "./config/mongoDB";
 
-//Setup passport
-import { passportConfig } from "./config/passport";
-passportConfig(passport);
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Setup middlewares
 app.use(logger("dev"));
 app.use(
   session({
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     secret: "mysecret",
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
@@ -44,6 +38,12 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+//Setup passport
+import { passportConfig } from "./config/passport";
+passportConfig(passport);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Setup routes
 import IndexRouter from "./routes";
