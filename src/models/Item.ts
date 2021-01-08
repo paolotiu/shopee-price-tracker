@@ -21,6 +21,7 @@ const ItemSchema: Schema = new Schema({
     {
       price: requireType(Number),
       time: { type: Date, default: new Date() },
+      _id: false,
     },
   ],
   urls: [{ type: String }],
