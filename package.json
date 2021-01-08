@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "tsc && set DEBUG=server && node build/",
-    "dev": " set DEBUG=server && nodemon src/index.ts"
+    "start": "tsc && export DEBUG=server && node build/",
+    "dev": " export DEBUG=server && nodemon src/index.ts"
   },
   "dependencies": {
     "axios": "^0.21.1",
