@@ -5,6 +5,7 @@ import Item from "../models/Item";
 import { isAuth } from "../functions/util";
 import User from "../models/User";
 import { Schema } from "mongoose";
+import createHttpError from "http-errors";
 
 export const postItemLink: RequestHandler[] = [
   isAuth,
@@ -66,6 +67,30 @@ export const postItemLink: RequestHandler[] = [
       .catch((err) => {
         return next(err);
       });
+  },
+];
+
+export const deleteItem: RequestHandler[] = [
+  isAuth,
+  async (req, res, next) => {
+    try {
+      const { itemid } = req.body;
+      if (!itemid) {
+        return next(createHttpError(400, "itemid is required"));
+      }
+      const userid = req.user?.id;
+
+      const user = await User.findByIdAndUpdate(userid, {
+        $pull: { items: itemid },
+      })
+        .populate("Item")
+        .exec();
+
+      const item = await Item.findById(itemid).exec();
+      res.json(item);
+    } catch (error) {
+      return next(error);
+    }
   },
 ];
 

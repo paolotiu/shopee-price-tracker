@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { postItemLink } from "../controllers/itemControllers";
+import { deleteItem, postItemLink } from "../controllers/itemControllers";
 const router = Router();
 
-router.get("/check", postItemLink);
-
+router.post("/", postItemLink);
+router.delete("/", deleteItem);
 export { router as itemRouter };

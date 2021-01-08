@@ -7,7 +7,7 @@ router.get("/", (req, res, next) => {
   res.send("Hello World");
 });
 
-router.post("/item", itemRouter);
+router.use("/item", itemRouter);
 router.use("/user", userRouter);
 
 export default router;
