@@ -7,6 +7,7 @@ import User from "../models/User";
 import { Schema } from "mongoose";
 import createHttpError from "http-errors";
 
+// User sends link then return item from that link
 export const postItemLink: RequestHandler[] = [
   isAuth,
   async (req, res, next) => {
@@ -70,6 +71,7 @@ export const postItemLink: RequestHandler[] = [
   },
 ];
 
+// Delete item in users tracked items
 export const deleteItem: RequestHandler[] = [
   isAuth,
   async (req, res, next) => {
