@@ -1,7 +1,6 @@
-#! /app/bin/node
+#!/usr/bin/env node
 
 function sayHello() {
   console.log('Hello');
 }
 sayHello();
-process.exit();
