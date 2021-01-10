@@ -2,7 +2,7 @@ import { scrape } from '../functions/scraper';
 import { RequestHandler } from 'express';
 import { updatePrices } from '../functions/updatePrices';
 import Item from '../models/Item';
-import { isAdmin, isAuth } from '../functions/util';
+import { isAuth } from '../functions/util';
 import User from '../models/User';
 import { Schema } from 'mongoose';
 import createHttpError from 'http-errors';

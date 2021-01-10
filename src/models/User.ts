@@ -1,16 +1,18 @@
-import { requireType } from "./functions";
-import { Schema, model, Document } from "mongoose";
+import { requireType } from './functions';
+import { Schema, model, Document } from 'mongoose';
 
 export interface IUser extends Document {
-  username: string;
+  email: string;
   password: string;
   items: string[];
+  isConfirmed: boolean;
 }
 
 const UserSchema = new Schema({
-  username: requireType(String),
+  email: requireType(String),
   password: requireType(String),
-  items: [{ type: Schema.Types.ObjectId, ref: "Item" }],
+  items: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
+  isConfirmed: { type: Boolean, default: false },
 });
 
-export default model<IUser>("User", UserSchema);
+export default model<IUser>('User', UserSchema);

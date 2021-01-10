@@ -44,8 +44,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Setup passport
-require('.');
-
+import configPassport from './config/passport';
+configPassport(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -61,6 +61,7 @@ app.use((err: createError.HttpError, req: Request, res: Response, next: NextFunc
   if (err.name === 'AuthenticationError' && err.message === 'Bad Request') {
     return res.status(403).json('No username or password provided');
   }
+
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
