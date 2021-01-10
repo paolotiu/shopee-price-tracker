@@ -1,24 +1,24 @@
-import { scrape } from "../functions/scraper";
-import { RequestHandler } from "express";
-import { updatePrices } from "../functions/updatePrices";
-import Item from "../models/Item";
-import { isAuth } from "../functions/util";
-import User from "../models/User";
-import { Schema } from "mongoose";
-import createHttpError from "http-errors";
+import { scrape } from '../functions/scraper';
+import { RequestHandler } from 'express';
+import { updatePrices } from '../functions/updatePrices';
+import Item from '../models/Item';
+import { isAdmin, isAuth } from '../functions/util';
+import User from '../models/User';
+import { Schema } from 'mongoose';
+import createHttpError from 'http-errors';
 
 // User sends link then return item from that link
 export const postItemLink: RequestHandler[] = [
   isAuth,
   async (req, res, next) => {
     const { link } = req.body;
-    if (!link) return next({ message: "No link provided", status: 400 });
+    if (!link) return next({ message: 'No link provided', status: 400 });
     const existingItem = await Item.findOne({ urls: link }).lean().exec();
     if (existingItem) {
       // Save to users items
       await addItemToUser(req.user?.id, existingItem._id);
 
-      return res.json({ ...existingItem, status: "existing" });
+      return res.json({ ...existingItem, status: 'existing' });
     }
 
     scrape(link)
@@ -41,7 +41,7 @@ export const postItemLink: RequestHandler[] = [
           // Save to users items
           await addItemToUser(req.user?.id, updatedItem._id);
 
-          return res.json({ ...updatedItem, status: "updated" });
+          return res.json({ ...updatedItem, status: 'updated' });
         }
 
         // Shopee returns the price with 5 zeroes at the end
@@ -62,7 +62,7 @@ export const postItemLink: RequestHandler[] = [
           // Save to users items
           await addItemToUser(req.user?.id, item._id);
 
-          return res.json({ ...doc.toObject(), status: "created" });
+          return res.json({ ...doc.toObject(), status: 'created' });
         });
       })
       .catch((err) => {
@@ -78,14 +78,14 @@ export const deleteItem: RequestHandler[] = [
     try {
       const { itemid } = req.body;
       if (!itemid) {
-        return next(createHttpError(400, "itemid is required"));
+        return next(createHttpError(400, 'itemid is required'));
       }
       const userid = req.user?.id;
 
       const user = await User.findByIdAndUpdate(userid, {
         $pull: { items: itemid },
       })
-        .populate("Item")
+        .populate('Item')
         .exec();
 
       const item = await Item.findById(itemid).exec();
@@ -102,17 +102,20 @@ export const checkItem: RequestHandler = async (req, res, next) => {
   const item = await Item.findById(itemid).lean().exec();
 
   if (!item) {
-    return next(createHttpError(404, "Item not found"));
+    return next(createHttpError(404, 'Item not found'));
   }
 
   return res.json(item);
 };
 
-export const updateItemPrices: RequestHandler = async (req, res, next) => {
-  const response = await updatePrices();
+export const updateItemPrices: RequestHandler[] = [
+  isAdmin,
+  async (req, res, next) => {
+    const response = await updatePrices();
 
-  return res.json(response);
-};
+    return res.json(response);
+  },
+];
 
 async function addItemToUser(userid: Schema.Types.ObjectId, itemid: string) {
   // Save to users items

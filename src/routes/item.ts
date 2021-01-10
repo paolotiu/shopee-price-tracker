@@ -1,12 +1,14 @@
-import { Router } from "express";
+import { Router } from 'express';
 import {
   checkItem,
   deleteItem,
   postItemLink,
-} from "../controllers/itemControllers";
+  updateItemPrices,
+} from '../controllers/itemControllers';
 const router = Router();
 
-router.post("/", postItemLink);
-router.delete("/", deleteItem);
-router.get("/", checkItem);
+router.post('/', postItemLink);
+router.delete('/', deleteItem);
+router.get('/', checkItem);
+router.get('/update', updateItemPrices);
 export { router as itemRouter };

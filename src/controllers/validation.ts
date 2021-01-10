@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from 'joi';
 export const signUpSchema = Joi.object<{
   username: string;
   password: string;
