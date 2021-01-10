@@ -7,9 +7,13 @@ import session from 'express-session';
 import passport from 'passport';
 import Connect from 'connect-mongo';
 import mongoose from 'mongoose';
+
+// Setup routes
+import IndexRouter from './routes';
+
 const MongoStore = Connect(session);
 
-//Make console include timestamp
+// Make console include timestamp
 require('console-stamp')(console, { pattern: '[HH:MM:ss.l]' });
 
 // Set env files
@@ -19,7 +23,7 @@ dotenv.config();
 const app = express();
 
 // Setup mongoDB connection
-import './config/mongoDB';
+require('./config/mongoDB.ts');
 
 // Setup middlewares
 app.use(logger('dev'));
@@ -39,19 +43,16 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-//Setup passport
-import { passportConfig } from './config/passport';
-passportConfig(passport);
+// Setup passport
+require('.');
+
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Setup routes
-import IndexRouter from './routes';
 
 app.use('/', IndexRouter);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   next(createError(404, 'Endpoint not found'));
 });
 
