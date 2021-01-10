@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "tsc && export DEBUG=server && node ./build/index.js",
+    "postinstall": "tsc",
+    "start": "node build/index.js",
     "dev": " export DEBUG=server && nodemon src/index.ts"
   },
   "dependencies": {
