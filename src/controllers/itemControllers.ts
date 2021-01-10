@@ -112,7 +112,7 @@ export const updateItemPrices: RequestHandler[] = [
   async (req, res, next) => {
     const { username, password } = req.body;
     if (username !== 'paolo' || password !== 'heyy') {
-      return res.status(404).json('Endpoint not found');
+      return res.status(403).json('Not allowed');
     }
     const response = await updatePrices();
 
