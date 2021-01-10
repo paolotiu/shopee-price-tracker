@@ -6,6 +6,7 @@ import createHttpError from 'http-errors';
 import { isAuth } from '../functions/util';
 import { signUpSchema } from './validation';
 import jwt from 'jsonwebtoken';
+import { sendConfirmationEmail } from '../config/nodemailer';
 
 export const signUpUser: RequestHandler = (req, res, next) => {
   const { email, password } = req.body;
@@ -30,19 +31,23 @@ export const signUpUser: RequestHandler = (req, res, next) => {
     });
 
     // Sign jwt
-    const token = jwt.sign(
+
+    jwt.sign(
       {
         id: newUser._id,
       },
       process.env.JWT_SECRET as string,
-      { expiresIn: '1d' }
+      { expiresIn: '1D' },
+      (err, token) => {
+        if (err) return next(err);
+        sendConfirmationEmail(email, 'http://localhost:3001/confirmation/' + token);
+        //Save user
+        newUser.save((err) => {
+          if (err) return next(err);
+          return res.json({ message: 'Email sent' });
+        });
+      }
     );
-
-    //Save user
-    newUser.save((err) => {
-      if (err) return next(err);
-      return res.json({ message: token });
-    });
   });
 };
 
