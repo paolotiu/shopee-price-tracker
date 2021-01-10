@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "tsc && node build/",
+    "start": "tsc && export DEBUG=server && node ./build/",
     "dev": " export DEBUG=server && nodemon src/index.ts"
   },
   "dependencies": {
