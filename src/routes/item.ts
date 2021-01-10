@@ -10,5 +10,5 @@ const router = Router();
 router.post('/', postItemLink);
 router.delete('/', deleteItem);
 router.get('/', checkItem);
-router.get('/update', updateItemPrices);
+router.post('/update', updateItemPrices);
 export { router as itemRouter };
