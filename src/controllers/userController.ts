@@ -4,9 +4,17 @@ import bcrypt from "bcryptjs";
 import passport from "passport";
 import createHttpError from "http-errors";
 import { isAuth } from "../functions/util";
+import { signUpSchema } from "./validation";
 export const signUpUser: RequestHandler = (req, res, next) => {
   const { username, password } = req.body;
+  const { error: validationError, value } = signUpSchema.validate({
+    username,
+    password,
+  });
 
+  if (validationError) {
+    return next(createHttpError(403, validationError));
+  }
   const hash = bcrypt.hashSync(password, 10);
   User.findOne({ username: username }).exec((err, user) => {
     if (err) return next(err);
