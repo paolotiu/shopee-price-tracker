@@ -32,6 +32,6 @@ export const sendTargetNotif = (
   return transporter.sendMail({
     to: receiver,
     subject: 'Target Price Hit!',
-    html: `Your target price of ${target} was hit! ${itemName} is now currently ${price} pesos`,
+    html: `Your target price of ₱${target} was hit! ${itemName} is now currently ₱${price} `,
   });
 };
