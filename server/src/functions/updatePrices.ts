@@ -1,7 +1,7 @@
-import Item from "../models/Item";
-import { Item as I } from "../types/Item";
-import cron from "node-cron";
-import axios from "axios";
+import Item from '../models/Item';
+import { Item as I } from '../types/Item';
+import cron from 'node-cron';
+import axios from 'axios';
 
 export const updatePrices = async () => {
   try {
@@ -19,19 +19,12 @@ export const updatePrices = async () => {
             $push: { all_prices: { price: price, time: new Date() } },
           })
           .exec();
-
-        item
-          .updateOne({
-            price: price,
-            $push: { all_prices: { price: price, time: new Date() } },
-          })
-          .exec();
       })
     );
 
-    return { status: "updated" };
+    return { status: 'updated' };
   } catch (err) {
-    return { status: "error", message: err.message };
+    return { status: 'error', message: err.message };
   }
 };
 
