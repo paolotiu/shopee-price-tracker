@@ -36,7 +36,7 @@ app.use(
       mongooseConnection: mongoose.connection,
     }),
     name: 'spt-jar',
-    cookie: { maxAge: 1000 * 60 * 60 },
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },
   })
 );
 app.use(cookieParser());
