@@ -75,7 +75,15 @@ export const loginUser: RequestHandler[] = [
 export const checkItems: RequestHandler[] = [
   isAuth,
   async (req, res, next) => {
-    const user = await User.findById(req.user?._id).populate('items').lean().exec();
+    const user = await User.findById(req.user?._id)
+      .populate({
+        path: 'items',
+        populate: {
+          path: 'item',
+        },
+      })
+      .lean()
+      .exec();
 
     return res.json(user?.items);
   },

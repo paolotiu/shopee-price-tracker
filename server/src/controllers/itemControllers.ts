@@ -108,6 +108,7 @@ export const checkItem: RequestHandler = async (req, res, next) => {
   return res.json(item);
 };
 
+// update Items
 export const updateItemPrices: RequestHandler[] = [
   async (req, res, next) => {
     const { username, password } = req.body;
@@ -120,9 +121,41 @@ export const updateItemPrices: RequestHandler[] = [
   },
 ];
 
+// Add target to item
+export const addTarget: RequestHandler[] = [
+  isAuth,
+  async (req, res, next) => {
+    const { itemid, target } = req.body;
+    const userid = req.user?.id;
+    try {
+      const user = await User.findOneAndUpdate(
+        { _id: userid, 'items.item': itemid },
+        { $set: { 'items.$.target': target } },
+        { fields: 'items.$', projection: { _id: 0 } }
+      )
+        .lean()
+        .exec();
+      if (user?.items[0]) {
+        user.items[0].target = target;
+      }
+      return res.json(user);
+    } catch (err) {
+      console.log(err);
+      return next(createHttpError(400, 'Unable to update target'));
+    }
+  },
+];
+
+// Save to users items
 async function addItemToUser(userid: Schema.Types.ObjectId, itemid: string) {
-  // Save to users items
   await User.findByIdAndUpdate(userid, {
-    $addToSet: { items: itemid },
+    $addToSet: { items: { item: itemid } },
   }).exec();
+}
+
+// Add target to user's item
+async function addTargetToItem(userid: Schema.Types.ObjectId, itemid: string, target: number) {
+  //Save to users items
+  const user = await User.findById(userid).exec();
+  return user;
 }
