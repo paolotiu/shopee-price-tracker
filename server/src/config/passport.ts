@@ -13,7 +13,6 @@ export default function passportConfig(passport: PassportStatic) {
       (username, password, done) => {
         User.findOne({ email: username }).exec((err, user) => {
           if (err) return done(err);
-          console.log(user);
           if (!user) {
             return done(null, false, { message: 'No user found' });
           }
