@@ -2,6 +2,8 @@ import Item from '../models/Item';
 import { Item as I } from '../types/Item';
 import cron from 'node-cron';
 import axios from 'axios';
+import { sendTargetNotif } from '../config/nodemailer';
+import { notifyUserTarget } from './notifyUserTarget';
 
 export const updatePrices = async () => {
   try {
@@ -19,6 +21,10 @@ export const updatePrices = async () => {
             $push: { all_prices: { price: price, time: new Date() } },
           })
           .exec();
+
+        if (item.price !== price) {
+          notifyUserTarget(item.id, price);
+        }
       })
     );
 
