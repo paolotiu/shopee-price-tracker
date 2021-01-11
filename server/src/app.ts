@@ -68,7 +68,7 @@ app.use((err: createError.HttpError, req: Request, res: Response, next: NextFunc
 
   // return error message
   res.status(err.status || 500);
-  res.json(err.message);
+  res.json({ code: err.status, message: err.message });
 });
 
 export default app;

@@ -23,7 +23,7 @@ export const signUpUser: RequestHandler = (req, res, next) => {
     if (err) return next(err);
 
     // If email taken
-    if (user) return next(createHttpError(409, 'email taken'));
+    if (user) return next(createHttpError(409, 'Email taken'));
 
     const newUser = new User({
       email: email,
