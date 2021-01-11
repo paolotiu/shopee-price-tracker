@@ -4,7 +4,7 @@ import { Schema, model, Document } from 'mongoose';
 export interface IUser extends Document {
   email: string;
   password: string;
-  items: { item: string; target?: number }[];
+  items: { item: Schema.Types.ObjectId; target?: number }[];
   isConfirmed: boolean;
 }
 

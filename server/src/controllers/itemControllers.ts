@@ -147,7 +147,7 @@ export const addTarget: RequestHandler[] = [
 ];
 
 // Save to users items
-async function addItemToUser(userid: Schema.Types.ObjectId, itemid: string) {
+async function addItemToUser(userid: Schema.Types.ObjectId, itemid: Schema.Types.ObjectId) {
   await User.findByIdAndUpdate(userid, {
     $addToSet: { items: { item: itemid } },
   }).exec();
