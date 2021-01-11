@@ -23,7 +23,7 @@ dotenv.config();
 const app = express();
 
 // Setup mongoDB connection
-require('./config/mongoDB.ts');
+require('./config/mongoDB');
 
 // Setup middlewares
 app.use(logger('dev'));

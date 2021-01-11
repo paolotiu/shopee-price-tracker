@@ -1,6 +1,4 @@
 import User from '../models/User';
-import '../models/Item';
-import '../config/mongoDB';
 import { IItem } from '../models/Item';
 import { changePopulatedType } from './util';
 import { sendTargetNotif } from '../config/nodemailer';
