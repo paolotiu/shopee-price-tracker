@@ -7,7 +7,7 @@ import { sendTargetNotif } from '../config/nodemailer';
 export const notifyUserTarget = async (itemid: string, price: number) => {
   const users = await User.find(
     {
-      items: { $elemMatch: { item: itemid, target: { $lte: price } } },
+      items: { $elemMatch: { item: itemid, target: { $gte: price } } },
     },
     null,
     {
@@ -22,12 +22,21 @@ export const notifyUserTarget = async (itemid: string, price: number) => {
     })
     .exec();
   if (!users.length) {
-    console.log('Nada');
+    return;
   }
   users.forEach((user) => {
     if (user.items[0] && user.items[0].target) {
       const item = changePopulatedType<IItem>(user.items[0].item);
+      User.findOneAndUpdate(
+        { _id: user._id, items: { $elemMatch: { item: itemid } } },
+        {
+          $unset: { 'items.$.target': '' },
+        },
+        { new: true }
+      ).exec();
+
       sendTargetNotif(user.email, item.name, price, user.items[0].target);
+
       console.log('sent');
     }
   });
