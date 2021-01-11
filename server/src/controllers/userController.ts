@@ -88,3 +88,32 @@ export const checkItems: RequestHandler[] = [
     return res.json(user?.items);
   },
 ];
+
+// Resend confirmation email to user email
+export const resendConfirmationEmail: RequestHandler = async (req, res, next) => {
+  const { email } = req.body;
+
+  User.findOne({ email: email }).exec((err, user) => {
+    if (err) return next(err);
+    if (!user) return res.json({ message: 'Email not in database' });
+    if (user.isConfirmed) return res.json({ message: 'User is already verified' });
+
+    // Make another jwt then send to user email
+    jwt.sign(
+      {
+        id: user._id,
+      },
+      process.env.JWT_SECRET as string,
+      { expiresIn: '1D' },
+      (err, token) => {
+        if (err) return next(err);
+        sendConfirmationEmail(email, 'http://localhost:3001/confirmation/' + token);
+        //Save user
+        user.save((err) => {
+          if (err) return next(err);
+          return res.json({ message: 'Email sent' });
+        });
+      }
+    );
+  });
+};
