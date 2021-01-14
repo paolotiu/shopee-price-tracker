@@ -1,12 +1,13 @@
 @layer components {
+  body {
+    @apply dark:bg-black  text-black;
+    overflow: hidden;
+  }
+
   .btn-primary {
     @apply bg-primary dark:bg-primary-dark shadow-md text-white rounded-full py-3 px-5 font-bold text-lg whitespace-nowrap;
   }
   .blob {
-    @apply fill-current w-auto text-primary fixed dark:text-primary-dark;
-  }
-  body {
-    @apply dark:bg-black;
-    overflow: hidden;
+    @apply text-primary fill-current w-auto fixed dark:text-primary-dark;
   }
 }
