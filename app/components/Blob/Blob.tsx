@@ -12,12 +12,14 @@ export default function Blob({
   src,
   className,
   overrideClass = false,
+  alt = "blob",
   ...otherProps
 }: Props) {
   return (
     <img
       src={src}
-      className={overrideClass ? className : "fixed " + className}
+      className={overrideClass ? className : "fixed z--1 " + className}
+      alt={alt}
       {...otherProps}
     />
   );
