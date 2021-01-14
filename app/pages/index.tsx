@@ -1,28 +1,36 @@
-import Link from "next/link";
+import Blob from "../components/Blob/Blob";
+import { Button } from "../components/General/Button";
 import Layout from "../components/Layout";
 const IndexPage = () => {
   return (
     <Layout title="Home">
-      <img
+      <Blob
         src="/blobs/blob1.svg"
-        alt="blob"
-        className="fixed right-0 top-0 hidden lg:block"
-        style={{ maxHeight: "70vh" }}
+        className="top-0 right-0 hidden max-h-70vh xl:block"
       />
-
-      <img
+      <Blob
         src="/blobs/blob2.svg"
-        alt="blob"
-        className="fixed left-0 top-0 hidden lg:block"
-        style={{ maxHeight: "30vh" }}
+        className="top-0 left-0 hidden max-h-20vh xl:block"
       />
-      <img
+      <Blob
         src="/blobs/blob3.svg"
-        alt="blob"
-        className="fixed bottom-0 left-0 hidden
-        lg:block
-        "
+        className="bottom-0 left-0 hidden  xl:block"
       />
+      <Blob src="/blobs/blob4.svg" className="w-full top-0 xl:hidden" />
+      <Blob src="/blobs/blob5.svg" className="bottom-0 left-0 xl:hidden" />
+      <section className="m-h h-screen grid  pt-56 ">
+        <div className="flex flex-col items-center">
+          <h1
+            className="text-5xl font-bold text-center mb-10 "
+            style={{
+              maxWidth: "300px",
+            }}
+          >
+            Know when the price <span className="underline-yellow">drops</span>
+          </h1>
+          <Button>Start Tracking</Button>
+        </div>
+      </section>
     </Layout>
   );
 };

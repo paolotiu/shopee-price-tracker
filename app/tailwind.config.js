@@ -13,6 +13,11 @@ module.exports = {
         DEFAULT: "#FFBC1C",
         dark: "#E6A819",
       },
+      white: "#F2F2F2",
+      black: "#2b2b2b",
+    },
+    fontFamily: {
+      sans: ["Open Sans", "Helvetica"],
     },
   },
   variants: {
