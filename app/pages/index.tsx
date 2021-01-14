@@ -4,31 +4,26 @@ import Layout from "../components/Layout";
 const IndexPage = () => {
   return (
     <Layout title="Home">
-      <Blob
-        src="/blobs/blob1.svg"
-        className="top-0 right-0 hidden max-h-70vh xl:block"
-      />
-      <Blob
-        src="/blobs/blob2.svg"
-        className="top-0 left-0 hidden max-h-20vh xl:block"
-      />
-      <Blob
-        src="/blobs/blob3.svg"
-        className="bottom-0 left-0 hidden  xl:block"
-      />
-      <Blob src="/blobs/blob4.svg" className="w-full top-0 xl:hidden" />
-      <Blob src="/blobs/blob5.svg" className="bottom-0 left-0 xl:hidden" />
-      <section className="m-h h-screen grid  pt-56 ">
-        <div className="flex flex-col items-center">
-          <h1
-            className="text-5xl font-bold text-center mb-10 "
+      {[0, 1, 2, 3, 4].map((x) => (
+        <Blob key={x} num={x} />
+      ))}
+      <section className=" h-screen grid place-items-center ">
+        <div className="grid lg:grid-cols-2 h-2/5 mb-6 w-full items-center justify-items-center ">
+          <div className="flex flex-col items-center w-max lg:items-start">
+            <h1 className="text-5xl font-bold text-center max-w-300 mb-10 lg:text-left lg:text-6xl lg:max-w-sm dark:text-white">
+              Know when the price{" "}
+              <span className="underline-yellow">drops</span>
+            </h1>
+            <Button>Start Tracking</Button>
+          </div>
+          <img
+            src="/undraw/chartguy.svg"
+            alt="guy looking at chart"
+            className="hidden lg:block"
             style={{
-              maxWidth: "300px",
+              height: "90%",
             }}
-          >
-            Know when the price <span className="underline-yellow">drops</span>
-          </h1>
-          <Button>Start Tracking</Button>
+          />
         </div>
       </section>
     </Layout>

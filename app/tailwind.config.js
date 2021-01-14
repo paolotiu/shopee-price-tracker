@@ -1,7 +1,8 @@
+const env = process.env.NODE_ENV;
 module.exports = {
-  purge: [],
-  purge: ["./pages/**/*.js", "./components/**/*.js"],
-  darkMode: false, // or 'media' or 'class'
+  purge: env === "production" && ["./components/**/*.tsx", "./pages/**/*.tsx"],
+
+  darkMode: "media",
   theme: {
     extend: {},
     colors: {

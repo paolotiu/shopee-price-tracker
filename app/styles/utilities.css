@@ -1,0 +1,41 @@
+@tailwind utilities;
+
+@layer utilities {
+  @responsive {
+    .max-h-70vh {
+      max-height: 71vh;
+    }
+
+    .max-h-50vh {
+      max-height: 50vh;
+    }
+    .max-h-25vh {
+      max-height: 25vh;
+    }
+    .max-h-20vh {
+      max-height: 20vh;
+    }
+
+    .max-w-300 {
+      max-width: 300px;
+    }
+  }
+
+  .z--1 {
+    z-index: -1;
+  }
+  .underline-yellow {
+    position: relative;
+  }
+  .underline-yellow::after {
+    content: "";
+    position: absolute;
+    background-color: #ffbc1c;
+    height: 22%;
+    width: 95%;
+    z-index: -1;
+    left: 10px;
+    right: -10px;
+    bottom: 2px;
+  }
+}
