@@ -99,13 +99,17 @@ export const deleteItem: RequestHandler[] = [
 // Check item
 export const checkItem: RequestHandler = async (req, res, next) => {
   const { itemid } = req.body;
-  const item = await Item.findById(itemid).lean().exec();
 
-  if (!item) {
-    return next(createHttpError(404, 'Item not found'));
+  try {
+    const item = await Item.findById(itemid).lean().exec();
+    if (!item) {
+      return next(createHttpError(404, 'Item not found'));
+    }
+
+    return res.json(item);
+  } catch (error) {
+    return next(error);
   }
-
-  return res.json(item);
 };
 
 // update Items
@@ -127,7 +131,9 @@ export const addTarget: RequestHandler[] = [
   async (req, res, next) => {
     const { itemid, target } = req.body;
     const userid = req.user?.id;
+
     try {
+      // Update user item
       const user = await User.findOneAndUpdate(
         { _id: userid, 'items.item': itemid },
         { $set: { 'items.$.target': target } },
@@ -135,6 +141,8 @@ export const addTarget: RequestHandler[] = [
       )
         .lean()
         .exec();
+
+      // Check if item exits
       if (user?.items[0]) {
         user.items[0].target = target;
       }

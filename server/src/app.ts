@@ -7,7 +7,7 @@ import session from 'express-session';
 import passport from 'passport';
 import Connect from 'connect-mongo';
 import mongoose from 'mongoose';
-
+import cors from 'cors';
 // Setup routes
 import IndexRouter from './routes';
 
@@ -40,6 +40,7 @@ app.use(
   })
 );
 app.use(cookieParser());
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
