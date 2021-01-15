@@ -10,6 +10,7 @@ class MyDocument extends Document {
         </Head>
         <body className="overflow-hidden bg-white text-black dark:bg-black dark:text-white transition duration-1000">
           <Main />
+          <div id="modal" className="" />
           <NextScript />
         </body>
       </Html>

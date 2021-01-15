@@ -1,9 +1,4 @@
 @layer components {
-  body {
-    @apply dark:bg-black  text-black;
-    overflow: hidden;
-  }
-
   .btn-primary {
     @apply py-3 px-5  rounded-full bg-primary dark:bg-primary-dark  text-white shadow-md font-bold text-lg whitespace-nowrap;
   }

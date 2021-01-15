@@ -1,8 +1,12 @@
+import { useEffect } from "react";
 import Blob from "../components/Blob/Blob";
 import { Button } from "../components/General/Button";
 import { Navbar } from "../components/General/Navbar";
 import Layout from "../components/Layout";
+import { useModalContext } from "../utils/ModalContext";
 const IndexPage = () => {
+  const { setModalContent, openModal, closeModal } = useModalContext();
+
   return (
     <Layout title="Home">
       {[0, 1, 2, 3, 4].map((x) => (
@@ -32,6 +36,10 @@ const IndexPage = () => {
       </section>
     </Layout>
   );
+  function modaler() {
+    openModal();
+    setModalContent("JJDDJ");
+  }
 };
 
 export default IndexPage;

@@ -1,9 +1,8 @@
 import React from "react";
 import { ToggleSwitch } from "./ToggleSwitch";
 import Logo from "../../public/logo.svg";
-interface Props {}
 
-export const Navbar = (props: Props) => {
+export const Navbar = () => {
   return (
     <nav className="p-5  flex	items-center justify-between">
       <button className="max-w-min">
