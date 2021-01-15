@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useTheme } from "../DarkModeContext";
+import { useTheme } from "../../utils/DarkModeContext";
 import Moon from "../../public/moon.svg";
 import Sun from "../../public/sun.svg";
 
