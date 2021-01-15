@@ -1,12 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useChangeDark, useIsDark } from "../../pages/_app";
+import { useTheme } from "../DarkModeContext";
 import Moon from "../../public/moon.svg";
 // interface Props {}
 
 export const ToggleSwitch = () => {
-  const [isChecked, setIsChecked] = useState(useIsDark());
-  const changeDark = useChangeDark();
+  const { theme, toggleTheme } = useTheme();
+
+  const [isChecked, setIsChecked] = useState(false);
+
   const switchRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Change switch whenever theme changes
+    setIsChecked(theme === "dark");
+  }, [theme]);
 
   return (
     <>
@@ -17,21 +24,19 @@ export const ToggleSwitch = () => {
             type="checkbox"
             ref={switchRef}
             className={
-              isChecked
-                ? "cursor-pointer appearance-none w-6 h-6 absolute -left-1  rounded-full bg-white top-1/2 transform  -translate-y-1/2 transition duration-500 checked:translate-x-full "
-                : "cursor-pointer appearance-none w-6 h-6 absolute -left-1  rounded-full bg-white top-1/2 transform  -translate-y-1/2 transition duration-500 checked:translate-x-full "
+              "cursor-pointer appearance-none w-6 h-6 absolute -left-1  rounded-full bg-white top-1/2 transform  -translate-y-1/2 transition duration-500 checked:translate-x-full "
             }
-            onChange={(e) => {
-              setIsChecked(e.target.checked);
-              changeDark();
+            onChange={() => {
+              // Changes theme, so triggers a useEffect
+              toggleTheme();
             }}
             checked={isChecked}
           />
           <div
             className={
               isChecked
-                ? "w-full h-5 bg-gray-300 rounded-full  transition duration-500"
-                : "w-full h-5 bg-black rounded-full  transition duration-500"
+                ? "w-full h-5 bg-black  rounded-full  transition duration-500"
+                : "w-full h-5 bg-gray-300  rounded-full  transition duration-500"
             }
           ></div>
         </div>
