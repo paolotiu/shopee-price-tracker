@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "../DarkModeContext";
 import Moon from "../../public/moon.svg";
+import Sun from "../../public/sun.svg";
+
 // interface Props {}
 
 export const ToggleSwitch = () => {
@@ -18,8 +20,8 @@ export const ToggleSwitch = () => {
   return (
     <>
       <div className="flex items-center relative">
-        <Moon className="w-5" />
-        <div className="relative inline-block w-10 mx-2 align-middle select-none transition duration-400 ease-in-out">
+        <Sun className="w-6 h-auto" />
+        <div className="relative inline-block w-10 ml-3 mr-4 align-middle select-none transition duration-400 ease-in-out">
           <input
             type="checkbox"
             ref={switchRef}
@@ -40,6 +42,7 @@ export const ToggleSwitch = () => {
             }
           ></div>
         </div>
+        <Moon className="w-5 h-auto" />
       </div>
     </>
   );

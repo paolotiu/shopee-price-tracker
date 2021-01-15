@@ -1,7 +1,13 @@
 import React from "react";
 
-interface Props {}
+interface Props {
+  className?: string;
+}
 
-export const Button: React.FC<Props> = ({ children }) => {
-  return <button className="btn-primary">{children}</button>;
+export const Button: React.FC<Props> = ({ children, className }) => {
+  return (
+    <button className={className ? className : "btn-primary"}>
+      {children}
+    </button>
+  );
 };

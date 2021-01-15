@@ -1,6 +1,10 @@
 (function () {
   function setTheme(newTheme) {
-    document.documentElement.className = newTheme.replace(/"/g, ""); // "dark" or "light"
+    if (newTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
     window.__theme = newTheme;
     window.__onThemeChange(newTheme);
   }

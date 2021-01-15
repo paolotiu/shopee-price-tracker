@@ -5,9 +5,9 @@
   }
 
   .btn-primary {
-    @apply bg-primary dark:bg-primary-dark shadow-md text-white rounded-full py-3 px-5 font-bold text-lg whitespace-nowrap;
+    @apply py-3 px-5  rounded-full bg-primary dark:bg-primary-dark  text-white shadow-md font-bold text-lg whitespace-nowrap;
   }
   .blob {
-    @apply text-primary fill-current w-auto fixed dark:text-primary-dark;
+    @apply fixed w-auto text-primary dark:text-primary-dark fill-current transition duration-1000;
   }
 }

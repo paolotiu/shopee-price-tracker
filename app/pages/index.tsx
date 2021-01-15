@@ -12,11 +12,13 @@ const IndexPage = () => {
       <section className="h-screen grid place-items-center ">
         <div className="grid lg:grid-cols-2 h-2/5 mb-40 w-full items-center justify-items-center ">
           <div className="flex flex-col items-center w-max lg:items-start">
-            <h1 className="text-5xl font-bold text-center max-w-300 mb-10 lg:text-left lg:text-6xl lg:max-w-sm dark:text-white">
+            <h1 className=" max-w-300 lg:max-w-sm mb-10  text-center lg:text-left text-5xl lg:text-6xl font-bold  ">
               Know when the price{" "}
               <span className="underline-yellow">drops</span>
             </h1>
-            <Button>Start Tracking</Button>
+            <Button className="btn-primary transition duration-1000">
+              Start Tracking
+            </Button>
           </div>
           <img
             src="/undraw/chartguy.svg"
