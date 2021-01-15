@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 
-const ThemeContext = React.createContext({
+const ThemeContext = React.createContext<{
+  theme: string;
+  toggleTheme: (oldTheme?: string) => void;
+}>({
   theme: "light",
   // set in HOC
-  toggleTheme: (oldTheme?: string) => {},
+  toggleTheme: () => {},
 });
 
 interface Props {}
