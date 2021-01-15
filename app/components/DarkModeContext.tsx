@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 const ThemeContext = React.createContext({
   theme: "light",
   // set in HOC
-  toggleTheme: () => {},
+  toggleTheme: (oldTheme?: string) => {},
 });
 
 interface Props {}
@@ -11,8 +11,8 @@ interface Props {}
 export const DarkModeContext: React.FC<Props> = ({ children }) => {
   const [theme, setTheme] = useState(global.window?.__theme || "light");
 
-  const toggleTheme = () => {
-    global.window.__setPreferredTheme(theme === "light" ? "dark" : "light");
+  const toggleTheme = (oldTheme = theme) => {
+    global.window.__setPreferredTheme(oldTheme === "light" ? "dark" : "light");
   };
 
   useEffect(() => {

@@ -20,7 +20,9 @@ export const ToggleSwitch = () => {
   return (
     <>
       <div className="flex items-center relative">
-        <Sun className="w-6 h-auto" />
+        <button onClick={() => toggleTheme("dark")}>
+          <Sun className="w-6 h-auto" />
+        </button>
         <div className="relative inline-block w-10 ml-3 mr-4 align-middle select-none transition duration-400 ease-in-out">
           <input
             type="checkbox"
@@ -42,7 +44,9 @@ export const ToggleSwitch = () => {
             }
           ></div>
         </div>
-        <Moon className="w-5 h-auto" />
+        <button onClick={() => toggleTheme("light")}>
+          <Moon className="w-5 h-auto" />
+        </button>
       </div>
     </>
   );
