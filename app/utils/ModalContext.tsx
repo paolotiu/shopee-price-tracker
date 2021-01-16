@@ -17,13 +17,14 @@ const Context = React.createContext<{
 export const ModalContext: React.FC = ({ children }) => {
   const [modalContent, setModalContent] = useState(null);
   const { isModalOpen, closeModal, openModal } = useModal();
-  console.log("heyy");
   return (
     <Context.Provider
       value={{ modalContent, setModalContent, openModal, closeModal }}
     >
       {children}
-      <Modal isOpen={isModalOpen}>{modalContent}</Modal>
+      <Modal isOpen={isModalOpen} onModalClick={closeModal}>
+        {modalContent}
+      </Modal>
     </Context.Provider>
   );
 };

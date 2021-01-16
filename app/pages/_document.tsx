@@ -8,9 +8,9 @@ class MyDocument extends Document {
         <Head>
           <script src="/theme.js"></script>
         </Head>
-        <body className="overflow-hidden bg-white text-black dark:bg-black dark:text-white transition duration-1000">
-          <Main />
+        <body className=" bg-white text-black dark:bg-black dark:text-white transition duration-1000">
           <div id="modal" className="" />
+          <Main />
           <NextScript />
         </body>
       </Html>
