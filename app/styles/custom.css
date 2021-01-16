@@ -1,0 +1,15 @@
+.landing-underline {
+  position: relative;
+}
+
+.landing-underline::after {
+  content: "";
+  position: absolute;
+  background-color: #ffbc1c;
+  height: 22%;
+  width: 95%;
+  z-index: -1;
+  left: 10px;
+  right: -10px;
+  bottom: 2px;
+}

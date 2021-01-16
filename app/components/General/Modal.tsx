@@ -15,11 +15,11 @@ export const Modal = ({ isOpen, onModalClick, children }: Props) => {
     <div
       ref={containerRef}
       className={
-        "fixed top-0 left-0 w-full h-full bg-black bg-opacity-40 z-10 hidden"
+        "fixed top-0 left-0 w-full h-full bg-gray-500 bg-opacity-40 opacity-0 flex items-center justify-center z-10 transition duration-500  pointer-events-none "
       }
       onClick={onModalClick}
     >
-      <div className="bg-white p-4 " onClick={(e) => e.stopPropagation()}>
+      <div className="" onClick={(e) => e.stopPropagation()}>
         {children}
       </div>
     </div>
@@ -30,10 +30,15 @@ export const Modal = ({ isOpen, onModalClick, children }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      containerRef.current?.classList.remove("hidden");
-    } else {
-      containerRef.current?.classList.add("hidden");
+    if (containerRef.current) {
+      if (isOpen) {
+        // Show modal then start capturing clicks
+        containerRef.current.style.opacity = "1";
+        containerRef.current?.classList.remove("pointer-events-none");
+      } else {
+        containerRef.current.style.opacity = "0";
+        containerRef.current?.classList.add("pointer-events-none");
+      }
     }
   }, [isOpen]);
   return isMounted && modalRef.current

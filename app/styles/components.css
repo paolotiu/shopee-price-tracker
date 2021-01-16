@@ -1,8 +1,26 @@
+:root {
+  --textUnderlineColor: #ffbc1c70;
+}
+
 @layer components {
   .btn-primary {
     @apply py-3 px-5  rounded-full bg-primary dark:bg-primary-dark  text-white shadow-md font-bold text-lg whitespace-nowrap;
   }
   .blob {
     @apply fixed w-auto text-primary dark:text-primary-dark fill-current transition duration-1000;
+  }
+
+  .input-container {
+    @apply grid;
+  }
+
+  .underline-yellow {
+    position: relative;
+    background-image: linear-gradient(
+      180deg,
+      transparent 70%,
+      var(--textUnderlineColor) 0
+    );
+    background-position-x: 10px;
   }
 }
