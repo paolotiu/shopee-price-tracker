@@ -6,11 +6,13 @@ import "../styles/components.css";
 import "../styles/utilities.css";
 import "../styles/custom.css";
 import { ModalContext } from "../utils/ModalContext";
+import { Toaster } from "react-hot-toast";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <DarkModeContext>
       <ModalContext>
+        <Toaster />
         <Component {...pageProps} />
       </ModalContext>
     </DarkModeContext>
