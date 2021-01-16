@@ -4,7 +4,10 @@ import Logo from "../../public/logo.svg";
 import { useModalContext } from "../../utils/ModalContext";
 import { LoginModal } from "../ModalContents/LoginModal";
 
-export const Navbar = () => {
+interface Props {
+  showLogin?: boolean;
+}
+export const Navbar = ({ showLogin = true }: Props) => {
   const { openModal, setModalContent } = useModalContext();
   return (
     <nav
@@ -14,9 +17,13 @@ export const Navbar = () => {
       <button className="max-w-min">
         <Logo className="w-10" />
       </button>
-      <div className=" sm:w-60 w-48 flex justify-around ">
+      <div
+        className={
+          showLogin ? "sm:w-60 w-48 flex justify-around" : "flex justify-around"
+        }
+      >
         <ToggleSwitch />
-        <button onClick={showLoginModal}>Login</button>
+        {showLogin && <button onClick={showLoginModal}>Login</button>}
       </div>
     </nav>
   );
