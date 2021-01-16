@@ -28,6 +28,7 @@ module.exports = {
       inset: ["checked"],
       transform: ["checked"],
       translate: ["checked"],
+      transitionDuration: ["hover"],
     },
   },
   plugins: [],
