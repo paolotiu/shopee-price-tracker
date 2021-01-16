@@ -57,7 +57,7 @@ export const loginUser: RequestHandler[] = [
       if (err) return next(err);
       if (!user) {
         // return message
-        return res.json(info.message);
+        return next(createHttpError(401, { message: info.message }));
       }
       req.logIn(user, (err) => {
         if (err) return next(err);
