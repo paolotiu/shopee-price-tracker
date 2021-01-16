@@ -14,22 +14,24 @@ router.get('/', (req, res, next) => {
 
 router.get('/confirmation/:token', async (req, res, next) => {
   try {
-    const id = jwt.verify(req.params.token, process.env.JWT_SECRET as string, (err, decoded) => {
-      if (err) {
-        if (err.name === 'SyntaxError') {
-          return next(createHttpError(400, 'Not a valid token'));
-        }
-        return next(err);
-      }
-      if (hasId(decoded)) {
-        return decoded.id;
-      }
-      return null;
-    });
+    const { id, email } = jwt.verify(req.params.token, process.env.JWT_SECRET as string) as {
+      id: string;
+      email: string;
+    };
     const user = await User.findById(id).exec();
+    if (user?.isConfirmed) {
+      return res.status(400).json({ code: 400, message: 'User already verified', email });
+    }
     await user?.updateOne({ isConfirmed: true }).exec();
-    return res.json({ message: 'Email confirmed' });
+    return res.json({ message: 'Email confirmed', email });
   } catch (error) {
+    if (error.message === 'invalid signature') {
+      error.status = 400;
+    } else if (error.message === 'jwt expired') {
+      error.status = 400;
+      error.message = 'Token expired';
+    }
+
     return next(error);
   }
 });

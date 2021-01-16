@@ -9,10 +9,11 @@ import jwt from 'jsonwebtoken';
 import { sendConfirmationEmail } from '../config/nodemailer';
 
 export const signUpUser: RequestHandler = (req, res, next) => {
-  const { email, password } = req.body;
-  const { error: validationError, value } = signUpSchema.validate({
+  const { email, password, callbackUrl } = req.body;
+  const { error: validationError } = signUpSchema.validate({
     email,
     password,
+    callbackUrl,
   });
 
   if (validationError) {
@@ -35,12 +36,13 @@ export const signUpUser: RequestHandler = (req, res, next) => {
     jwt.sign(
       {
         id: newUser._id,
+        email: email,
       },
       process.env.JWT_SECRET as string,
       { expiresIn: '1D' },
       (err, token) => {
         if (err) return next(err);
-        sendConfirmationEmail(email, 'http://localhost:3001/confirmation/' + token);
+        sendConfirmationEmail(email, callbackUrl + token);
         //Save user
         newUser.save((err) => {
           if (err) return next(err);
