@@ -4,6 +4,7 @@ import { Button } from "../components/General/Button";
 import { Navbar } from "../components/General/Navbar";
 import Layout from "../components/Layout";
 import { SignUpModal } from "../components/ModalContents/SignUpModal";
+import { getUser, logOut } from "../utils/api";
 import { useModalContext } from "../utils/ModalContext";
 const IndexPage = () => {
   const { setModalContent, openModal } = useModalContext();
@@ -25,7 +26,7 @@ const IndexPage = () => {
               <span className="landing-underline">drops</span>
             </h1>
             <Button
-              className="btn-primary transition duration-1000"
+              className="btn-primary transition duration-1000  dark:hover:bg-primary hover:bg-primary-dark hover:duration-300 ease-in-out "
               onClick={showSignUpModal}
             >
               Start Tracking
@@ -41,6 +42,8 @@ const IndexPage = () => {
           />
         </div>
       </section>
+      <button onClick={getUser}>GETTt</button>
+      <button onClick={logOut}>Logout</button>
     </Layout>
   );
   function showSignUpModal() {
