@@ -7,6 +7,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
+    useCreateIndex: true,
   })
   .catch((e) => console.log('MongoDB Failed to connect'));
 const db = mongoose.connection;
