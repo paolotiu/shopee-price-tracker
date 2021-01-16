@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, ErrorMessage, Field, Form } from "formik";
 import { useModalContext } from "../../utils/ModalContext";
 import { LoginModal } from "./LoginModal";
+import { signUp } from "../../utils/api";
 
 interface Props {}
 interface Fields {
@@ -28,10 +29,8 @@ export const SignUpModal = () => {
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={(values: Fields, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+          signUp(values.email, values.password);
+          setSubmitting(false);
         }}
       >
         <Form>
