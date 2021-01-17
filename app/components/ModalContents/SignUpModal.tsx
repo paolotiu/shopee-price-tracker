@@ -1,10 +1,9 @@
 import React from "react";
-import { Formik, ErrorMessage, Field, Form } from "formik";
+import { Formik, Field, Form } from "formik";
 import { useModalContext } from "../../utils/ModalContext";
 import { LoginModal } from "./LoginModal";
 import { signUp } from "../../utils/api";
 
-interface Props {}
 interface Fields {
   email: string;
   password: string;

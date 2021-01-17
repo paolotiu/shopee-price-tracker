@@ -10,12 +10,12 @@ interface Fields {
 const Login = () => {
   return (
     <Layout showLogin={false} title="Login">
-      <div className="flex justify-center mt-32">
-        <div className="flex flex-col p-4  bg-white dark:bg-black shadow dark:border-yellow-600 border-accent border-2 px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-lg w-full max-w-md transition duration-1000">
+      <div className="flex justify-center mt-24">
+        <div className="flex flex-col p-4  bg-white dark:bg-black shadow dark:border-yellow-600 border-accent border-2 px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-lg w-full sm:max-w-md max-w-90vw transition duration-1000">
           <div className="font-light self-center text-xl sm:text-2xl text-gray-600 dark:text-white mb-6 transition duration-1000">
             Login To Your Account
           </div>
-          <div className="flex item-center gap-4">
+          <div className="grid grid-cols-2 item-center gap-4">
             <button
               type="button"
               className="py-2 px-4 flex justify-center items-center  bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 "

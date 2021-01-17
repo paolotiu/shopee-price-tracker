@@ -19,6 +19,10 @@
     .max-w-300 {
       max-width: 300px;
     }
+
+    .max-w-90vw {
+      max-width: 90vw;
+    }
   }
 
   .z--1 {

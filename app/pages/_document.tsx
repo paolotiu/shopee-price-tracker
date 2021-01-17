@@ -8,7 +8,7 @@ class MyDocument extends Document {
         <Head>
           <script src="/theme.js"></script>
         </Head>
-        <body className=" bg-white text-black dark:bg-black dark:text-white transition duration-1000">
+        <body className=" bg-white text-black dark:bg-black dark:text-white transition duration-1000 ">
           <div id="modal" className="" />
           <Main />
           <NextScript />
