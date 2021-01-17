@@ -1,5 +1,4 @@
 import React from "react";
-import Circle from "../../public/circle.svg";
 interface Props {}
 
 export const Background = (props: Props) => {
