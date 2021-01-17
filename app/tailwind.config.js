@@ -29,6 +29,7 @@ module.exports = {
       transform: ["checked"],
       translate: ["checked"],
       transitionDuration: ["hover"],
+      backgroundColor: ["disabled"],
     },
   },
   plugins: [],
