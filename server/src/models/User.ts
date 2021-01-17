@@ -11,6 +11,10 @@ export interface IUser extends Document {
 const UserSchema = new Schema({
   email: { type: String, unique: true, required: true },
   password: requireType(String),
+  google: {
+    id: String,
+    email: String,
+  },
   items: [{ item: { type: Schema.Types.ObjectId, ref: 'Item' }, target: Number, _id: false }],
   isConfirmed: { type: Boolean, default: false },
 });

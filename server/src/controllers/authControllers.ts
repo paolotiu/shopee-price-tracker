@@ -136,3 +136,8 @@ export const googleCallback: RequestHandler = passport.authenticate('google', {
   successRedirect: '/auth/google/success',
   failureRedirect: '/auth/google/failure',
 });
+
+// Google auth success
+export const googleSuccess: RequestHandler = (req, res, next) => {
+  res.json(req.user);
+};
