@@ -19,10 +19,11 @@ export const signUp = async (email: string, password: string) => {
   const res = await axios.post(BASE_URL + "/user/sign-up", {
     email,
     password,
-    callbackUrl: "http://localhost:3000/confirmation/",
+    callbackUrl:
+      process.env.CLIENT_URL || "http://localhost:3000/confirmation/",
   });
 
-  console.log(res.data);
+  return res.data;
 };
 
 export const confirmEmail = async (token: string) => {
