@@ -25,12 +25,11 @@ const IndexPage = () => {
               <span className="landing-underline">drops</span>
             </h1>
             <Link href="/signup">
-              <Button
-                className="btn-primary transition duration-1000  dark:hover:bg-primary hover:bg-primary-dark hover:duration-300 ease-in-out "
-                onClick={showSignUpModal}
-              >
-                Start Tracking
-              </Button>
+              <a>
+                <Button className="btn-primary transition duration-1000  dark:hover:bg-primary hover:bg-primary-dark hover:duration-300 ease-in-out ">
+                  Start Tracking
+                </Button>
+              </a>
             </Link>
           </div>
           <img
