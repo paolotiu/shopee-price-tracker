@@ -11,7 +11,7 @@ const Login = () => {
   return (
     <Layout showLogin={false} title="Login">
       <div className="flex justify-center mt-32">
-        <div className="flex flex-col p-4  bg-white dark:bg-black shadow dark:border-yellow-600 border-transparent border-2 px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-lg w-full max-w-md transition duration-1000">
+        <div className="flex flex-col p-4  bg-white dark:bg-black shadow dark:border-yellow-600 border-accent border-2 px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-lg w-full max-w-md transition duration-1000">
           <div className="font-light self-center text-xl sm:text-2xl text-gray-600 dark:text-white mb-6 transition duration-1000">
             Login To Your Account
           </div>
