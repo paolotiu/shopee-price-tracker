@@ -21,7 +21,7 @@ export const Navbar = ({ showLogin = true, isTransparent = false }: Props) => {
       style={{ height: "min-content" }}
     >
       <Link href="/">
-        <a href="">
+        <a>
           <Logo className="w-10" />
         </a>
       </Link>
@@ -31,7 +31,13 @@ export const Navbar = ({ showLogin = true, isTransparent = false }: Props) => {
         }
       >
         <ToggleSwitch />
-        {showLogin && <button onClick={showLoginModal}>Login</button>}
+        {showLogin && (
+          <Link href="/login">
+            <a className="underline-yellow transform hover:scale-110 transition duration-100">
+              Login
+            </a>
+          </Link>
+        )}
       </div>
     </nav>
   );
