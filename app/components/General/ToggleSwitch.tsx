@@ -8,7 +8,7 @@ import Sun from "../../public/sun.svg";
 export const ToggleSwitch = () => {
   const { theme, toggleTheme } = useTheme();
 
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(theme === "dark");
 
   const switchRef = useRef<HTMLInputElement>(null);
 
@@ -36,13 +36,7 @@ export const ToggleSwitch = () => {
             }}
             checked={isChecked}
           />
-          <div
-            className={
-              isChecked
-                ? "w-full h-5 bg-black  rounded-full  transition duration-500"
-                : "w-full h-5 bg-gray-300  rounded-full  transition duration-500"
-            }
-          ></div>
+          <div className="w-full h-5 dark:bg-black bg-gray-300  rounded-full  transition duration-500"></div>
         </div>
         <button onClick={() => toggleTheme("light")}>
           <Moon className="w-5 h-auto" />
