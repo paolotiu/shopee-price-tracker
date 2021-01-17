@@ -1,16 +1,15 @@
 import React from "react";
+import Link from "next/link";
 import Blob from "../components/Blob/Blob";
 import { Button } from "../components/General/Button";
-import { Navbar } from "../components/General/Navbar";
 import Layout from "../components/Layout";
 import { SignUpModal } from "../components/ModalContents/SignUpModal";
-import { getUser, logOut } from "../utils/api";
 import { useModalContext } from "../utils/ModalContext";
 
 const IndexPage = () => {
   const { setModalContent, openModal } = useModalContext();
   return (
-    <Layout title="Home">
+    <Layout title="Home" navbarIsTransparent={true}>
       {[0, 1, 2, 3, 4].map((x) => (
         <Blob key={x} num={x} />
       ))}
@@ -25,12 +24,14 @@ const IndexPage = () => {
               Know when the price{" "}
               <span className="landing-underline">drops</span>
             </h1>
-            <Button
-              className="btn-primary transition duration-1000  dark:hover:bg-primary hover:bg-primary-dark hover:duration-300 ease-in-out "
-              onClick={showSignUpModal}
-            >
-              Start Tracking
-            </Button>
+            <Link href="/signup">
+              <Button
+                className="btn-primary transition duration-1000  dark:hover:bg-primary hover:bg-primary-dark hover:duration-300 ease-in-out "
+                onClick={showSignUpModal}
+              >
+                Start Tracking
+              </Button>
+            </Link>
           </div>
           <img
             src="/undraw/chartguy.svg"
@@ -42,8 +43,6 @@ const IndexPage = () => {
           />
         </div>
       </section>
-      <button onClick={getUser}>GETTt</button>
-      <button onClick={logOut}>Logout</button>
     </Layout>
   );
   function showSignUpModal() {
