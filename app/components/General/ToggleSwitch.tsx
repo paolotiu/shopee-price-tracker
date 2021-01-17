@@ -10,8 +10,6 @@ export const ToggleSwitch = () => {
 
   const [isChecked, setIsChecked] = useState(theme === "dark");
 
-  const switchRef = useRef<HTMLInputElement>(null);
-
   useEffect(() => {
     // Change switch whenever theme changes
     setIsChecked(theme === "dark");
@@ -26,14 +24,15 @@ export const ToggleSwitch = () => {
         <div className="relative inline-block w-10 ml-3 mr-4 align-middle select-none transition duration-400 ease-in-out">
           <input
             type="checkbox"
-            ref={switchRef}
             className={
               "cursor-pointer appearance-none w-6 h-6 absolute -left-1  rounded-full bg-white top-1/2 transform  -translate-y-1/2 transition duration-500 checked:translate-x-full "
             }
-            onChange={() => {
+            onClick={() => {
               // Changes theme, so triggers a useEffect
               toggleTheme();
             }}
+            // onChange doesn't work on first click, so for now it'll be using onCLick
+            onChange={() => {}}
             checked={isChecked}
           />
           <div className="w-full h-5 dark:bg-black bg-gray-300  rounded-full  transition duration-500"></div>
