@@ -7,7 +7,6 @@ import { apiHandler } from "../utils/apiHandler";
 import ClipLoader from "react-spinners/ClipLoader";
 import * as yup from "yup";
 import toast from "react-hot-toast";
-interface Props {}
 interface Fields {
   email: string;
   password: string;

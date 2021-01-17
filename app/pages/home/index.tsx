@@ -1,8 +1,7 @@
 import React from "react";
 import { Background } from "../../components/Background/Background";
-interface Props {}
 
-const Home = (props: Props) => {
+const Home = () => {
   return (
     <div>
       <Background />
