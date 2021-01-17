@@ -1,7 +1,7 @@
 import React from "react";
 interface Props {}
 
-export const Background = (props: Props) => {
+export const Background = () => {
   return (
     <svg width="100%" height="100vh">
       <defs>

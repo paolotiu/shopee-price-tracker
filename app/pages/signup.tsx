@@ -37,9 +37,7 @@ const SignUp = () => {
     values: Fields,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
-    const { error, data } = await apiHandler(
-      signUp(values.email, values.password)
-    );
+    const { error } = await apiHandler(signUp(values.email, values.password));
     if (error) {
       if (error.message === '"email" must be a valid email') {
         error.message = "Email is not valid";
