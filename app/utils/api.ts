@@ -3,7 +3,7 @@ const BASE_URL = "http://localhost:3001";
 
 export const login = async (email: string, password: string) => {
   const res = await axios.post(
-    BASE_URL + "/user/login",
+    BASE_URL + "/auth/login",
     {
       email,
       password,
@@ -34,7 +34,7 @@ export const confirmEmail = async (token: string) => {
 };
 
 export const logOut = async () => {
-  const res = await axios.get(BASE_URL + "/user/logout", {
+  const res = await axios.get(BASE_URL + "/auth/logout", {
     withCredentials: true,
   });
 
