@@ -1,15 +1,14 @@
 import React, { ReactNode } from "react";
 import Head from "next/head";
-import { Navbar } from "./General/Navbar";
+import { Navbar, NavProps } from "./General/Navbar";
 
-type Props = {
+interface Props extends NavProps {
   children?: ReactNode;
   title?: string;
   className?: string;
   showNavbar?: boolean;
   navbarIsTransparent?: boolean;
-  showLogin?: boolean;
-};
+}
 
 const Layout = ({
   children,
@@ -17,6 +16,7 @@ const Layout = ({
   showNavbar = true,
   navbarIsTransparent,
   showLogin,
+  showLogo,
   ...props
 }: Props) => (
   <div {...props}>
@@ -24,7 +24,11 @@ const Layout = ({
       <title> {title}</title>
     </Head>
     {showNavbar && (
-      <Navbar isTransparent={navbarIsTransparent} showLogin={showLogin} />
+      <Navbar
+        isTransparent={navbarIsTransparent}
+        showLogin={showLogin}
+        showLogo={showLogo}
+      />
     )}
     {children}
   </div>

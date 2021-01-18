@@ -30,6 +30,7 @@ module.exports = {
       translate: ["checked"],
       transitionDuration: ["hover"],
       backgroundColor: ["disabled"],
+      opacity: ["dark"],
     },
   },
   plugins: [],

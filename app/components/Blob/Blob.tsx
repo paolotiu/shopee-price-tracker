@@ -11,6 +11,9 @@ const blobs = [
   <Blob3 className="blob bottom-0 left-0 hidden md:block z--1" />,
   <Blob4 className="w-full blob  top-0 md:hidden z--1" />,
   <Blob5 className="blob bottom-0 left-0 md:hidden z--1" />,
+  <Blob1 className="homeBlob top-0 right-0 max-h-56 dark:opacity-100 z--1" />,
+  <Blob2 className="homeBlob top-0 left-0 md:w-auto w-full  dark:opacity-100   hidden lg:max-h-70vh md:block md:max-h-96 z--1" />,
+  <Blob3 className="homeBlob bottom-0 left-0 dark:opacity-100 hidden md:block z--1" />,
 ];
 
 interface Props {

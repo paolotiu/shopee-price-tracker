@@ -3,11 +3,16 @@ import Link from "next/link";
 import { ToggleSwitch } from "./ToggleSwitch";
 import Logo from "../../public/logo.svg";
 
-interface Props {
+export interface NavProps {
   showLogin?: boolean;
   isTransparent?: boolean;
+  showLogo?: boolean;
 }
-export const Navbar = ({ showLogin = true, isTransparent = false }: Props) => {
+export const Navbar = ({
+  showLogin = true,
+  isTransparent = false,
+  showLogo = true,
+}: NavProps) => {
   return (
     <nav
       className={
@@ -17,11 +22,13 @@ export const Navbar = ({ showLogin = true, isTransparent = false }: Props) => {
       }
       style={{ height: "min-content" }}
     >
-      <Link href="/">
-        <a>
-          <Logo className="w-10" />
-        </a>
-      </Link>
+      {showLogo && (
+        <Link href="/">
+          <a>
+            <Logo className="w-10" />
+          </a>
+        </Link>
+      )}
       <div
         className={
           showLogin ? "sm:w-60 w-48 flex justify-around" : "flex justify-around"
