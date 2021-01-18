@@ -1,5 +1,5 @@
-import { GetServerSideProps } from "next";
 import React from "react";
+import { GetServerSideProps } from "next";
 import Layout from "../../components/Layout";
 import { MainContent } from "../../components/MainContent/MainContent";
 
