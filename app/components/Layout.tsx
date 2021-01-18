@@ -23,14 +23,19 @@ const Layout = ({
     <Head>
       <title> {title}</title>
     </Head>
-    {showNavbar && (
-      <Navbar
-        isTransparent={navbarIsTransparent}
-        showLogin={showLogin}
-        showLogo={showLogo}
-      />
-    )}
-    {children}
+    <div
+      className="grid h-screen grid-flow-row"
+      style={{ gridTemplateRows: "min-content 1fr" }}
+    >
+      {showNavbar && (
+        <Navbar
+          isTransparent={navbarIsTransparent}
+          showLogin={showLogin}
+          showLogo={showLogo}
+        />
+      )}
+      <div className="h-full">{children}</div>
+    </div>
   </div>
 );
 
