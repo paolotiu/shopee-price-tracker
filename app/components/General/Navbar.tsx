@@ -22,12 +22,20 @@ export const Navbar = ({
       }
       style={{ height: "min-content" }}
     >
-      {showLogo && (
+      {showLogo ? (
         <Link href="/">
           <a>
             <Logo className="w-10" />
           </a>
         </Link>
+      ) : (
+        <>
+          <Link href="/">
+            <a className="md:block hidden">
+              <Logo className="w-10" />
+            </a>
+          </Link>{" "}
+        </>
       )}
       <div
         className={
