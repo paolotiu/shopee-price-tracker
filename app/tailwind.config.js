@@ -1,7 +1,6 @@
 const env = process.env.NODE_ENV;
 module.exports = {
   purge: env === "production" && ["./components/**/*.tsx", "./pages/**/*.tsx"],
-
   darkMode: "class",
   theme: {
     extend: {
@@ -15,7 +14,10 @@ module.exports = {
           dark: "#E6A819",
         },
         white: "#F2F2F2",
-        black: "#2b2b2b",
+        black: {
+          DEFAULT: "#2b2b2b",
+          lighter: "#3b3b3b",
+        },
       },
     },
 
