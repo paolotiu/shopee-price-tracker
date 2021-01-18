@@ -41,7 +41,11 @@ const SignUp = () => {
       if (error.message === '"email" must be a valid email') {
         error.message = "Email is not valid";
       }
-      toast.error(error.message, {});
+      toast.error(error.message, {
+        style: {
+          margin: "100px",
+        },
+      });
     }
     setSubmitting(false);
   };

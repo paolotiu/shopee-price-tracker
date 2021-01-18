@@ -3,11 +3,34 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { login } from "../utils/api";
 import Link from "next/link";
 import Layout from "../components/Layout";
+import { useRouter } from "next/router";
+import { apiHandler } from "../utils/apiHandler";
+import ClipLoader from "react-spinners/ClipLoader";
+import toast from "react-hot-toast";
 interface Fields {
   email: string;
   password: string;
 }
 const Login = () => {
+  const router = useRouter();
+  const handleSubmit = async (
+    values: Fields,
+    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+  ) => {
+    const { error } = await apiHandler(login(values.email, values.password));
+    if (error) {
+      toast.error(error.message, {
+        style: {
+          margin: "100px",
+        },
+      });
+    } else {
+      router.push("/home");
+    }
+
+    setSubmitting(false);
+  };
+
   return (
     <Layout showLogin={false} title="Login">
       <div className="flex justify-center mt-24">
@@ -66,10 +89,7 @@ const Login = () => {
               }
               return errors;
             }}
-            onSubmit={async (values, { setSubmitting }) => {
-              await login(values.email, values.password);
-              setSubmitting(false);
-            }}
+            onSubmit={handleSubmit}
           >
             {({ isSubmitting }) => (
               <Form>
@@ -143,7 +163,7 @@ const Login = () => {
                     disabled={isSubmitting}
                     className="py-2 px-4  bg-primary hover:bg-primary-dark focus:ring-accent focus:ring-offset-white text-white w-full transition ease-in duration-200 text-center text-base font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 "
                   >
-                    Login
+                    {isSubmitting ? <ClipLoader color="#f2f2f2" /> : "Login"}
                   </button>
                   <div className="flex w-full"></div>
                   <div className="flex justify-center items-center mt-6">
