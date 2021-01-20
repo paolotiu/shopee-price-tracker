@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { useTheme } from "../../utils/DarkModeContext";
 import Moon from "../../public/moon.svg";
 import Sun from "../../public/sun.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { setTheme, themeSelector, toggleTheme } from "../../slices/themeSlice";
 
 // interface Props {}
 
 export const ToggleSwitch = () => {
-  const { theme, toggleTheme } = useTheme();
-
+  const dispatch = useDispatch();
+  const theme = useSelector(themeSelector);
   const [isChecked, setIsChecked] = useState(theme === "dark");
 
   useEffect(() => {
-    // Change switch whenever theme changes
     setIsChecked(theme === "dark");
   }, [theme]);
-
   return (
     <>
-      <div className="flex items-center relative">
-        <button onClick={() => toggleTheme("dark")}>
+      <div className="relative flex items-center">
+        <button
+          onClick={() => {
+            dispatch(setTheme("light"));
+          }}
+        >
           <Sun className="w-6 h-auto" />
         </button>
-        <div className="relative inline-block w-10 ml-3 mr-4 align-middle select-none transition duration-400 ease-in-out">
+        <div className="relative inline-block w-10 ml-3 mr-4 align-middle transition ease-in-out select-none duration-400">
           <input
             type="checkbox"
             className={
@@ -29,15 +32,19 @@ export const ToggleSwitch = () => {
             }
             onClick={() => {
               // Changes theme, so triggers a useEffect
-              toggleTheme();
+              dispatch(toggleTheme());
             }}
             // onChange doesn't work on first click, so for now it'll be using onCLick
             onChange={() => {}}
             checked={isChecked}
           />
-          <div className="w-full h-5 dark:bg-black bg-gray-300  rounded-full  transition duration-500"></div>
+          <div className="w-full h-5 transition duration-500 bg-gray-300 rounded-full dark:bg-black"></div>
         </div>
-        <button onClick={() => toggleTheme("light")}>
+        <button
+          onClick={() => {
+            dispatch(setTheme("dark"));
+          }}
+        >
           <Moon className="w-5 h-auto" />
         </button>
       </div>

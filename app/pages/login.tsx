@@ -7,17 +7,22 @@ import { useRouter } from "next/router";
 import { apiHandler } from "../utils/apiHandler";
 import ClipLoader from "react-spinners/ClipLoader";
 import toast from "react-hot-toast";
+import { addUser } from "../slices/userSlice";
+import { useDispatch } from "react-redux";
 interface Fields {
   email: string;
   password: string;
 }
 const Login = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const handleSubmit = async (
     values: Fields,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
-    const { error } = await apiHandler(login(values.email, values.password));
+    const { error, data } = await apiHandler(
+      login(values.email, values.password)
+    );
     if (error) {
       toast.error(error.message, {
         style: {
@@ -25,6 +30,8 @@ const Login = () => {
         },
       });
     } else {
+      console.log(data);
+      dispatch(addUser(data?.email, data?.items, true));
       router.push("/home");
     }
 
@@ -34,14 +41,14 @@ const Login = () => {
   return (
     <Layout showLogin={false} title="Login">
       <div className="flex justify-center mt-24">
-        <div className="flex flex-col p-4  bg-white dark:bg-black shadow dark:border-yellow-600 border-accent border-2 px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-lg w-full sm:max-w-md max-w-90vw transition duration-1000">
-          <div className="font-light self-center text-xl sm:text-2xl text-gray-600 dark:text-white mb-6 transition duration-1000">
+        <div className="flex flex-col w-full p-4 px-4 py-8 transition duration-1000 bg-white border-2 rounded-lg shadow dark:bg-black dark:border-yellow-600 border-accent sm:px-6 md:px-8 lg:px-10 sm:max-w-md max-w-90vw">
+          <div className="self-center mb-6 text-xl font-light text-gray-600 transition duration-1000 sm:text-2xl dark:text-white">
             Login To Your Account
           </div>
-          <div className="grid grid-cols-2 item-center gap-4">
+          <div className="grid grid-cols-2 gap-4 item-center">
             <button
               type="button"
-              className="py-2 px-4 flex justify-center items-center  bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 "
+              className="flex items-center justify-center w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 "
             >
               <svg
                 width="20"
@@ -57,7 +64,7 @@ const Login = () => {
             </button>
             <button
               type="button"
-              className="py-2 px-4 flex justify-center items-center  bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 "
+              className="flex items-center justify-center w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in bg-red-600 rounded-lg shadow-md hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 "
             >
               <svg
                 width="20"
@@ -95,8 +102,8 @@ const Login = () => {
               <Form>
                 <div className="mt-8">
                   <div className="flex flex-col mb-2">
-                    <div className="flex relative ">
-                      <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm ">
+                    <div className="relative flex ">
+                      <span className="inline-flex items-center px-3 text-sm text-gray-500 bg-white border-t border-b border-l border-gray-300 shadow-sm rounded-l-md ">
                         <svg
                           width="15"
                           height="15"
@@ -110,19 +117,19 @@ const Login = () => {
                       <Field
                         type="email"
                         name="email"
-                        className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark focus:border-transparent"
+                        className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-white border border-gray-300 rounded-r-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark focus:border-transparent"
                         placeholder="Your email"
                       />
                     </div>
                     <ErrorMessage
                       name="email"
                       component="div"
-                      className="text-red-400 text-sm mt-2"
+                      className="mt-2 text-sm text-red-400"
                     />
                   </div>
                   <div className="flex flex-col mb-6">
-                    <div className="flex relative ">
-                      <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
+                    <div className="relative flex ">
+                      <span className="inline-flex items-center px-3 text-sm text-gray-500 bg-white border-t border-b border-l border-gray-300 shadow-sm rounded-l-md">
                         <svg
                           width="15"
                           height="15"
@@ -138,21 +145,21 @@ const Login = () => {
                         type="password"
                         name="password"
                         autoComplete="on"
-                        className="rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark focus:border-transparent"
+                        className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-white border border-gray-300 rounded-r-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark focus:border-transparent"
                         placeholder="Your password"
                       />
                     </div>
                     <ErrorMessage
                       name="password"
                       component="div"
-                      className="text-red-400 text-sm mt-2"
+                      className="mt-2 text-sm text-red-400"
                     />
                   </div>
                   <div className="flex items-center mb-6 -mt-4">
                     <div className="flex ml-auto">
                       <a
                         href="#"
-                        className="inline-flex text-xs font-thin sm:text-sm text-gray-500 dark:text-gray-100 hover:text-gray-700 dark:hover:text-white transition duration-1000"
+                        className="inline-flex text-xs font-thin text-gray-500 transition duration-1000 sm:text-sm dark:text-gray-100 hover:text-gray-700 dark:hover:text-white"
                       >
                         Forgot Your Password?
                       </a>
@@ -161,14 +168,14 @@ const Login = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="py-2 px-4  bg-primary hover:bg-primary-dark focus:ring-accent focus:ring-offset-white text-white w-full transition ease-in duration-200 text-center text-base font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 "
+                    className="w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in rounded-lg shadow-md bg-primary hover:bg-primary-dark focus:ring-accent focus:ring-offset-white focus:outline-none focus:ring-2 focus:ring-offset-2 "
                   >
                     {isSubmitting ? <ClipLoader color="#f2f2f2" /> : "Login"}
                   </button>
                   <div className="flex w-full"></div>
-                  <div className="flex justify-center items-center mt-6">
+                  <div className="flex items-center justify-center mt-6">
                     <Link href="/signup">
-                      <a className="ml-2 text-gray-500 underline-yellow  hover:text-primary">
+                      <a className="ml-2 text-gray-500 underline-yellow hover:text-primary">
                         You don&#x27;t have an account?
                       </a>
                     </Link>

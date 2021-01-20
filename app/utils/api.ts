@@ -1,7 +1,15 @@
 import axios from "axios";
 const BASE_URL = "http://localhost:3001";
 
-export const login = async (email: string, password: string) => {
+interface IUser {
+  email: string;
+  items: string[];
+}
+
+export const login = async (
+  email: string,
+  password: string
+): Promise<IUser> => {
   const res = await axios.post(
     BASE_URL + "/auth/login",
     {
@@ -12,7 +20,7 @@ export const login = async (email: string, password: string) => {
       withCredentials: true,
     }
   );
-  console.log(res);
+  return res.data;
 };
 
 export const signUp = async (email: string, password: string) => {

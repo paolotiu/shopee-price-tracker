@@ -4,18 +4,18 @@ import "../styles/utilities.css";
 import "../styles/custom.css";
 import React from "react";
 import { AppProps } from "next/dist/next-server/lib/router/router";
-import { DarkModeContext } from "../utils/DarkModeContext";
 import { ModalContext } from "../utils/ModalContext";
 import { Toaster } from "react-hot-toast";
-
+import { Provider } from "react-redux";
+import store from "../store";
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <DarkModeContext>
-      <ModalContext>
+    <ModalContext>
+      <Provider store={store}>
         <Toaster />
         <Component {...pageProps} />
-      </ModalContext>
-    </DarkModeContext>
+      </Provider>
+    </ModalContext>
   );
 };
 
