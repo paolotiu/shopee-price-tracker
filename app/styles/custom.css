@@ -13,3 +13,21 @@
   right: -10px;
   bottom: 2px;
 }
+
+.content-with-sidebar {
+  grid-template-columns: 1fr;
+}
+
+.card-container {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+@media only screen and (min-width: 768px) {
+  .card-container {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+
+  .content-with-sidebar {
+    grid-template-columns: auto 1fr;
+  }
+}

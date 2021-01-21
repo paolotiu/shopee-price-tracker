@@ -6,12 +6,9 @@ export const MainContent: React.FC = ({ children }) => {
   return (
     <>
       <Background />
-      <main
-        className="grid h-full gap-28"
-        style={{ gridTemplateColumns: "auto 1fr" }}
-      >
+      <main className="grid h-full grid-flow-col auto-cols-auto content-with-sidebar">
         <Sidebar />
-        <div>{children}</div>
+        <div className="p-8 md:p-20">{children}</div>
       </main>
     </>
   );
