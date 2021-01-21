@@ -11,7 +11,7 @@ export const MainContent: React.FC = ({ children }) => {
         style={{ gridTemplateColumns: "auto 1fr" }}
       >
         <Sidebar />
-        {children}
+        <div>{children}</div>
       </main>
     </>
   );
