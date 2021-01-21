@@ -2,7 +2,7 @@ import React from "react";
 
 interface Props {
   title: string;
-  content: string;
+  content: string | number;
   borderLeft?: boolean;
   borderRight?: boolean;
   borderRightOnMobile?: boolean;
@@ -17,15 +17,16 @@ export const Detail = ({
   dontShowOnMobile,
   borderRightOnMobile,
 }: Props) => {
-  let wrapperClass = "w-full p-2 text-center border-gray-500";
+  let wrapperClass =
+    "w-full p-2 text-center text-white border-gray-500 border-opacity-50";
   if (borderLeft) {
-    wrapperClass += " border-l-2";
+    wrapperClass += " border-l-2 pl-2";
   }
   if (borderRight || borderRightOnMobile) {
     if (borderRightOnMobile) {
-      wrapperClass += " md:border-r-0 border-r-2 ";
+      wrapperClass += " md:border-r-0 border-r-2 pr-2";
     } else {
-      wrapperClass += " border-r-2 ";
+      wrapperClass += " border-r-2 pr-2";
     }
   }
 
@@ -36,7 +37,9 @@ export const Detail = ({
   return (
     <div className={wrapperClass}>
       <h3 className="font-bold">{content}</h3>
-      <p>{title}</p>
+      <p className="text-sm font-light md:text-base whitespace-nowrap">
+        {title}
+      </p>
     </div>
   );
 };

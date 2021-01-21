@@ -5,18 +5,13 @@ import { MainContent } from "../../components/MainContent/MainContent";
 import { apiHandler } from "../../utils/apiHandler";
 import { getUserItems, Items } from "../../utils/api";
 import { Card } from "../../components/Card/Card";
-
+import { useQuery } from "react-query";
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { error, data } = await apiHandler(
     getUserItems(context.req.headers.cookie)
   );
   let items: null | Items = null;
   if (error) {
-    console.log(error);
-  } else {
-    items = data || null;
-  }
-  if (!items) {
     // Redirect if no user
     return {
       redirect: {
@@ -24,29 +19,38 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         permanent: false,
       },
     };
+  } else {
+    items = data || null;
   }
+
   return {
     props: {
       items,
     },
-    redirect: "",
   };
 };
 interface Props {
-  items: Items;
+  items: Items | null;
 }
 
 const Home = ({ items }: Props) => {
+  const { data } = useQuery("items", () => getUserItems(), {
+    initialData: items,
+  });
+
   return (
     <Layout showLogo={false} showLogin={false} title="Home">
       <MainContent>
         <div className="grid gap-10 justify-items-center card-container">
-          {items.map((item, i) => (
+          {data?.map((item, i) => (
             <React.Fragment key={i}>
               <Card
                 title={item.item.name}
                 desc={item.item.description || "Help"}
-                price={"400"}
+                price={item.item.price}
+                onSale={item.item.onSale}
+                total_ratings={item.item.total_rating_count}
+                avg_rating={item.item.avg_rating}
               />
             </React.Fragment>
           ))}
