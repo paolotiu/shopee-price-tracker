@@ -6,6 +6,15 @@ interface IUser {
   items: string[];
 }
 
+type Item = {
+  item: {
+    name: string;
+    description: string;
+  };
+};
+
+export type Items = Item[];
+
 export const login = async (
   email: string,
   password: string
@@ -24,7 +33,7 @@ export const login = async (
 };
 
 export const signUp = async (email: string, password: string) => {
-  const res = await axios.post(BASE_URL + "/user/sign-up", {
+  const res = await axios.post(BASE_URL + "/auth/sign-up", {
     email,
     password,
     callbackUrl:
@@ -35,7 +44,7 @@ export const signUp = async (email: string, password: string) => {
 };
 
 export const confirmEmail = async (token: string) => {
-  const res = await axios.get(BASE_URL + "/confirmation/" + token);
+  const res = await axios.get(BASE_URL + "/auth/confirmation/" + token);
 
   console.log(res.data);
   return res.data;
@@ -49,9 +58,22 @@ export const logOut = async () => {
   return res.data;
 };
 
-export const getUser = async () => {
+export const getUserItems = async (cookie?: string): Promise<Items> => {
   const res = await axios.get(BASE_URL + "/user/items", {
     withCredentials: true,
+    headers: {
+      cookie: cookie || null,
+    },
   });
-  console.log(res);
+  return res.data;
+};
+
+export const getUser = async (cookie?: string): Promise<IUser> => {
+  const res = await axios.get(BASE_URL + "/user", {
+    withCredentials: true,
+    headers: {
+      cookie: cookie || null,
+    },
+  });
+  return res.data;
 };
