@@ -26,7 +26,7 @@ export default function passportConfig(passport: PassportStatic) {
           const isValid = bcrypt.compareSync(password, user.password);
 
           if (!isValid) {
-            return done(null, false, { message: 'Incorrect password.' });
+            return done(null, false, { message: 'Incorrect email or password.' });
           }
 
           return done(null, user);
