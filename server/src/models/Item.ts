@@ -1,5 +1,5 @@
-import { requireType } from "./functions";
-import { Schema, model, Document } from "mongoose";
+import { requireType } from './functions';
+import { Schema, model, Document } from 'mongoose';
 
 export interface IItem extends Document {
   name: string;
@@ -7,6 +7,7 @@ export interface IItem extends Document {
   shopID: string;
   price: number;
   api_url: string;
+  description: string;
   all_prices: [{ price: number; time: Date }];
   urls: string[];
 }
@@ -17,6 +18,7 @@ const ItemSchema: Schema = new Schema({
   shopID: requireType(String),
   price: requireType(Number),
   api_url: requireType(String),
+  description: requireType(String),
   all_prices: [
     {
       price: requireType(Number),
@@ -27,4 +29,4 @@ const ItemSchema: Schema = new Schema({
   urls: [{ type: String }],
 });
 
-export default model<IItem>("Item", ItemSchema);
+export default model<IItem>('Item', ItemSchema);

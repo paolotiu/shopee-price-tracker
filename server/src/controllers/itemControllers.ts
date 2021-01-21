@@ -52,6 +52,7 @@ export const postItemLink: RequestHandler[] = [
           shopID: data.shopid,
           price: price_max,
           api_url: `https://shopee.ph/api/v2/item/get?itemid=${data.itemid}&shopid=${data.shopid}`,
+          description: data.description,
           all_prices: [{ price: price_max, time: new Date() }],
           urls: [link],
         });
@@ -146,6 +147,12 @@ export const addTarget: RequestHandler[] = [
       if (user?.items[0]) {
         user.items[0].target = target;
       }
+
+      if (!user) {
+        // Return no item found if no item found
+        return next(createHttpError(400, 'No item found'));
+      }
+
       return res.json(user);
     } catch (err) {
       console.log(err);
