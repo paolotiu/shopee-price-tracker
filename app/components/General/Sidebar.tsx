@@ -1,4 +1,6 @@
+import Router from "next/router";
 import React from "react";
+import { logOut } from "../../utils/api";
 
 export const Sidebar = () => {
   return (
@@ -7,7 +9,14 @@ export const Sidebar = () => {
         <span>Home</span>
         <span>Account</span>
       </div>
-      <div>Logout</div>
+      <button
+        onClick={async () => {
+          await logOut();
+          Router.push("/");
+        }}
+      >
+        Logout
+      </button>
     </div>
   );
 };
