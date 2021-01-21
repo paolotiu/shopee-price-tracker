@@ -18,6 +18,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-hot-toast": "^1.0.1",
+    "react-multiline-clamp": "^1.0.6",
     "react-redux": "^7.2.2",
     "react-spinners": "^0.10.4",
     "tailwindcss": "^2.0.2",
