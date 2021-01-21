@@ -4,14 +4,14 @@
 
 @layer components {
   .btn-primary {
-    @apply py-3 px-5  rounded-full bg-primary dark:bg-primary-dark  text-white shadow-md font-bold text-lg whitespace-nowrap;
+    @apply px-5 py-3 text-lg font-bold text-white rounded-full shadow-md bg-primary dark:bg-primary-dark whitespace-nowrap;
   }
   .blob {
-    @apply fixed w-auto text-primary dark:text-primary-dark fill-current transition duration-1000;
+    @apply fixed w-auto transition duration-1000 fill-current text-primary dark:text-primary-dark;
   }
 
   .homeBlob {
-    @apply fixed w-auto text-accent dark:text-accent-dark hidden md:block opacity-0 fill-current transition duration-1000;
+    @apply fixed w-auto transition duration-1000 opacity-0 fill-current text-accent dark:text-accent-dark md:block;
   }
 
   .input-container {
