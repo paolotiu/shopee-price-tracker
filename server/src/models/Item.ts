@@ -1,5 +1,6 @@
 import { requireType } from './functions';
 import { Schema, model, Document } from 'mongoose';
+import { number } from 'joi';
 
 export interface IItem extends Document {
   name: string;
@@ -9,6 +10,9 @@ export interface IItem extends Document {
   api_url: string;
   description: string;
   all_prices: [{ price: number; time: Date }];
+  onSale: boolean;
+  avg_rating: number;
+  total_rating_count: number;
   urls: string[];
 }
 
@@ -19,6 +23,9 @@ const ItemSchema: Schema = new Schema({
   price: requireType(Number),
   api_url: requireType(String),
   description: requireType(String),
+  onSale: requireType(Boolean),
+  avg_rating: requireType(Number),
+  total_rating_count: requireType(Number),
   all_prices: [
     {
       price: requireType(Number),

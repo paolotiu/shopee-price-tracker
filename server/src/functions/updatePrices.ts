@@ -18,6 +18,12 @@ export const updatePrices = async () => {
         item
           .updateOne({
             price: price,
+            onSale: !!data.item.price_before_discount,
+            avg_rating: data.item.item_rating.rating_star,
+            total_rating_count: data.item.item_rating.rating_count.reduce(
+              (acc, curr) => acc + curr,
+              0
+            ),
             $push: { all_prices: { price: price, time: new Date() } },
           })
           .exec();

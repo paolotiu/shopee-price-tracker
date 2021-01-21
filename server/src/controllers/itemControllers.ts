@@ -1,7 +1,7 @@
 import { scrape } from '../functions/scraper';
 import { RequestHandler } from 'express';
 import { updatePrices } from '../functions/updatePrices';
-import Item from '../models/Item';
+import Item, { IItem } from '../models/Item';
 import { isAuth } from '../functions/util';
 import User from '../models/User';
 import { Schema } from 'mongoose';
@@ -46,6 +46,7 @@ export const postItemLink: RequestHandler[] = [
 
         // Shopee returns the price with 5 zeroes at the end
         const price_max = data.price_max / 10 ** 5;
+
         const item = new Item({
           name: data.name,
           itemID: data.itemid,
@@ -53,9 +54,12 @@ export const postItemLink: RequestHandler[] = [
           price: price_max,
           api_url: `https://shopee.ph/api/v2/item/get?itemid=${data.itemid}&shopid=${data.shopid}`,
           description: data.description,
+          onSale: !!data.price_before_discount,
           all_prices: [{ price: price_max, time: new Date() }],
+          avg_rating: data.item_rating.rating_star,
+          total_rating_count: data.item_rating.rating_count.reduce((acc, curr) => acc + curr, 0),
           urls: [link],
-        });
+        } as IItem);
 
         item.save(async (err, doc) => {
           if (err) return next(err);
