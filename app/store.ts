@@ -12,8 +12,11 @@ const store = configureStore({
 });
 
 store.subscribe(() => {
-  global.window.__setPreferredTheme(store.getState().theme.theme);
+  if (global.window) {
+    global.window.__setPreferredTheme(store.getState().theme.theme);
+  }
 });
+
 export type RootState = ReturnType<typeof store.getState>;
 
 export default store;
