@@ -9,6 +9,17 @@ interface IUser {
 type Item = {
   item: {
     name: string;
+    price: number;
+    all_prices: [
+      {
+        time: string;
+        price: number;
+      }
+    ];
+    onSale: boolean;
+    itemdid: string;
+    avg_rating: number;
+    total_rating_count: number;
     description: string;
   };
 };
@@ -59,21 +70,24 @@ export const logOut = async () => {
 };
 
 export const getUserItems = async (cookie?: string): Promise<Items> => {
-  const res = await axios.get(BASE_URL + "/user/items", {
+  let options: { withCredentials: boolean; headers?: { cookie?: string } } = {
     withCredentials: true,
-    headers: {
-      cookie: cookie || null,
-    },
-  });
+  };
+  if (cookie) {
+    options.headers = { cookie };
+  }
+  const res = await axios.get(BASE_URL + "/user/items", options);
   return res.data;
 };
 
 export const getUser = async (cookie?: string): Promise<IUser> => {
-  const res = await axios.get(BASE_URL + "/user", {
+  let options: { withCredentials: boolean; headers?: { cookie?: string } } = {
     withCredentials: true,
-    headers: {
-      cookie: cookie || null,
-    },
-  });
+  };
+
+  if (cookie) {
+    options.headers = { cookie };
+  }
+  const res = await axios.get(BASE_URL + "/user", options);
   return res.data;
 };
