@@ -7,10 +7,12 @@ class MyDocument extends Document {
       <Html>
         <Head>
           {/* Import font */}
-          <style>
-            @import
-            url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap");
-          </style>
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,300&display=swap"
+            rel="stylesheet"
+          />
+
           <script src="/theme.js"></script>
         </Head>
         <body className="text-black transition duration-1000 bg-white dark:bg-black dark:text-white">
