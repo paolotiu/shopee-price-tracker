@@ -18,7 +18,6 @@ export const scrape = async (link: string): Promise<Item.RootObject> => {
       const { data } = await axios.get<Item.RootObject>(url);
       result = data;
       closed = true;
-      console.log('closing');
       await request.abort();
       if (!data.item) {
         result = null;
