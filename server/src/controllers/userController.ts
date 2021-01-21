@@ -20,3 +20,14 @@ export const checkItems: RequestHandler[] = [
     return res.json(user?.items);
   },
 ];
+
+export const getUser: RequestHandler[] = [
+  isAuth,
+  async (req, res, next) => {
+    const user = req.user;
+    return res.json({
+      email: user?.email,
+      items: user?.items,
+    });
+  },
+];
