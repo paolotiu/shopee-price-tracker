@@ -22,9 +22,20 @@ export const signUpUser: RequestHandler = (req, res, next) => {
   User.findOne({ email: email }).exec((err, user) => {
     if (err) return next(err);
 
-    // If email taken
-    if (user) return next(createHttpError(409, 'Email taken'));
+    // If email taken and confirmed
+    if (user && user?.isConfirmed) return next(createHttpError(409, 'Email taken'));
+    // If email taken but not confirmed
+    if (user) {
+      try {
+        (async () => {
+          await user.updateOne({ password: hash }).exec();
+        })();
+      } catch (error) {
+        return next(error);
+      }
 
+      return next(createHttpError(409, 'Email not yet confirmed'));
+    }
     const newUser = new User({
       email: email,
       password: hash,
@@ -78,7 +89,7 @@ export const resendConfirmationEmail: RequestHandler = async (req, res, next) =>
 
   User.findOne({ email: email }).exec((err, user) => {
     if (err) return next(err);
-    if (!user) return res.json({ message: 'Email not in database' });
+    if (!user) return next(createHttpError(400, "User hasn't signed up"));
     if (user.isConfirmed) return res.json({ message: 'User is already verified' });
 
     // Make another jwt then send to user email

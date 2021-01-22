@@ -64,6 +64,7 @@ const Home = ({ items }: Props) => {
 
     setUrl("");
   };
+  console.log(data);
   return (
     <Layout showLogo={false} showLogin={false} title="Home">
       <MainContent>
@@ -104,7 +105,7 @@ const Home = ({ items }: Props) => {
           </div>
 
           <div className="grid gap-10 justify-items-center card-container">
-            {data ? (
+            {data?.length ? (
               data.map((item, i) => (
                 <React.Fragment key={i}>
                   <Card

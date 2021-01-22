@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { signUp } from "../utils/api";
+import { resendConfirmationEmail, signUp } from "../utils/api";
 import Link from "next/link";
 import Layout from "../components/Layout";
 import { apiHandler } from "../utils/apiHandler";
 import ClipLoader from "react-spinners/ClipLoader";
 import * as yup from "yup";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { addUser } from "../slices/userSlice";
+import { useRouter } from "next/router";
 interface Fields {
   email: string;
   password: string;
 }
 const SignUp = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [validations, setValidations] = useState({
     length: false,
     uppercase: false,
@@ -36,27 +41,43 @@ const SignUp = () => {
     values: Fields,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
-    const { error } = await apiHandler(signUp(values.email, values.password));
+    const { error, data } = await apiHandler(
+      signUp(values.email, values.password)
+    );
+
     if (error) {
       if (error.message === '"email" must be a valid email') {
         error.message = "Email is not valid";
+      } else if (error.message === "Email not yet confirmed") {
+        // Send to email sent page
+        dispatch(addUser(values.email, [], false));
+        router.push("/sent");
+        resendConfirmationEmail(values.email);
+        setSubmitting(false);
+        return;
       }
+
       toast.error(error.message, {
         style: {
           margin: "100px",
         },
       });
     }
+
+    // Set email in store
+    dispatch(addUser(values.email, [], false));
+    router.push("/sent");
     setSubmitting(false);
+    return;
   };
   return (
     <Layout showLogin={false} title="Sign Up">
       <div className="flex justify-center mt-32">
-        <div className="flex flex-col mb-40 bg-white dark:bg-black dark:border-yellow-600 border-accent border-2 shadow px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-lg max-w-md transition duration-1000">
-          <div className="font-light self-center text-xl sm:text-2xl text-gray-800 dark:text-white mb-2 transition duration-1000">
+        <div className="flex flex-col max-w-md px-4 py-8 mb-40 transition duration-1000 bg-white border-2 rounded-lg shadow dark:bg-black dark:border-yellow-600 border-accent sm:px-6 md:px-8 lg:px-10">
+          <div className="self-center mb-2 text-xl font-light text-gray-800 transition duration-1000 sm:text-2xl dark:text-white">
             Create a new account
           </div>
-          <span className="flex-items-center text-gray-500 dark:text-gray-400 justify-center text-center text-sm transition duration-1000">
+          <span className="justify-center text-sm text-center text-gray-500 transition duration-1000 flex-items-center dark:text-gray-400">
             Already have an account ?
             <Link href="/login">
               <a className="underline-yellow hover:text-primary"> Sign In</a>
@@ -93,32 +114,32 @@ const SignUp = () => {
             {({ isSubmitting }) => {
               return (
                 <Form>
-                  <div className="mt-6 p-6">
+                  <div className="p-6 mt-6">
                     <div className="flex flex-col mb-2">
-                      <div className=" relative ">
+                      <div className="relative ">
                         <Field
                           type="email"
                           name="email"
-                          className="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                          className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-white border border-transparent border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                           placeholder="Email"
                         />
                         <ErrorMessage
                           name="email"
                           component="div"
-                          className="text-red-400 text-sm mt-2"
+                          className="mt-2 text-sm text-red-400"
                         />
                       </div>
                     </div>
-                    <div className="flex flex-col mb-2 mt-4">
-                      <div className=" relative ">
+                    <div className="flex flex-col mt-4 mb-2">
+                      <div className="relative ">
                         <Field
                           type="password"
                           name="password"
                           autoComplete="on"
-                          className="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                          className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-white border border-transparent border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                           placeholder="Password"
                         />
-                        <ul className="list-disc list-inside mt-4">
+                        <ul className="mt-4 list-disc list-inside">
                           <li
                             className={
                               validations.length
@@ -153,7 +174,7 @@ const SignUp = () => {
                       <button
                         disabled={isSubmitting || !validations.all}
                         type="submit"
-                        className="py-2 px-4 disabled:bg-gray-300  bg-primary hover:bg-primary-dark focus:ring-primary focus:ring-offset-white text-white w-full transition ease-in duration-200 text-center text-base font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 "
+                        className="w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in rounded-lg shadow-md disabled:bg-gray-300 bg-primary hover:bg-primary-dark focus:ring-primary focus:ring-offset-white focus:outline-none focus:ring-2 focus:ring-offset-2 "
                       >
                         {isSubmitting ? (
                           <ClipLoader color="#f2f2f2" />

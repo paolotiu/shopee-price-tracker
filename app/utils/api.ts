@@ -55,7 +55,6 @@ export const signUp = async (email: string, password: string) => {
 export const confirmEmail = async (token: string) => {
   const res = await axios.get(BASE_URL + "/auth/confirmation/" + token);
 
-  console.log(res.data);
   return res.data;
 };
 
@@ -98,6 +97,12 @@ export const postItem = async (url: string) => {
     },
     { withCredentials: true }
   );
+
+  return res.data;
+};
+
+export const resendConfirmationEmail = async (email: string) => {
+  const res = await axios.post(BASE_URL + "/auth/resendEmail", { email });
 
   return res.data;
 };
