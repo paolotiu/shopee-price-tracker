@@ -1,3 +1,4 @@
+import { Router, useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
@@ -8,13 +9,13 @@ import { apiHandler } from "../utils/apiHandler";
 const Sent = () => {
   const [seconds, setSeconds] = useState(0);
   const { email } = useSelector(userSelector);
-
+  const router = useRouter();
   const resendEmail = async () => {
     if (seconds) {
       toast.error(`Wait for ${seconds} seconds to resend email`);
       return;
     }
-    const { data, error } = await apiHandler(resendConfirmationEmail(email));
+    const { error } = await apiHandler(resendConfirmationEmail(email));
 
     if (error) {
       toast.error(error.message);
@@ -22,7 +23,7 @@ const Sent = () => {
       toast.success("Email sent");
     }
     // Start timer till resend again
-    startTimer();
+    setSeconds(60);
   };
   useEffect(() => {
     if (!seconds) return;
@@ -34,7 +35,11 @@ const Sent = () => {
     return () => clearInterval(timer);
   }, [seconds]);
 
-  const startTimer = () => setSeconds(60);
+  useEffect(() => {
+    if (!email) {
+      router.push("/signup");
+    }
+  }, []);
 
   return (
     <Layout title="Email Sent">
