@@ -143,12 +143,11 @@ export const googleAuth: RequestHandler = passport.authenticate('google', {
 });
 
 // Google callback
-export const googleCallback: RequestHandler = passport.authenticate('google', {
-  successRedirect: '/auth/google/success',
-  failureRedirect: '/auth/google/failure',
-});
-
-// Google auth success
-export const googleSuccess: RequestHandler = (req, res, next) => {
-  res.json(req.user);
-};
+export const googleCallback: RequestHandler[] = [
+  passport.authenticate('google', {
+    failureRedirect: 'http://localhost:3000',
+  }),
+  (req, res) => {
+    res.redirect('http://localhost:3000');
+  },
+];
