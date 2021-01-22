@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { login } from "../utils/api";
+import { googleOauth, login } from "../utils/api";
 import Link from "next/link";
 import Layout from "../components/Layout";
 import { useRouter } from "next/router";
@@ -62,22 +62,24 @@ const Login = () => {
               </svg>
               Facebook
             </button>
-            <button
-              type="button"
-              className="flex items-center justify-center w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in bg-red-600 rounded-lg shadow-md hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 "
-            >
-              <svg
-                width="20"
-                height="20"
-                fill="currentColor"
-                className="mr-2"
-                viewBox="0 0 1792 1792"
-                xmlns="http://www.w3.org/2000/svg"
+            <a href="http://localhost:3001/auth/google">
+              <button
+                type="button"
+                className="flex items-center justify-center w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in bg-red-600 rounded-lg shadow-md hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 "
               >
-                <path d="M896 786h725q12 67 12 128 0 217-91 387.5t-259.5 266.5-386.5 96q-157 0-299-60.5t-245-163.5-163.5-245-60.5-299 60.5-299 163.5-245 245-163.5 299-60.5q300 0 515 201l-209 201q-123-119-306-119-129 0-238.5 65t-173.5 176.5-64 243.5 64 243.5 173.5 176.5 238.5 65q87 0 160-24t120-60 82-82 51.5-87 22.5-78h-436v-264z"></path>
-              </svg>
-              Google
-            </button>
+                <svg
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  className="mr-2"
+                  viewBox="0 0 1792 1792"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M896 786h725q12 67 12 128 0 217-91 387.5t-259.5 266.5-386.5 96q-157 0-299-60.5t-245-163.5-163.5-245-60.5-299 60.5-299 163.5-245 245-163.5 299-60.5q300 0 515 201l-209 201q-123-119-306-119-129 0-238.5 65t-173.5 176.5-64 243.5 64 243.5 173.5 176.5 238.5 65q87 0 160-24t120-60 82-82 51.5-87 22.5-78h-436v-264z"></path>
+                </svg>
+                Google
+              </button>
+            </a>
           </div>
           <Formik
             initialValues={{ email: "", password: "" }}
