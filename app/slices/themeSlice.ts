@@ -7,7 +7,7 @@ interface ThemeState {
 }
 
 const initialState: ThemeState = {
-  theme: (global.window?.__theme as Theme) || "light",
+  theme: (global.window?.__theme as Theme) || "dark",
 };
 
 const themeSlice = createSlice({
