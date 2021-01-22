@@ -4,7 +4,6 @@ import Router from "next/router";
 import { confirmEmail } from "../../utils/api";
 import { apiHandler } from "../../utils/apiHandler";
 import Layout from "../../components/Layout";
-import { Navbar } from "../../components/General/Navbar";
 import toast from "react-hot-toast";
 
 interface Props {
