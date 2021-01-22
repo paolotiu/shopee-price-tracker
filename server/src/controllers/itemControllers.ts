@@ -6,19 +6,28 @@ import { isAuth } from '../functions/util';
 import User from '../models/User';
 import { Schema } from 'mongoose';
 import createHttpError from 'http-errors';
+import { urlSchema } from './validation';
 
 // User sends link then return item from that link
 export const postItemLink: RequestHandler[] = [
   isAuth,
   async (req, res, next) => {
-    const { link } = req.body;
+    let { link } = req.body;
     if (!link) return next({ message: 'No link provided', status: 400 });
     const existingItem = await Item.findOne({ urls: link }).lean().exec();
+
+    // Validation check using joi
+    const { error, value } = urlSchema.validate(link);
+    if (error) {
+      return next(createHttpError(400, error.message));
+    }
+
+    link = value;
     if (existingItem) {
       // Save to users items
-      await addItemToUser(req.user?.id, existingItem._id);
+      const message = await addItemToUser(req.user?.id, existingItem._id);
 
-      return res.json({ ...existingItem, status: 'existing' });
+      return res.json({ ...existingItem, status: 'existing', message });
     }
 
     scrape(link)
@@ -39,9 +48,9 @@ export const postItemLink: RequestHandler[] = [
 
         if (updatedItem) {
           // Save to users items
-          await addItemToUser(req.user?.id, updatedItem._id);
+          const message = await addItemToUser(req.user?.id, updatedItem._id);
 
-          return res.json({ ...updatedItem, status: 'updated' });
+          return res.json({ ...updatedItem, status: 'updated', message });
         }
 
         // Shopee returns the price with 5 zeroes at the end
@@ -65,9 +74,9 @@ export const postItemLink: RequestHandler[] = [
           if (err) return next(err);
 
           // Save to users items
-          await addItemToUser(req.user?.id, item._id);
+          const message = await addItemToUser(req.user?.id, item._id);
 
-          return res.json({ ...doc.toObject(), status: 'created' });
+          return res.json({ ...doc.toObject(), status: 'created', message });
         });
       })
       .catch((err) => {
@@ -167,14 +176,19 @@ export const addTarget: RequestHandler[] = [
 
 // Save to users items
 async function addItemToUser(userid: Schema.Types.ObjectId, itemid: Schema.Types.ObjectId) {
-  await User.findByIdAndUpdate(userid, {
-    $addToSet: { items: { item: itemid } },
-  }).exec();
-}
+  // const res = await User.findByIdAndUpdate(userid, {
+  //   $addToSet: { items: { item: itemid } },
+  // }).exec();
 
-// Add target to user's item
-async function addTargetToItem(userid: Schema.Types.ObjectId, itemid: string, target: number) {
-  //Save to users items
-  const user = await User.findById(userid).exec();
-  return user;
+  const res = await User.findById(userid)
+    .updateOne({
+      $addToSet: { items: { item: itemid } },
+    })
+    .exec();
+
+  if (res.nModified) {
+    return 'Item added';
+  } else {
+    return 'You are already tracking this item';
+  }
 }

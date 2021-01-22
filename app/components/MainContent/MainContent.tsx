@@ -8,7 +8,7 @@ export const MainContent: React.FC = ({ children }) => {
       <Background />
       <main className="grid h-full grid-flow-col auto-cols-auto content-with-sidebar">
         <Sidebar />
-        <div className="p-8 md:p-20">{children}</div>
+        <div>{children}</div>
       </main>
     </>
   );

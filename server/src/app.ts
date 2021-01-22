@@ -36,6 +36,7 @@ app.use(
       mongooseConnection: mongoose.connection,
     }),
     name: 'spt-jar',
+    // TEMP
     cookie: { maxAge: 1000 * 60 * 60 * 24 },
   })
 );

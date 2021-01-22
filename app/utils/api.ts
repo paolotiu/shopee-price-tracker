@@ -36,9 +36,7 @@ export const login = async (
       email,
       password,
     },
-    {
-      withCredentials: true,
-    }
+    { withCredentials: true }
   );
   return res.data;
 };
@@ -89,5 +87,17 @@ export const getUser = async (cookie?: string): Promise<IUser> => {
     options.headers = { cookie };
   }
   const res = await axios.get(BASE_URL + "/user", options);
+  return res.data;
+};
+
+export const postItem = async (url: string) => {
+  const res = await axios.post(
+    BASE_URL + "/item",
+    {
+      link: url,
+    },
+    { withCredentials: true }
+  );
+
   return res.data;
 };

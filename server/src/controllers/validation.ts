@@ -8,3 +8,9 @@ export const signUpSchema = Joi.object<{
   password: Joi.string().required().min(6),
   callbackUrl: Joi.string().required(),
 });
+
+export const urlSchema = Joi.string()
+  .required()
+  .pattern(/shopee.ph/)
+  .message('Not a valid url')
+  .trim();

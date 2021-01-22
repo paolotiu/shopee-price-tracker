@@ -11,7 +11,7 @@
   }
 
   .homeBlob {
-    @apply fixed w-auto transition duration-1000 opacity-0 fill-current text-accent dark:text-accent-dark md:block;
+    @apply fixed w-auto transition duration-1000 fill-current text-accent dark:text-accent-dark md:block;
   }
 
   .input-container {

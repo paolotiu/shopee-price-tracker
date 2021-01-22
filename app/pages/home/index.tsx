@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { GetServerSideProps } from "next";
 import Layout from "../../components/Layout";
 import { MainContent } from "../../components/MainContent/MainContent";
 import { apiHandler } from "../../utils/apiHandler";
-import { getUserItems, Items } from "../../utils/api";
+import { getUserItems, Items, postItem } from "../../utils/api";
 import { Card } from "../../components/Card/Card";
 import { useQuery } from "react-query";
+import MagGlass from "../../public/magnifying_glass.svg";
+import EmptyState from "../../public/empty_state.svg";
+
+import { toast } from "react-hot-toast";
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { error, data } = await apiHandler(
     getUserItems(context.req.headers.cookie)
@@ -34,26 +38,89 @@ interface Props {
 }
 
 const Home = ({ items }: Props) => {
-  const { data } = useQuery("items", () => getUserItems(), {
+  const { data, refetch } = useQuery("items", () => getUserItems(), {
     initialData: items,
   });
+  const [url, setUrl] = useState("");
 
+  const pasteToInput = () => {
+    navigator.clipboard.readText().then((text) => {
+      setUrl(text);
+    });
+  };
+
+  const searchItem = async () => {
+    toast.loading("Searching");
+    const { data, error } = await apiHandler(postItem(url));
+    if (data) {
+      toast.dismiss();
+      toast.success(data.message);
+
+      refetch();
+    } else {
+      toast.dismiss();
+      toast.error(error.message);
+    }
+
+    setUrl("");
+  };
   return (
     <Layout showLogo={false} showLogin={false} title="Home">
       <MainContent>
-        <div className="grid gap-10 justify-items-center card-container">
-          {data?.map((item, i) => (
-            <React.Fragment key={i}>
-              <Card
-                title={item.item.name}
-                desc={item.item.description || "Help"}
-                price={item.item.price}
-                onSale={item.item.onSale}
-                total_ratings={item.item.total_rating_count}
-                avg_rating={item.item.avg_rating}
+        <div className="grid gap-10 p-8 pt-4 md:p-20 md:pt-4">
+          <div className="relative flex justify-center w-full h-full rounded md:w-5/6 place-self-center">
+            <div className="relative flex items-center h-full input-wrapper">
+              <input
+                type="text"
+                value={url}
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                }}
+                className="w-full max-w-xl p-2 pl-10 overflow-hidden text-black outline-none overflow-ellipsis focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="https://shopee.ph/example-product"
               />
-            </React.Fragment>
-          ))}
+              <img
+                src="https://img.icons8.com/ios/50/000000/paste.png"
+                onClick={pasteToInput}
+                className="absolute text-gray-400 transition duration-500 ease-in transform -translate-y-1/2 fill-current max-w-min h-1/2 top-1/2 left-2"
+              />
+              <button
+                className={
+                  "h-full px-2 rounded-r-lg bg-accent disabled:bg-gray-300 transition duration-500 "
+                }
+                disabled={!url}
+                onClick={searchItem}
+              >
+                <MagGlass
+                  id="mag-glass"
+                  className={
+                    url
+                      ? "text-black transition duration-500 ease-in fill-current max-w-min h-1/2"
+                      : "text-gray-500 transition duration-500 ease-in fill-current max-w-min h-1/2"
+                  }
+                />
+              </button>
+            </div>
+          </div>
+
+          <div className="grid gap-10 justify-items-center card-container">
+            {data ? (
+              data.map((item, i) => (
+                <React.Fragment key={i}>
+                  <Card
+                    title={item.item.name}
+                    desc={item.item.description || "Help"}
+                    price={item.item.price}
+                    onSale={item.item.onSale}
+                    total_ratings={item.item.total_rating_count}
+                    avg_rating={item.item.avg_rating}
+                  />
+                </React.Fragment>
+              ))
+            ) : (
+              <EmptyState className="mt-10 text-black transition duration-1000 fill-current dark:text-white" />
+            )}
+          </div>
         </div>
       </MainContent>
     </Layout>
