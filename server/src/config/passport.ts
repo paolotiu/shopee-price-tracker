@@ -42,7 +42,8 @@ export default function passportConfig(passport: PassportStatic) {
       {
         clientID: process.env.GOOGLE_CLIENT_ID as string,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-        callbackURL: 'http://localhost:3001/auth/google/callback',
+        callbackURL:
+          process.env.GOOGLE_OAUTH_CALLBACK || 'http://localhost:3001/auth/google/callback',
       },
       (accessToken, refreshToken, profile, done) => {
         User.findOne({ email: profile.email }).exec((err, user) => {
@@ -72,7 +73,8 @@ export default function passportConfig(passport: PassportStatic) {
       {
         clientID: process.env.FACEBOOK_CLIENT_ID as string,
         clientSecret: process.env.FACEBOOK_CLIENT_SECRET as string,
-        callbackURL: 'http://localhost:3001/auth/facebook/callback',
+        callbackURL:
+          process.env.FACEBOOK_OAUTH_CALLBACK || 'http://localhost:3001/auth/facebook/callback',
         profileFields: ['id', 'emails', 'name'],
       },
       (accessToken, refreshToken, profile, done) => {
