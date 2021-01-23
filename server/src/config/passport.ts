@@ -99,7 +99,7 @@ export default function passportConfig(passport: PassportStatic) {
   );
 
   passport.serializeUser((user: Express.User, done) => {
-    done(null, user._id);
+    return done(null, user._id);
   });
 
   passport.deserializeUser((user_id, done) => {
