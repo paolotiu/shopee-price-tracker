@@ -64,7 +64,7 @@ const Home = ({ items }: Props) => {
 
     setUrl("");
   };
-  console.log(data);
+
   return (
     <Layout showLogo={false} showLogin={false} title="Home">
       <MainContent>

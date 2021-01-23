@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { googleOauth, login } from "../utils/api";
+import {  login } from "../utils/api";
 import Link from "next/link";
 import Layout from "../components/Layout";
 import { useRouter } from "next/router";

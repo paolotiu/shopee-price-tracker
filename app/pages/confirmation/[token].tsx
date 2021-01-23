@@ -52,7 +52,7 @@ const Confirmation = ({ message, isError, status }: Props) => {
     setIsResendClicked(true);
   };
   return (
-    <Layout title={"Email Confirmation"}>
+    <Layout showLogo={false} title={"Email Confirmation"}>
       <div className="flex flex-col items-center mt-40">
         <h1
           className={
