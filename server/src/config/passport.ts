@@ -1,6 +1,7 @@
 import { PassportStatic } from 'passport';
 import PassportLocal from 'passport-local';
 import PassportGoogle from 'passport-google-oauth2';
+import PassportFacebook from 'passport-facebook';
 import bcrypt from 'bcryptjs';
 import User from '../models/User';
 
@@ -64,6 +65,37 @@ export default function passportConfig(passport: PassportStatic) {
       }
     )
   );
+
+  // Facebook Oauth2 Strategy
+  passport.use(
+    new PassportFacebook.Strategy(
+      {
+        clientID: process.env.FACEBOOK_CLIENT_ID as string,
+        clientSecret: process.env.FACEBOOK_CLIENT_SECRET as string,
+        callbackURL: 'http://localhost:3001/auth/facebook/callback',
+        profileFields: ['id', 'emails', 'name'],
+      },
+      (accessToken, refreshToken, profile, done) => {
+        console.log(profile);
+        if (!profile.emails) return done(null, false, 'No email attached with profile');
+        const email = profile.emails[0].value;
+        User.findOne({ email }).exec((err, user) => {
+          if (err) return done(err);
+
+          if (user) {
+            return done(null, user);
+          } else {
+            new User({
+              email: email,
+            }).save((err, user) => {
+              return done(err, user);
+            });
+          }
+        });
+      }
+    )
+  );
+
   passport.serializeUser((user: Express.User, done) => {
     done(null, user._id);
   });

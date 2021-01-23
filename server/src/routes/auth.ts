@@ -6,6 +6,8 @@ import {
   confirmEmail,
   googleAuth,
   googleCallback,
+  facebookAuth,
+  facebookCallback,
 } from '../controllers/authControllers';
 const router = Router();
 
@@ -24,5 +26,9 @@ router.get('/confirmation/:token', confirmEmail);
 // Google Routes
 router.get('/google', googleAuth);
 router.get('/google/callback', googleCallback);
+
+// Facebook Routes
+router.get('/facebook', facebookAuth);
+router.get('/facebook/callback', facebookCallback);
 
 export { router as authRouter };

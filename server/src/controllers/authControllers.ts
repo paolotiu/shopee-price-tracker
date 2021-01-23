@@ -145,9 +145,26 @@ export const googleAuth: RequestHandler = passport.authenticate('google', {
 // Google callback
 export const googleCallback: RequestHandler[] = [
   passport.authenticate('google', {
-    failureRedirect: 'http://localhost:3000',
+    failureRedirect: 'http://localhost:3000/login',
   }),
   (req, res) => {
-    res.redirect('http://localhost:3000');
+    res.redirect('http://localhost:3000/home');
   },
 ];
+
+// Facebook oauth
+export const facebookAuth: RequestHandler = passport.authenticate('facebook', { scope: ['email'] });
+
+// Facebook callback
+export const facebookCallback: RequestHandler[] = [
+  passport.authenticate('facebook', {
+    failureRedirect: 'http://localhost:3000/login',
+  }),
+  (req, res) => {
+    res.redirect('http://localhost:3000/home');
+  },
+];
+
+export const oauthFail: RequestHandler = (req, res) => {
+  return res.json('Login Failed');
+};
