@@ -38,7 +38,7 @@ app.use(
     }),
     name: 'spt-jar',
     // TEMP
-    cookie: { maxAge: 1000 * 60 * 60 * 24, secure: true },
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },
   })
 );
 app.use(cookieParser());
