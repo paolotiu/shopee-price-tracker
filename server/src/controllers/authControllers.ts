@@ -145,10 +145,10 @@ export const googleAuth: RequestHandler = passport.authenticate('google', {
 // Google callback
 export const googleCallback: RequestHandler[] = [
   passport.authenticate('google', {
-    failureRedirect: process.env.APP_LOGIN || 'http://localhost:3000/login',
+    failureRedirect: `${process.env.APP_URL || 'http://localhost:3000'}/login`,
   }),
   (req, res) => {
-    res.redirect(process.env.APP_HOME || 'http://localhost:3000/home');
+    res.redirect(`${process.env.APP_URL || 'http://localhost:3000'}/home`);
   },
 ];
 
@@ -158,10 +158,10 @@ export const facebookAuth: RequestHandler = passport.authenticate('facebook', { 
 // Facebook callback
 export const facebookCallback: RequestHandler[] = [
   passport.authenticate('facebook', {
-    failureRedirect: process.env.APP_LOGIN || 'http://localhost:3000/login',
+    failureRedirect: `${process.env.APP_URL || 'http://localhost:3000'}/login`,
   }),
   (req, res) => {
-    res.redirect(process.env.APP_HOME || 'http://localhost:3000/home');
+    res.redirect(`${process.env.APP_URL || 'http://localhost:3000'}/home`);
   },
 ];
 

@@ -27,6 +27,7 @@ require('./config/mongoDB');
 
 // Setup middlewares
 app.use(logger('dev'));
+app.enable('trust proxy'); // For heroku to work
 app.use(
   session({
     resave: false,
@@ -37,7 +38,7 @@ app.use(
     }),
     name: 'spt-jar',
     // TEMP
-    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+    cookie: { maxAge: 1000 * 60 * 60 * 24, secure: true },
   })
 );
 app.use(cookieParser());
