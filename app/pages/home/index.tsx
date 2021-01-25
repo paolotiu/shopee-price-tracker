@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+
 import { GetServerSideProps } from "next";
 import Layout from "../../components/Layout";
 import { MainContent } from "../../components/MainContent/MainContent";
@@ -10,37 +11,37 @@ import MagGlass from "../../public/magnifying_glass.svg";
 import EmptyState from "../../public/empty_state.svg";
 
 import { toast } from "react-hot-toast";
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { error, data } = await apiHandler(
-    getUserItems(context.req.headers.cookie)
-  );
-  let items: null | Items = null;
-  if (error) {
-    // Redirect if no user
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  } else {
-    items = data || null;
-  }
+import { useRouter } from "next/router";
+import { ProtectedRoute } from "../../components/ProtectedRoute/ProtectedRoute";
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const { error, data } = await apiHandler(
+//     getUserItems(context.req.headers.cookie)
+//   );
+//   let items: null | Items = null;
+//   if (error) {
+//     // Redirect if no user
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false,
+//       },
+//     };
+//   } else {
+//     items = data || null;
+//   }
 
-  return {
-    props: {
-      items,
-    },
-  };
-};
-interface Props {
-  items: Items | null;
-}
+//   return {
+//     props: {
+//       items,
+//     },
+//   };
+// };
+// interface Props {
+//   items: Items | null;
+// }
 
-const Home = ({ items }: Props) => {
-  const { data, refetch } = useQuery("items", () => getUserItems(), {
-    initialData: items,
-  });
+const HomeRoute = () => {
+  const { data, refetch, isLoading } = useQuery("items", () => getUserItems());
   const [url, setUrl] = useState("");
 
   const pasteToInput = () => {
@@ -118,6 +119,8 @@ const Home = ({ items }: Props) => {
                   />
                 </React.Fragment>
               ))
+            ) : isLoading ? (
+              <div>Loading</div>
             ) : (
               <EmptyState className="mt-10 text-black transition duration-1000 fill-current dark:text-white" />
             )}
@@ -127,5 +130,7 @@ const Home = ({ items }: Props) => {
     </Layout>
   );
 };
+
+const Home = () => <ProtectedRoute children={<HomeRoute />} />;
 
 export default Home;

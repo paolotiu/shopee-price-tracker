@@ -41,7 +41,8 @@ export const Sidebar = ({ isOpen, closeSidebar }: Props) => {
         <button
           className="absolute pl-8 text-red-400 bottom-6 max-w-min"
           onClick={async () => {
-            await logOut();
+            logOut();
+            router.push("/");
           }}
         >
           Logout

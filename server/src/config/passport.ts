@@ -78,7 +78,6 @@ export default function passportConfig(passport: PassportStatic) {
         profileFields: ['id', 'emails', 'name'],
       },
       (accessToken, refreshToken, profile, done) => {
-        console.log(profile);
         if (!profile.emails) return done(null, false, 'No email attached with profile');
         const email = profile.emails[0].value;
         User.findOne({ email }).exec((err, user) => {

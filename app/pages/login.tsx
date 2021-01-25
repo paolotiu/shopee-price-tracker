@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import {  login } from "../utils/api";
+import { login } from "../utils/api";
 import Link from "next/link";
 import Layout from "../components/Layout";
 import { useRouter } from "next/router";
@@ -62,7 +62,7 @@ const Login = () => {
               </svg>
               Facebook
             </button>
-            <a href="http://localhost:3001/auth/google">
+            <a href="https://perfect-dingo-90.loca.lt/auth/google">
               <button
                 type="button"
                 className="flex items-center justify-center w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in bg-red-600 rounded-lg shadow-md hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 "
