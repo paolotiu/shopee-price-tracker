@@ -21,7 +21,7 @@ export const Card = ({
 }: Props) => {
   avg_rating = Math.round((avg_rating + Number.EPSILON) * 100) / 100;
   return (
-    <div className="flex flex-col justify-between w-full max-w-lg transition duration-1000 p-7 dark:bg-white bg-white-pure ">
+    <div className="flex flex-col justify-between w-full h-full max-w-lg transition duration-1000 p-7 dark:bg-white bg-white-pure ">
       <div>
         <Clamp lines={2}>
           <h1 className="pb-1 font-bold text-black-lighter ">{title}</h1>
