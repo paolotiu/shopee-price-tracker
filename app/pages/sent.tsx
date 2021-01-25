@@ -43,17 +43,22 @@ const Sent = () => {
 
   return (
     <Layout title="Email Sent">
-      <div className="flex flex-col items-center mt-20">
+      <div className="flex flex-col items-center mt-28">
         <img src="/email_sent.svg" alt="" className="max-w-xs pb-10" />
-        <h1 className="text-4xl font-bold">
+        <h1 className="p-2 text-2xl font-bold text-center md:text-4xl">
           A confirmation email has been sent to
         </h1>
-        <p className="p-8 text-2xl underline text-primary">{email}</p>
-        <p className="text-sm text-gray-300 opacity-70">
+        <p
+          className="py-2 underline text-primary"
+          style={{ fontSize: "clamp(1.2em, 2vw, 100px)" }}
+        >
+          {email}
+        </p>
+        <p className="text-sm text-gray-400 dark:text-gray-300 opacity-70">
           *Make sure to check your spam inbox
         </p>
         <br />
-        <p className="mt-10 text-2xl">
+        <p className="flex flex-col items-center mt-10 text-2xl">
           Didn't receive an email? &nbsp;
           <button
             className="mt-10 text-2xl underline-yellow "

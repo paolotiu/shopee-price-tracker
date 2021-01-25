@@ -60,10 +60,7 @@ app.use(express.urlencoded({ extended: false }));
 // Setup passport
 import configPassport from './config/passport';
 configPassport(passport);
-app.use((req, res, next) => {
-  console.log(req.cookies);
-  next();
-});
+
 app.use(passport.initialize());
 app.use(passport.session());
 

@@ -29,6 +29,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       status = "down";
     } else if (message === "Token expired") {
       status = "expired";
+    } else if (message === "Invalid token") {
+      status = "error";
     }
     isError = true;
   }
@@ -65,34 +67,36 @@ const Confirmation = ({ message, isError, status }: Props) => {
         </h1>
         <br />
 
-        <button
-          className="text-2xl underline-yellow "
-          onClick={
-            status !== "verified"
-              ? () => {
-                  if (isResendClicked) {
-                    toast("Email already sent!", { icon: "💢" });
+        {status !== "error" && (
+          <button
+            className="text-2xl underline-yellow "
+            onClick={
+              status !== "verified"
+                ? () => {
+                    if (isResendClicked) {
+                      toast("Email already sent!", { icon: "💢" });
+                    }
+                    resendVerificationEmail();
                   }
-                  resendVerificationEmail();
-                }
-              : redirectToLogin
-          }
-        >
-          {status !== "verified"
-            ? "Resend Verification Email"
-            : "Redirect to login page"}
-        </button>
+                : redirectToLogin
+            }
+          >
+            {status !== "verified"
+              ? "Resend Verification Email"
+              : "Redirect to login page"}
+          </button>
+        )}
         {status === "expired" ? (
           <img
             src="/time.svg"
-            className="max-w-lg mt-20"
+            className="max-w-sm mt-20 md:max-w-lg"
             alt="Token expired svg"
           />
         ) : status === "verified" ? (
           <img
             src="/email_verified.svg"
             alt="Email verified svg"
-            className="max-w-sm mt-20"
+            className="max-w-xs mt-20 sm:max-w-md md:max-w-lg"
           />
         ) : (
           <img

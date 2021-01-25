@@ -6,6 +6,7 @@ import createHttpError from 'http-errors';
 import { signUpSchema } from './validation';
 import jwt from 'jsonwebtoken';
 import { sendConfirmationEmail } from '../config/nodemailer';
+import { type } from 'os';
 
 export const signUpUser: RequestHandler = (req, res, next) => {
   const { email, password, callbackUrl } = req.body;
@@ -119,6 +120,10 @@ export const confirmEmail: RequestHandler = async (req, res, next) => {
       id: string;
       email: string;
     };
+
+    if (typeof id !== 'string') {
+      return next(createHttpError(403, 'Invalid token'));
+    }
     const user = await User.findById(id).exec();
     if (user?.isConfirmed) {
       return res.status(400).json({ code: 400, message: 'User already verified', email });
@@ -133,7 +138,7 @@ export const confirmEmail: RequestHandler = async (req, res, next) => {
       error.message = 'Token expired';
     }
 
-    return next(error);
+    return next(createHttpError(500, 'Invalid token'));
   }
 };
 

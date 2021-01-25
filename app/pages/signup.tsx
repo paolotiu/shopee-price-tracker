@@ -61,6 +61,7 @@ const SignUp = () => {
           margin: "100px",
         },
       });
+      return;
     }
 
     // Set email in store
