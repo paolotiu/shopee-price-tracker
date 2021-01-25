@@ -38,15 +38,16 @@ export const Sidebar = ({ isOpen, closeSidebar }: Props) => {
           </Link>
           <span className="py-4 pl-8 ">Account</span>
         </div>
-        <button
-          className="absolute pl-8 text-red-400 bottom-6 max-w-min"
-          onClick={async () => {
-            logOut();
-            router.push("/");
-          }}
-        >
-          Logout
-        </button>
+        <Link href="/">
+          <button
+            className="absolute pl-8 text-red-400 bottom-6 max-w-min"
+            onClick={async () => {
+              logOut();
+            }}
+          >
+            Logout
+          </button>
+        </Link>
       </div>
     </div>
   );
