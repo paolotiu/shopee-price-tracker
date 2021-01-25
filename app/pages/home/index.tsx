@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { GetServerSideProps } from "next";
 import Layout from "../../components/Layout";
 import { MainContent } from "../../components/MainContent/MainContent";
 import { apiHandler } from "../../utils/apiHandler";
@@ -11,8 +10,9 @@ import MagGlass from "../../public/magnifying_glass.svg";
 import EmptyState from "../../public/empty_state.svg";
 
 import { toast } from "react-hot-toast";
-import { useRouter } from "next/router";
 import { ProtectedRoute } from "../../components/ProtectedRoute/ProtectedRoute";
+import Link from "next/link";
+
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 //   const { error, data } = await apiHandler(
 //     getUserItems(context.req.headers.cookie)
@@ -41,7 +41,9 @@ import { ProtectedRoute } from "../../components/ProtectedRoute/ProtectedRoute";
 // }
 
 const HomeRoute = () => {
-  const { data, refetch, isLoading } = useQuery("items", () => getUserItems());
+  const { data, refetch, isLoading } = useQuery<Items>("items", () =>
+    getUserItems()
+  );
   const [url, setUrl] = useState("");
 
   const pasteToInput = () => {
@@ -65,11 +67,10 @@ const HomeRoute = () => {
 
     setUrl("");
   };
-
   return (
     <Layout showLogo={false} showLogin={false} title="Home">
       <MainContent>
-        <div className="grid gap-10 p-8 pt-4 md:p-20 md:pt-4">
+        <div className="grid gap-10 p-8 pt-0 md:p-20 md:pt-0">
           <div className="relative flex justify-center w-full h-full rounded md:w-5/6 place-self-center">
             <div className="relative flex items-center h-full input-wrapper">
               <input
@@ -109,14 +110,18 @@ const HomeRoute = () => {
             {data?.length ? (
               data.map((item, i) => (
                 <React.Fragment key={i}>
-                  <Card
-                    title={item.item.name}
-                    desc={item.item.description || "Help"}
-                    price={item.item.price}
-                    onSale={item.item.onSale}
-                    total_ratings={item.item.total_rating_count}
-                    avg_rating={item.item.avg_rating}
-                  />
+                  <Link href={`/home/item/${item.item.itemID}`}>
+                    <a className="h-full transition duration-200 transform cursor-pointer hover:scale-105">
+                      <Card
+                        title={item.item.name}
+                        desc={item.item.description || "Help"}
+                        price={item.item.price}
+                        onSale={item.item.onSale}
+                        total_ratings={item.item.total_rating_count}
+                        avg_rating={item.item.avg_rating}
+                      />
+                    </a>
+                  </Link>
                 </React.Fragment>
               ))
             ) : isLoading ? (
