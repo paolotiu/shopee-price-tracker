@@ -12,7 +12,6 @@ import Modal from "react-modal";
 import { addPriceTarget, getOneUserItem } from "../../../utils/api";
 import { ItemDetail } from "../../../components/ItemDetail/ItemDetail";
 import { apiHandler } from "../../../utils/apiHandler";
-import { number } from "yup/lib/locale";
 import toast from "react-hot-toast";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
