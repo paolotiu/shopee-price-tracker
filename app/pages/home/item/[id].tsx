@@ -9,8 +9,11 @@ import { MainContent } from "../../../components/MainContent/MainContent";
 import ClampLines from "react-clamp-lines";
 import Modal from "react-modal";
 
-import { getOneUserItem } from "../../../utils/api";
+import { addPriceTarget, getOneUserItem } from "../../../utils/api";
 import { ItemDetail } from "../../../components/ItemDetail/ItemDetail";
+import { apiHandler } from "../../../utils/apiHandler";
+import { number } from "yup/lib/locale";
+import toast from "react-hot-toast";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params!;
@@ -51,6 +54,17 @@ export const Item = ({ id }: Props) => {
   function closeModal() {
     setIsModalOpen(false);
   }
+  const addTarget = async (target: number) => {
+    if (item) {
+      const { error } = await apiHandler(addPriceTarget(item._id, target));
+      if (error) {
+        toast.error("There was an error in setting the price target");
+        setTarget(0);
+      } else {
+        toast.success("Price target updated");
+      }
+    }
+  };
 
   useEffect(() => {
     // device detection
@@ -64,6 +78,7 @@ export const Item = ({ id }: Props) => {
     ) {
       isMobileRef.current = true;
     }
+    setTarget(data?.target || 0);
   }, []);
   useEffect(() => {
     const btn = document.querySelector(".clamp-lines__button");
@@ -71,7 +86,6 @@ export const Item = ({ id }: Props) => {
       btn.classList.add("text-gray-400", "dark:text-gray-300");
     }
   }, [isLoading]);
-  console.log(isMobileRef.current);
   return (
     <Layout title={item?.name} showLogo={false} showLogin={false}>
       <MainContent showBottomBlob={isMobileRef.current}>
@@ -145,7 +159,12 @@ export const Item = ({ id }: Props) => {
                     : "text-gray-400 transition duration-1000 relative max-w-min whitespace-nowrap"
                 }
               >
-                Price Target: {target ? target : ""}
+                Price Target:{" "}
+                {target ? (
+                  <span className="text-green-300"> P{target} </span>
+                ) : (
+                  ""
+                )}
                 <span
                   onMouseOver={() =>
                     isMobileRef.current ? "" : setIsTooltipHover(true)
@@ -193,8 +212,12 @@ export const Item = ({ id }: Props) => {
             action="#"
             onSubmit={(e) => {
               e.preventDefault();
-              setTarget(parseInt(inputRef.current?.value || "0"));
-              setIsModalOpen(false);
+              if (inputRef.current) {
+                const target = parseInt(inputRef.current.value);
+                setTarget(target);
+                addTarget(target);
+              }
+              closeModal();
             }}
             className="flex items-center"
           >

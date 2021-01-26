@@ -8,6 +8,7 @@ interface IUser {
 
 type Item = {
   item: {
+    _id: string;
     name: string;
     itemID: string;
     shopID: string;
@@ -118,5 +119,14 @@ export const postItem = async (url: string) => {
 export const resendConfirmationEmail = async (email: string) => {
   const res = await axios.post(BASE_URL + "/auth/resendEmail", { email });
 
+  return res.data;
+};
+
+export const addPriceTarget = async (itemid: string, target: number) => {
+  const res = await axios.post(
+    BASE_URL + "/item/target",
+    { itemid, target },
+    { withCredentials: true }
+  );
   return res.data;
 };
