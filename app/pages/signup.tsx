@@ -172,6 +172,7 @@ const SignUp = () => {
                     </div>
                     <div className="flex w-full mt-6 ">
                       <button
+                        name="Submit"
                         disabled={isSubmitting || !validations.all}
                         type="submit"
                         className="w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in rounded-lg shadow-md disabled:bg-gray-300 bg-primary hover:bg-primary-dark focus:ring-primary focus:ring-offset-white focus:outline-none focus:ring-2 focus:ring-offset-2 "

@@ -39,7 +39,10 @@ const IndexPage = () => {
             </h1>
             <Link href="/signup">
               <a>
-                <Button className="transition duration-1000 ease-in-out btn-primary dark:hover:bg-primary hover:bg-primary-dark hover:duration-300 ">
+                <Button
+                  className="transition duration-1000 ease-in-out btn-primary dark:hover:bg-primary hover:bg-primary-dark hover:duration-300 "
+                  name="sign-up"
+                >
                   Start Tracking
                 </Button>
               </a>

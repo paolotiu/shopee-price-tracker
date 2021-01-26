@@ -47,6 +47,7 @@ const Login = () => {
           </div>
           <div className="grid grid-cols-2 gap-4 item-center">
             <button
+              name="Login with Facebook"
               type="button"
               className="flex items-center justify-center w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 "
             >
@@ -64,6 +65,7 @@ const Login = () => {
             </button>
             <a href="https://perfect-dingo-90.loca.lt/auth/google">
               <button
+                name="Login with Google"
                 type="button"
                 className="flex items-center justify-center w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in bg-red-600 rounded-lg shadow-md hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 "
               >
@@ -168,6 +170,7 @@ const Login = () => {
                     </div>
                   </div>
                   <button
+                    name="submit"
                     type="submit"
                     disabled={isSubmitting}
                     className="w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in rounded-lg shadow-md bg-primary hover:bg-primary-dark focus:ring-accent focus:ring-offset-white focus:outline-none focus:ring-2 focus:ring-offset-2 "
