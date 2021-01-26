@@ -74,9 +74,9 @@ export const Item = ({ id }: Props) => {
   console.log(isMobileRef.current);
   return (
     <Layout title={item?.name} showLogo={false} showLogin={false}>
-      <MainContent>
-        <div className="flex justify-center px-3 pb-10">
-          <div className="flex flex-col justify-between w-full max-w-screen-md ">
+      <MainContent showBottomBlob={isMobileRef.current}>
+        <div className="flex justify-center px-3 ">
+          <div className="flex flex-col justify-between w-full max-w-screen-md pb-10">
             <div>
               <h1 className="text-2xl font-bold">{item?.name}</h1>
               {item?.description && (
@@ -168,11 +168,18 @@ export const Item = ({ id }: Props) => {
               </p>
             </div>
             <div className="flex justify-between w-full">
-              <Button accent filled onClick={() => setIsModalOpen(true)}>
+              <Button
+                accent
+                filled
+                onClick={() => setIsModalOpen(true)}
+                aria-label="add price target"
+              >
                 Add A Target
               </Button>
               <a href={item?.urls[0]} target="_blank">
-                <Button accent>Visit Shop</Button>
+                <Button aria-label="Visit shop" accent>
+                  Visit Shop
+                </Button>
               </a>
             </div>
           </div>
