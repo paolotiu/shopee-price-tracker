@@ -19,4 +19,7 @@ module.exports = {
 
     return config;
   },
+  env: {
+    NEXT_PUBLIC_SERVER_URL: "https://price-tracker-pt.herokuapp.com",
+  },
 };
