@@ -57,7 +57,8 @@ export const signUp = async (email: string, password: string) => {
     email,
     password,
     callbackUrl:
-      process.env.CLIENT_URL || "http://localhost:3000/confirmation/",
+      process.env.NEXT_PUBLIC_CLIENT_URL ||
+      "http://localhost:3000/confirmation/",
   });
 
   return res.data;

@@ -21,5 +21,6 @@ module.exports = {
   },
   env: {
     NEXT_PUBLIC_SERVER_URL: "https://price-tracker-pt.herokuapp.com",
+    NEXT_PUBLIC_CLIENT_URL: "https://spt-bypt.vercel.app",
   },
 };
