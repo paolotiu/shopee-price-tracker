@@ -1,6 +1,8 @@
 import axios from "axios";
 const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3001";
-
+const CALLBACK_URL =
+  process.env.NEXT_PUBLIC_CLIENT_URL + "/confirmation/" ||
+  "http://localhost:3000/confirmation/";
 interface IUser {
   email: string;
   items: string[];
@@ -56,9 +58,7 @@ export const signUp = async (email: string, password: string) => {
   const res = await axios.post(BASE_URL + "/auth/sign-up", {
     email,
     password,
-    callbackUrl:
-      process.env.NEXT_PUBLIC_CLIENT_URL ||
-      "http://localhost:3000/confirmation/",
+    callbackUrl: CALLBACK_URL,
   });
 
   return res.data;
@@ -118,7 +118,10 @@ export const postItem = async (url: string) => {
 };
 
 export const resendConfirmationEmail = async (email: string) => {
-  const res = await axios.post(BASE_URL + "/auth/resendEmail", { email });
+  const res = await axios.post(BASE_URL + "/auth/resendEmail", {
+    email,
+    callbackUrl: CALLBACK_URL,
+  });
 
   return res.data;
 };

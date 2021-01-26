@@ -86,7 +86,7 @@ export const loginUser: RequestHandler[] = [
 
 // Resend confirmation email to user email
 export const resendConfirmationEmail: RequestHandler = async (req, res, next) => {
-  const { email } = req.body;
+  const { email, callbackUrl } = req.body;
 
   User.findOne({ email: email }).exec((err, user) => {
     if (err) return next(err);
@@ -102,7 +102,7 @@ export const resendConfirmationEmail: RequestHandler = async (req, res, next) =>
       { expiresIn: '1D' },
       (err, token) => {
         if (err) return next(err);
-        sendConfirmationEmail(email, 'http://localhost:3001/confirmation/' + token);
+        sendConfirmationEmail(email, callbackUrl + token);
         //Save user
         user.save((err) => {
           if (err) return next(err);
