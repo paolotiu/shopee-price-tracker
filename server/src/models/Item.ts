@@ -23,7 +23,7 @@ export interface IItem extends Document {
   free_shipping: boolean;
   sold: number;
   historical_sold: number;
-  discount: string;
+  discount: number;
 }
 
 const ItemSchema: Schema = new Schema({
@@ -53,7 +53,7 @@ const ItemSchema: Schema = new Schema({
   free_shipping: requireType(Boolean),
   sold: requireType(Number),
   historical_sold: requireType(Number),
-  discount: requireType(Boolean),
+  discount: requireType(Number),
 });
 
 export default model<IItem>('Item', ItemSchema);
