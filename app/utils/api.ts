@@ -9,19 +9,28 @@ interface IUser {
 type Item = {
   item: {
     name: string;
+    itemID: string;
+    shopID: string;
     price: number;
-    all_prices: [
-      {
-        time: string;
-        price: number;
-      }
-    ];
-    onSale: boolean;
-    itemdid: string;
-    avg_rating: number;
-    total_rating_count: number;
+    api_url: string;
     description: string;
+    all_prices: [{ price: number; time: Date }];
+    onSale: boolean;
+    avg_rating: number;
+    lowest_price: number;
+    total_rating_count: number;
+    urls: string[];
+    likes: number;
+    views: number;
+    normal_stock: number;
+    discount_stock: number;
+    stock: number;
+    free_shipping: boolean;
+    sold: number;
+    historical_sold: number;
+    discount: string;
   };
+  target: number;
 };
 
 export type Items = Item[];
@@ -68,13 +77,17 @@ export const logOut = async () => {
 };
 
 export const getUserItems = async (cookie?: string): Promise<Items> => {
-  let options: { withCredentials: boolean; headers?: { cookie?: string } } = {
+  const res = await axios.get(BASE_URL + "/user/items", {
     withCredentials: true,
-  };
-  if (cookie) {
-    options.headers = { cookie };
-  }
-  const res = await axios.get(BASE_URL + "/user/items", options);
+  });
+  return res.data;
+};
+
+export const getOneUserItem = async (id: string): Promise<Item> => {
+  const res = await axios.get(BASE_URL + "/user/item/" + id, {
+    withCredentials: true,
+  });
+
   return res.data;
 };
 
