@@ -8,6 +8,7 @@ interface Props extends NavProps {
   className?: string;
   showNavbar?: boolean;
   navbarIsTransparent?: boolean;
+  marginTop?: boolean;
 }
 
 const Layout = ({
@@ -17,16 +18,14 @@ const Layout = ({
   navbarIsTransparent,
   showLogin,
   showLogo,
+  marginTop = true,
   ...props
 }: Props) => (
   <div {...props}>
     <Head>
       <title> {title}</title>
     </Head>
-    <div
-      className="grid h-screen grid-flow-row"
-      style={{ gridTemplateRows: "min-content 1fr" }}
-    >
+    <div className="grid h-screen grid-flow-row ">
       {showNavbar && (
         <Navbar
           isTransparent={navbarIsTransparent}
@@ -34,7 +33,7 @@ const Layout = ({
           showLogo={showLogo}
         />
       )}
-      <div className="h-full">{children}</div>
+      <div>{children}</div>
     </div>
   </div>
 );
