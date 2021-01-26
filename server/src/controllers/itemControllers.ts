@@ -76,6 +76,8 @@ export const postItemLink: RequestHandler[] = [
           free_shipping: data.show_free_shipping,
           sold: data.sold,
           historical_sold: data.historical_sold,
+
+          discount_stock: data.discount_stock,
           discount: data.raw_discount,
         } as IItem);
 
