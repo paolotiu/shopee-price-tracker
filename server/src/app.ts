@@ -37,6 +37,10 @@ app.enable('trust proxy'); // For heroku to work
 app.use(cookieParser());
 app.use(cors({ origin: true, credentials: true }));
 
+const cookieSettings: session.CookieOptions =
+  process.env.NODE_ENV === 'development'
+    ? { maxAge: 1000 * 60 * 60 * 24 * 7 }
+    : { maxAge: 1000 * 60 * 60 * 24 * 7, secure: true, sameSite: 'none' };
 app.use(
   session({
     resave: false,
@@ -50,7 +54,7 @@ app.use(
     // TEMP
 
     // ADD sameSite: 'none' and secure: true in production
-    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+    cookie: cookieSettings,
   })
 );
 
@@ -59,6 +63,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Setup passport
 import configPassport from './config/passport';
+import { Session } from 'inspector';
 configPassport(passport);
 
 app.use(passport.initialize());
