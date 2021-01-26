@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3001";
 
 interface IUser {
   email: string;
