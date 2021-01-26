@@ -64,10 +64,19 @@ export const postItemLink: RequestHandler[] = [
           api_url: `https://shopee.ph/api/v2/item/get?itemid=${data.itemid}&shopid=${data.shopid}`,
           description: data.description,
           onSale: !!data.price_before_discount,
+          lowest_price: price_max,
           all_prices: [{ price: price_max, time: new Date() }],
           avg_rating: data.item_rating.rating_star,
           total_rating_count: data.item_rating.rating_count.reduce((acc, curr) => acc + curr, 0),
           urls: [link],
+          likes: data.liked_count,
+          views: data.view_count,
+          normal_stock: data.normal_stock,
+          stock: data.stock,
+          free_shipping: data.show_free_shipping,
+          sold: data.sold,
+          historical_sold: data.historical_sold,
+          discount: data.raw_discount,
         } as IItem);
 
         item.save(async (err, doc) => {

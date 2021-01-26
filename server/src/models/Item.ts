@@ -12,8 +12,18 @@ export interface IItem extends Document {
   all_prices: [{ price: number; time: Date }];
   onSale: boolean;
   avg_rating: number;
+  lowest_price: number;
   total_rating_count: number;
   urls: string[];
+  likes: number;
+  views: number;
+  normal_stock: number;
+  discount_stock: number;
+  stock: number;
+  free_shipping: boolean;
+  sold: number;
+  historical_sold: number;
+  discount: string;
 }
 
 const ItemSchema: Schema = new Schema({
@@ -25,6 +35,7 @@ const ItemSchema: Schema = new Schema({
   description: requireType(String),
   onSale: requireType(Boolean),
   avg_rating: requireType(Number),
+  lowest_price: requireType(Number),
   total_rating_count: requireType(Number),
   all_prices: [
     {
@@ -34,6 +45,15 @@ const ItemSchema: Schema = new Schema({
     },
   ],
   urls: [{ type: String }],
+  likes: requireType(Number),
+  views: requireType(Number),
+  normal_stock: requireType(Number),
+  discount_stock: requireType(Number),
+  stock: requireType(Number),
+  free_shipping: requireType(Boolean),
+  sold: requireType(Number),
+  historical_sold: requireType(Number),
+  discount: requireType(Boolean),
 });
 
 export default model<IItem>('Item', ItemSchema);
