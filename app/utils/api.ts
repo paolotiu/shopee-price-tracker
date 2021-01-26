@@ -76,7 +76,7 @@ export const logOut = async () => {
   return res.data;
 };
 
-export const getUserItems = async (cookie?: string): Promise<Items> => {
+export const getUserItems = async (): Promise<Items> => {
   const res = await axios.get(BASE_URL + "/user/items", {
     withCredentials: true,
   });

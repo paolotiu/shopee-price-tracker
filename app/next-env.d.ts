@@ -13,7 +13,21 @@ interface Window {
   __onThemeChange: any;
 }
 
+declare module "react-multiline-clamp" {
+  import React from "react";
+  interface Props {
+    lines?: number;
+    children?: React.ReactNode;
+    maxLines?: number;
+    withTooltip?: boolean;
+    withToggle?: boolean;
 
+    texts?: {
+      showMore: string;
+      showLess: string;
+    };
+    onShowMore?: () => void;
+  }
   let defaultValues: Props = {
     lines: 2,
     maxLines: 8,

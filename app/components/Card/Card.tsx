@@ -1,8 +1,7 @@
 import React from "react";
-import Clamp from "react-multiline-clamp";
 import { Detail } from "./Detail";
 import ClampLines from "react-clamp-lines";
-
+import Clamp from "react-multiline-clamp";
 interface Props {
   title: string;
   desc: string;
@@ -35,14 +34,16 @@ export const Card = ({
           className="pb-1 font-bold text-black-lighter"
         />
         <hr />
-        {/* <ClampLines
-          text={desc}
-          id="desc"
-          lines={6}
-          buttons={false}
-          innerElement="p"
-          className="pt-2 text-sm text-gray-400 pb-7"
-        /> */}
+        {/* {desc && (
+          <ClampLines
+            text={desc}
+            id="desc"
+            lines={3}
+            buttons={false}
+            innerElement="p"
+            className="pt-2 text-sm text-gray-400 pb-7 "
+          />
+        )} */}
         <p className="pt-2 overflow-hidden text-sm text-gray-400 pb-7">
           <Clamp lines={3}>{desc}</Clamp>
         </p>

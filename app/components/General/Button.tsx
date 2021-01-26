@@ -6,6 +6,7 @@ interface Props {
   accent?: boolean;
   filled?: boolean;
   onClick?: () => void;
+  name: string;
 }
 
 export const Button: React.FC<Props> = ({
@@ -30,7 +31,7 @@ export const Button: React.FC<Props> = ({
     );
   }
   return (
-    <button className={"btn-primary " + className} {...props}>
+    <button type="button" className={"btn-primary " + className} {...props}>
       {children}
     </button>
   );
