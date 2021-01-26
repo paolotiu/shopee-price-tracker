@@ -48,7 +48,7 @@ const ItemSchema: Schema = new Schema({
   likes: requireType(Number),
   views: requireType(Number),
   normal_stock: requireType(Number),
-  discount_stock: requireType(Number),
+  discount_stock: Number,
   stock: requireType(Number),
   free_shipping: requireType(Boolean),
   sold: requireType(Number),
