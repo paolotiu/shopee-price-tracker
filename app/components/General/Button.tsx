@@ -6,7 +6,6 @@ interface Props {
   accent?: boolean;
   filled?: boolean;
   onClick?: () => void;
-  name: string;
 }
 
 export const Button: React.FC<Props> = ({

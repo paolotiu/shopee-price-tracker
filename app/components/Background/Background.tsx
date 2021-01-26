@@ -1,10 +1,13 @@
 import React from "react";
 import Blob from "../Blob/Blob";
-
-export const Background = () => {
+interface Props {
+  showBottomBlob?: boolean;
+}
+export const Background = ({ showBottomBlob = true }: Props) => {
+  const blobs = showBottomBlob ? [5, 6, 7] : [5, 6];
   return (
     <>
-      {[5, 6, 7].map((x, i) => (
+      {blobs.map((x, i) => (
         <React.Fragment key={i}>
           {" "}
           <Blob num={x} />{" "}

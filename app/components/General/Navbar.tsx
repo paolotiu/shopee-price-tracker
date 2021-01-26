@@ -35,6 +35,7 @@ export const Navbar = ({
           </Link>
         ) : (
           <button
+            aria-label="open sidebar"
             onClick={() => {
               setIsSidebarOpen(!isSidebarOpen);
             }}

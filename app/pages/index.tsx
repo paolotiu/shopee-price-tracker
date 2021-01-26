@@ -41,7 +41,7 @@ const IndexPage = () => {
               <a>
                 <Button
                   className="transition duration-1000 ease-in-out btn-primary dark:hover:bg-primary hover:bg-primary-dark hover:duration-300 "
-                  name="sign-up"
+                  aria-label="sign up page"
                 >
                   Start Tracking
                 </Button>

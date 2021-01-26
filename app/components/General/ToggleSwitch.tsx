@@ -18,6 +18,7 @@ export const ToggleSwitch = () => {
     <>
       <div className="relative flex items-center">
         <button
+          aria-label="toggle light-mode"
           onClick={() => {
             dispatch(setTheme("light"));
           }}
@@ -41,6 +42,7 @@ export const ToggleSwitch = () => {
           <div className="w-full h-5 transition duration-500 bg-gray-300 rounded-full dark:bg-black"></div>
         </div>
         <button
+          aria-label="toggle dark-mode"
           onClick={() => {
             dispatch(setTheme("dark"));
           }}

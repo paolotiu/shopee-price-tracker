@@ -8,10 +8,10 @@ interface Props {
 }
 export const Sidebar = ({ isOpen, closeSidebar }: Props) => {
   const router = useRouter();
-  const isHome = router.route.includes("/home");
+  const isHome = router.route === "/home";
   return (
     <div
-      className={`fixed  top-0 left-0 flex flex-col  w-screen h-screen  text-xl text-white  md:flex-col bg-black-lighter bg-opacity-60 transition duration-500 ${
+      className={`fixed  top-0 left-0 flex flex-col  w-screen h-screen  text-xl text-white overflow-hidden  md:flex-col bg-black-lighter bg-opacity-60 transition duration-500 ${
         isOpen ? "opacity-100 " : "opacity-0 max-w-0  delay-1000"
       }`}
       onClick={(e) => {
@@ -20,7 +20,7 @@ export const Sidebar = ({ isOpen, closeSidebar }: Props) => {
       }}
     >
       <div
-        className={`w-8/12 h-full  max-w-sm  bg-white dark:bg-black rounded-r-lg transition duration-700 delay-100 ${
+        className={`w-8/12 h-full relative  max-w-sm  bg-white dark:bg-black rounded-r-lg transition duration-700 delay-100 ${
           isOpen ? "transform -translate-x-0" : "transform -translate-x-full"
         }`}
       >
@@ -40,7 +40,8 @@ export const Sidebar = ({ isOpen, closeSidebar }: Props) => {
         </div>
         <Link href="/">
           <button
-            className="absolute pl-8 text-red-400 bottom-6 max-w-min"
+            aria-label="logout"
+            className="absolute ml-8 text-red-400 bottom-6 max-w-min"
             onClick={async () => {
               logOut();
             }}
