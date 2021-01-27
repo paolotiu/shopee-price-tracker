@@ -9,13 +9,31 @@ import { MainContent } from "../../../components/MainContent/MainContent";
 import ClampLines from "react-clamp-lines";
 import Modal from "react-modal";
 
-import { addPriceTarget, getOneUserItem } from "../../../utils/api";
+import { addPriceTarget, getOneUserItem, Item } from "../../../utils/api";
 import { ItemDetail } from "../../../components/ItemDetail/ItemDetail";
 import { apiHandler } from "../../../utils/apiHandler";
 import toast from "react-hot-toast";
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  params,
+  req,
+}) => {
   const { id } = params!;
+
+  if (typeof id === "string") {
+    const { error, data } = await apiHandler(
+      getOneUserItem(id, req.headers.cookie)
+    );
+    if (data) {
+      return {
+        props: {
+          id,
+          data,
+        },
+      };
+    }
+  }
+
   return {
     props: {
       id,
@@ -39,11 +57,11 @@ const customStyles: ReactModal.Styles = {
 
 interface Props {
   id: string;
+  data: Item;
 }
 Modal.setAppElement("#__next");
-export const Item = ({ id }: Props) => {
-  const { data, isLoading } = useQuery(["item", id], () => getOneUserItem(id));
-  const item = data?.item;
+export const ItemInfo = ({ id, data }: Props) => {
+  const item = data.item;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTooltipHover, setIsTooltipHover] = useState(false);
   const [target, setTarget] = useState(data?.target || 0);
@@ -84,7 +102,7 @@ export const Item = ({ id }: Props) => {
     if (btn) {
       btn.classList.add("text-gray-400", "dark:text-gray-300");
     }
-  }, [isLoading]);
+  }, []);
   return (
     <Layout title={item?.name} showLogo={false} showLogin={false}>
       <MainContent showBottomBlob={isMobileRef.current}>
@@ -248,4 +266,4 @@ export const Item = ({ id }: Props) => {
   );
 };
 
-export default Item;
+export default ItemInfo;
