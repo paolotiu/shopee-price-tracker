@@ -10,40 +10,40 @@ import MagGlass from "../../public/magnifying_glass.svg";
 import EmptyState from "../../public/empty_state.svg";
 
 import { toast } from "react-hot-toast";
-import { ProtectedRoute } from "../../components/ProtectedRoute/ProtectedRoute";
 import Link from "next/link";
+import { GetServerSideProps } from "next";
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const { error, data } = await apiHandler(
-//     getUserItems(context.req.headers.cookie)
-//   );
-//   let items: null | Items = null;
-//   if (error) {
-//     // Redirect if no user
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   } else {
-//     items = data || null;
-//   }
-
-//   return {
-//     props: {
-//       items,
-//     },
-//   };
-// };
-// interface Props {
-//   items: Items | null;
-// }
-
-const HomeRoute = () => {
-  const { data, refetch, isLoading } = useQuery<Items>("items", () =>
-    getUserItems()
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { error, data } = await apiHandler(
+    getUserItems(context.req.headers.cookie)
   );
+  let items: null | Items = null;
+  if (error) {
+    // Redirect if no user
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  } else {
+    items = data || null;
+  }
+
+  return {
+    props: {
+      items,
+    },
+  };
+};
+interface Props {
+  items: Items | null;
+}
+
+const Home = ({ items }: Props) => {
+  const { data, refetch, isLoading } = useQuery("items", () => getUserItems(), {
+    initialData: items,
+  });
   const [url, setUrl] = useState("");
 
   const pasteToInput = () => {
@@ -111,16 +111,18 @@ const HomeRoute = () => {
               data.map((item, i) => (
                 <React.Fragment key={i}>
                   <Link href={`/home/item/${item.item.itemID}`}>
-                    <a className="w-full h-full transition duration-200 transform cursor-pointer hover:scale-105">
-                      <Card
-                        title={item.item.name}
-                        desc={item.item.description || "Help"}
-                        price={item.item.price}
-                        onSale={item.item.onSale}
-                        total_ratings={item.item.total_rating_count}
-                        avg_rating={item.item.avg_rating}
-                      />
-                    </a>
+                    <div className="">
+                      <a className="w-full h-full transition duration-200 transform cursor-pointer hover:scale-105 ">
+                        <Card
+                          title={item.item.name}
+                          desc={item.item.description || "Help"}
+                          price={item.item.price}
+                          onSale={item.item.onSale}
+                          total_ratings={item.item.total_rating_count}
+                          avg_rating={item.item.avg_rating}
+                        />
+                      </a>
+                    </div>
                   </Link>
                 </React.Fragment>
               ))
@@ -135,7 +137,5 @@ const HomeRoute = () => {
     </Layout>
   );
 };
-
-const Home = () => <ProtectedRoute children={<HomeRoute />} />;
 
 export default Home;
