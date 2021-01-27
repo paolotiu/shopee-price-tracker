@@ -62,7 +62,7 @@ export const ItemInfo = ({ data }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTooltipHover, setIsTooltipHover] = useState(false);
   const [target, setTarget] = useState(data?.target || 0);
-  const isMobileRef = useRef(false);
+  const [isMobile, setIsMobile] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   function closeModal() {
@@ -90,7 +90,7 @@ export const ItemInfo = ({ data }: Props) => {
         navigator.userAgent.substr(0, 4)
       )
     ) {
-      isMobileRef.current = true;
+      setIsMobile(true);
     }
     setTarget(data?.target || 0);
   }, []);
@@ -102,7 +102,7 @@ export const ItemInfo = ({ data }: Props) => {
   }, []);
   return (
     <Layout title={item?.name} showLogo={false} showLogin={false}>
-      <MainContent showBottomBlob={isMobileRef.current}>
+      <MainContent showBackground={!isMobile}>
         <div className="flex justify-center px-3 ">
           <div className="flex flex-col justify-between w-full max-w-screen-md pb-10">
             <div>
@@ -180,9 +180,7 @@ export const ItemInfo = ({ data }: Props) => {
                   ""
                 )}
                 <span
-                  onMouseOver={() =>
-                    isMobileRef.current ? "" : setIsTooltipHover(true)
-                  }
+                  onMouseOver={() => (isMobile ? "" : setIsTooltipHover(true))}
                   onMouseLeave={() => setIsTooltipHover(false)}
                   onClick={() => setIsTooltipHover(!isTooltipHover)}
                 >
