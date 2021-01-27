@@ -45,25 +45,28 @@ const Login = () => {
           <div className="self-center mb-6 text-xl font-light text-gray-600 transition duration-1000 sm:text-2xl dark:text-white">
             Login To Your Account
           </div>
+
           <div className="grid grid-cols-2 gap-4 item-center">
-            <button
-              name="Login with Facebook"
-              type="button"
-              className="flex items-center justify-center w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 "
-            >
-              <svg
-                width="20"
-                height="20"
-                fill="currentColor"
-                className="mr-2"
-                viewBox="0 0 1792 1792"
-                xmlns="http://www.w3.org/2000/svg"
+            <a href={process.env.NEXT_PUBLIC_SERVER_URL + "/auth/facebook"}>
+              <button
+                name="Login with Facebook"
+                type="button"
+                className="flex items-center justify-center w-full px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 "
               >
-                <path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"></path>
-              </svg>
-              Facebook
-            </button>
-            <a href="https://perfect-dingo-90.loca.lt/auth/google">
+                <svg
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  className="mr-2"
+                  viewBox="0 0 1792 1792"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"></path>
+                </svg>
+                Facebook
+              </button>
+            </a>
+            <a href={process.env.NEXT_PUBLIC_SERVER_URL + "/auth/google"}>
               <button
                 name="Login with Google"
                 type="button"
