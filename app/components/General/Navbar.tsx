@@ -23,14 +23,14 @@ export const Navbar = ({
         className={
           isTransparent
             ? "flex items-center justify-between  p-5 fixed w-screen z-50"
-            : "flex items-center justify-between  p-5 bg-primary dark:bg-primary-dark fixed w-screen z-50"
+            : "flex items-center justify-between p-5 bg-primary dark:bg-primary-dark fixed w-screen z-50 max-h-16"
         }
         style={{ height: "min-content" }}
       >
         {showLogo ? (
           <Link href="/">
             <a>
-              <Logo className="w-10 " />
+              <Logo className="w-10 h-auto" />
             </a>
           </Link>
         ) : (
@@ -40,7 +40,7 @@ export const Navbar = ({
               setIsSidebarOpen(!isSidebarOpen);
             }}
           >
-            <Bars className="w-9" />
+            <Bars className="h-auto w-9" />
           </button>
         )}
         <div
