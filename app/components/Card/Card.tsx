@@ -28,7 +28,7 @@ export const Card = ({
         </ClampLines> */}
         <ClampLines
           text={title}
-          id="title-"
+          id="title"
           lines={3}
           innerElement="h1"
           className="pb-1 font-bold text-black-lighter"

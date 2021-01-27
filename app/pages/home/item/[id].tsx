@@ -2,7 +2,6 @@ import { GetServerSideProps } from "next";
 import Peso from "../../../public/peso.svg";
 import Question from "../../../public/question.svg";
 import React, { useEffect, useRef, useState } from "react";
-import { useQuery } from "react-query";
 import { Button } from "../../../components/General/Button";
 import Layout from "../../../components/Layout";
 import { MainContent } from "../../../components/MainContent/MainContent";
@@ -21,13 +20,10 @@ export const getServerSideProps: GetServerSideProps = async ({
   const { id } = params!;
 
   if (typeof id === "string") {
-    const { error, data } = await apiHandler(
-      getOneUserItem(id, req.headers.cookie)
-    );
+    const { data } = await apiHandler(getOneUserItem(id, req.headers.cookie));
     if (data) {
       return {
         props: {
-          id,
           data,
         },
       };
@@ -35,8 +31,9 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 
   return {
-    props: {
-      id,
+    redirect: {
+      permanent: false,
+      destination: "/login",
     },
   };
 };
@@ -60,7 +57,7 @@ interface Props {
   data: Item;
 }
 Modal.setAppElement("#__next");
-export const ItemInfo = ({ id, data }: Props) => {
+export const ItemInfo = ({ data }: Props) => {
   const item = data.item;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTooltipHover, setIsTooltipHover] = useState(false);
@@ -113,7 +110,7 @@ export const ItemInfo = ({ id, data }: Props) => {
               {item?.description && (
                 <ClampLines
                   text={item?.description}
-                  id="description"
+                  id={"description-" + item.itemID}
                   lines={3}
                   innerElement="p"
                   className="py-4 mt-3 text-sm leading-7 whitespace-pre-wrap"
