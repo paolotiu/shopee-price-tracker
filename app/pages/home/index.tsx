@@ -111,8 +111,8 @@ const Home = ({ items }: Props) => {
               data.map((item, i) => (
                 <React.Fragment key={i}>
                   <Link href={`/home/item/${item.item.itemID}`}>
-                    <div className="">
-                      <a className="w-full h-full transition duration-200 transform cursor-pointer hover:scale-105 ">
+                    <div className="transition duration-200 transform cursor-pointer hover:scale-105">
+                      <a className="w-full h-full ">
                         <Card
                           title={item.item.name}
                           desc={item.item.description || "Help"}
