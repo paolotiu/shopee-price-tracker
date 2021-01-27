@@ -8,7 +8,7 @@ interface IUser {
   items: string[];
 }
 
-type Item = {
+export type Item = {
   item: {
     _id: string;
     name: string;
@@ -85,10 +85,20 @@ export const getUserItems = async (cookie?: string): Promise<Items> => {
   }
 };
 
-export const getOneUserItem = async (id: string): Promise<Item> => {
-  const res = await axiosDefault.get("/user/item/" + id);
+export const getOneUserItem = async (
+  id: string,
+  cookie?: string
+): Promise<Item> => {
+  if (cookie) {
+    const res = await axiosDefault.get("/user/item/" + id, {
+      headers: { cookie },
+    });
 
-  return res.data;
+    return res.data;
+  } else {
+    const res = await axiosDefault.get("/user/item" + id);
+    return res.data;
+  }
 };
 
 export const getUser = async (cookie?: string): Promise<IUser> => {
