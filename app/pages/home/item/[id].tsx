@@ -85,7 +85,12 @@ export const ItemInfo = ({ data }: Props) => {
   useEffect(() => {
     const btn = document.querySelector(".clamp-lines__button");
     if (btn) {
-      btn.classList.add("text-gray-400", "dark:text-gray-300");
+      btn.classList.add(
+        "text-gray-400",
+        "dark:text-gray-300",
+        "transition",
+        "duration-1000"
+      );
     }
     setTarget(data?.target || 0);
   }, []);
