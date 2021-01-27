@@ -7,13 +7,14 @@ import Layout from "../../../components/Layout";
 import { MainContent } from "../../../components/MainContent/MainContent";
 import ClampLines from "react-clamp-lines";
 import Modal from "react-modal";
-
+import tw, { css, styled, theme } from "twin.macro";
 import { addPriceTarget, getOneUserItem, Item } from "../../../utils/api";
 import { ItemDetail } from "../../../components/ItemDetail/ItemDetail";
 import { apiHandler } from "../../../utils/apiHandler";
 import toast from "react-hot-toast";
 import { useIsMobile } from "../../../utils/useIsMobile";
 import { Tooltip } from "../../../components/General/Tooltip";
+import Dots from "../../../public/dots.svg";
 
 export const getServerSideProps: GetServerSideProps = async ({
   params,
@@ -62,7 +63,6 @@ Modal.setAppElement("#__next");
 export const ItemInfo = ({ data }: Props) => {
   const item = data.item;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isTooltipHover, setIsTooltipHover] = useState(false);
   const [target, setTarget] = useState(data?.target || 0);
   const isMobile = useIsMobile();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -100,7 +100,39 @@ export const ItemInfo = ({ data }: Props) => {
         <div className="flex justify-center px-3 ">
           <div className="flex flex-col justify-between w-full max-w-screen-md pb-10">
             <div>
-              <h1 className="text-2xl font-bold">{item?.name}</h1>
+              <div className="flex justify-between">
+                <h1 className="text-2xl font-bold">{item?.name}</h1>
+                <div className="relative" style={{ height: "min-content" }}>
+                  <button aria-label="options" className="">
+                    <Dots className="w-8 h-auto fill-current text-accent dark:text-accent-dark" />
+                  </button>
+
+                  <ul
+                    css={[
+                      tw`absolute bottom-0 px-0 text-sm text-black transform -translate-x-full translate-y-full bg-white rounded left-1`,
+                    ]}
+                  >
+                    <li
+                      className="px-3 py-2 list-none border rounded-sm "
+                      style={{ borderBottomWidth: "0" }}
+                    >
+                      Share
+                    </li>
+                    <li
+                      className="px-3 py-2 list-none border rounded-sm"
+                      style={{ borderBottomWidth: "0" }}
+                    >
+                      Favorite
+                    </li>
+                    <li
+                      className="px-3 py-2 list-none border rounded-sm"
+                      style={{ borderBottomWidth: "0" }}
+                    >
+                      Delete
+                    </li>
+                  </ul>
+                </div>
+              </div>
               {item?.description && (
                 <ClampLines
                   text={item?.description}
