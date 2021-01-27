@@ -7,7 +7,7 @@ import Layout from "../../../components/Layout";
 import { MainContent } from "../../../components/MainContent/MainContent";
 import ClampLines from "react-clamp-lines";
 import Modal from "react-modal";
-import tw, { css, styled, theme } from "twin.macro";
+import tw from "twin.macro";
 import { addPriceTarget, getOneUserItem, Item } from "../../../utils/api";
 import { ItemDetail } from "../../../components/ItemDetail/ItemDetail";
 import { apiHandler } from "../../../utils/apiHandler";
