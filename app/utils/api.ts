@@ -1,8 +1,8 @@
 import axios from "axios";
-const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3001";
+import axiosDefault from "./axiosConfig";
 const CALLBACK_URL =
   process.env.NEXT_PUBLIC_CLIENT_URL + "/confirmation/" ||
-  "http://localhost:3000/confirmation/";
+  "https://localhost:3000/confirmation/";
 interface IUser {
   email: string;
   items: string[];
@@ -42,20 +42,16 @@ export const login = async (
   email: string,
   password: string
 ): Promise<IUser> => {
-  const res = await axios.post(
-    BASE_URL + "/auth/login",
-    {
-      email,
-      password,
-    },
-    { withCredentials: true }
-  );
+  const res = await axiosDefault.post("/auth/login", {
+    email,
+    password,
+  });
 
   return res.data;
 };
 
 export const signUp = async (email: string, password: string) => {
-  const res = await axios.post(BASE_URL + "/auth/sign-up", {
+  const res = await axiosDefault.post("/auth/sign-up", {
     email,
     password,
     callbackUrl: CALLBACK_URL,
@@ -65,60 +61,59 @@ export const signUp = async (email: string, password: string) => {
 };
 
 export const confirmEmail = async (token: string) => {
-  const res = await axios.get(BASE_URL + "/auth/confirmation/" + token);
+  const res = await axiosDefault.get("/auth/confirmation/" + token);
 
   return res.data;
 };
 
 export const logOut = async () => {
-  const res = await axios.get(BASE_URL + "/auth/logout", {
-    withCredentials: true,
-  });
+  const res = await axiosDefault.get("/auth/logout");
 
   return res.data;
 };
 
-export const getUserItems = async (): Promise<Items> => {
-  const res = await axios.get(BASE_URL + "/user/items", {
-    withCredentials: true,
-  });
-  return res.data;
+export const getUserItems = async (cookie?: string): Promise<Items> => {
+  if (cookie) {
+    const res = await axiosDefault.get("/user/items", {
+      headers: { cookie },
+    });
+
+    return res.data;
+  } else {
+    const res = await axiosDefault.get("/user/items");
+    return res.data;
+  }
 };
 
 export const getOneUserItem = async (id: string): Promise<Item> => {
-  const res = await axios.get(BASE_URL + "/user/item/" + id, {
-    withCredentials: true,
-  });
+  const res = await axiosDefault.get("/user/item/" + id);
 
   return res.data;
 };
 
 export const getUser = async (cookie?: string): Promise<IUser> => {
-  let options: { withCredentials: boolean; headers?: { cookie?: string } } = {
-    withCredentials: true,
-  };
-
   if (cookie) {
-    options.headers = { cookie };
+    const res = await axiosDefault.get("/user", {
+      headers: { cookie },
+    });
+
+    return res.data;
+  } else {
+    const res = await axiosDefault.get("/user");
+    return res.data;
   }
-  const res = await axios.get(BASE_URL + "/user", options);
-  return res.data;
 };
 
 export const postItem = async (url: string) => {
-  const res = await axios.post(
-    BASE_URL + "/item",
-    {
-      link: url,
-    },
-    { withCredentials: true }
-  );
+  const res = await axiosDefault.post("/item", {
+    link: url,
+  });
 
   return res.data;
 };
 
 export const resendConfirmationEmail = async (email: string) => {
-  const res = await axios.post(BASE_URL + "/auth/resendEmail", {
+  const res = await axios.post("/auth/resendEmail", {
     email,
     callbackUrl: CALLBACK_URL,
   });
@@ -128,7 +123,7 @@ export const resendConfirmationEmail = async (email: string) => {
 
 export const addPriceTarget = async (itemid: string, target: number) => {
   const res = await axios.post(
-    BASE_URL + "/item/target",
+    "/item/target",
     { itemid, target },
     { withCredentials: true }
   );
