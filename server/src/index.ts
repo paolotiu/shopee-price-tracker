@@ -2,15 +2,26 @@
 
 // Import deps
 import app from './app';
+import fs from 'fs';
 const debug = require('debug')('server');
+import https from 'https';
 import http from 'http';
-
+const httpsOptions: https.ServerOptions = {
+  key: fs.readFileSync('./certs/server.key'),
+  cert: fs.readFileSync('./certs/server.crt'),
+  rejectUnauthorized: false,
+};
 // Set the port
 const port = process.env.PORT || '3001';
 app.set('port', port);
 
 // Create http server
-const server = http.createServer(app);
+let server: https.Server | http.Server;
+if (process.env.PROTOCOL === 'https') {
+  server = https.createServer(httpsOptions, app);
+} else {
+  server = http.createServer(app);
+}
 
 // Listen
 server.listen(port);
