@@ -5,6 +5,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
+    "dev:https": "nodemon server.js",
+    "start:https": "NODE_ENV=production node server.js",
     "analyze": "cross-env ANALYZE=true next build",
     "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
     "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build",
