@@ -3,8 +3,8 @@ import Head from "next/head";
 import { Navbar, NavProps } from "./General/Navbar";
 import { motion } from "framer-motion";
 import { PanHandler } from "framer-motion/types/gestures/PanSession";
-import { useDispatch } from "react-redux";
-import { directSidebar } from "../slices/uiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { directSidebar, sidebarPossibilitySelector } from "../slices/uiSlice";
 
 interface Props extends NavProps {
   children?: ReactNode;
@@ -26,11 +26,17 @@ const Layout = ({
   ...props
 }: Props) => {
   const dispatch = useDispatch();
+  const isSidebarPossible = useSelector(sidebarPossibilitySelector);
   const panHandler: PanHandler = (e, info) => {
+    // Prevent opening sidebar when it shoulnd't be there
+    if (!isSidebarPossible) {
+      return;
+    }
+    // Prevent opening sidebar when a pan is detected on the toggleswitch for the theme
     if (
       (e.target as Element).classList.contains("cancel-sb-pan") ||
       (e.target as Element).tagName === "svg" ||
-      (e.target as Element).tagName === "nav" ||
+      (e.target as Element).tagName === "NAV" ||
       (e.target as Element).tagName === "path"
     ) {
       return;
@@ -43,13 +49,7 @@ const Layout = ({
     }
   };
   return (
-    <motion.div
-      {...props}
-      onPan={panHandler}
-      onClick={() => {
-        console.log("ho");
-      }}
-    >
+    <motion.div {...props} onPan={panHandler}>
       <Head>
         <title> {title}</title>
       </Head>
