@@ -14,7 +14,7 @@ import { apiHandler } from "../../../utils/apiHandler";
 import toast from "react-hot-toast";
 import { useIsMobile } from "../../../utils/useIsMobile";
 import { Tooltip } from "../../../components/General/Tooltip";
-import Dots from "../../../public/dots.svg";
+import { Option } from "../../../components/General/Option";
 
 export const getServerSideProps: GetServerSideProps = async ({
   params,
@@ -23,8 +23,17 @@ export const getServerSideProps: GetServerSideProps = async ({
   const { id } = params!;
 
   if (typeof id === "string") {
-    const { data } = await apiHandler(getOneUserItem(id, req.headers.cookie));
-    if (data) {
+    const { data, error } = await apiHandler(
+      getOneUserItem(id, req.headers.cookie)
+    );
+    if (error?.code === 400) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/home",
+        },
+      };
+    } else if (data) {
       return {
         props: {
           data,
@@ -102,36 +111,7 @@ export const ItemInfo = ({ data }: Props) => {
             <div>
               <div className="flex justify-between">
                 <h1 className="text-2xl font-bold">{item?.name}</h1>
-                <div className="relative" style={{ height: "min-content" }}>
-                  <button aria-label="options" className="">
-                    <Dots className="w-8 h-auto fill-current text-accent dark:text-accent-dark" />
-                  </button>
-
-                  <ul
-                    css={[
-                      tw`absolute bottom-0 px-0 text-sm text-black transform -translate-x-full translate-y-full bg-white rounded left-1`,
-                    ]}
-                  >
-                    <li
-                      className="px-3 py-2 list-none border rounded-sm "
-                      style={{ borderBottomWidth: "0" }}
-                    >
-                      Share
-                    </li>
-                    <li
-                      className="px-3 py-2 list-none border rounded-sm"
-                      style={{ borderBottomWidth: "0" }}
-                    >
-                      Favorite
-                    </li>
-                    <li
-                      className="px-3 py-2 list-none border rounded-sm"
-                      style={{ borderBottomWidth: "0" }}
-                    >
-                      Delete
-                    </li>
-                  </ul>
-                </div>
+                <Option id={item.itemID} />
               </div>
               {item?.description && (
                 <ClampLines
