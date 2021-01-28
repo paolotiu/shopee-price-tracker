@@ -17,7 +17,7 @@ export const ToggleSwitch = () => {
   }, [theme]);
   return (
     <>
-      <motion.div className="relative flex items-center">
+      <motion.div className="relative flex items-center cancel-sb-pan">
         <button
           aria-label="toggle light-mode"
           onClick={() => {
@@ -31,7 +31,7 @@ export const ToggleSwitch = () => {
             id="toggle-switch"
             type="checkbox"
             className={
-              "cursor-pointer appearance-none w-6 h-6 absolute -left-1  rounded-full bg-white top-1/2 transform  -translate-y-1/2 transition duration-500 checked:translate-x-full "
+              "cursor-pointer appearance-none w-6 h-6 absolute -left-1  rounded-full bg-white top-1/2 transform  -translate-y-1/2 transition duration-500 checked:translate-x-full  cancel-sb-pan"
             }
             onClick={() => {
               // Changes theme, so triggers a useEffect
@@ -48,7 +48,7 @@ export const ToggleSwitch = () => {
             }}
             checked={isChecked}
           />
-          <div className="w-full h-5 transition duration-500 bg-gray-300 rounded-full dark:bg-black"></div>
+          <div className="w-full h-5 transition duration-500 bg-gray-300 rounded-full dark:bg-black cancel-sb-pan"></div>
         </div>
         <button
           aria-label="toggle dark-mode"

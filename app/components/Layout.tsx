@@ -27,7 +27,12 @@ const Layout = ({
 }: Props) => {
   const dispatch = useDispatch();
   const panHandler: PanHandler = (e, info) => {
-    if ((e.target as Element).id === "toggle-switch") {
+    if (
+      (e.target as Element).classList.contains("cancel-sb-pan") ||
+      (e.target as Element).tagName === "svg" ||
+      (e.target as Element).tagName === "nav" ||
+      (e.target as Element).tagName === "path"
+    ) {
       return;
     }
 

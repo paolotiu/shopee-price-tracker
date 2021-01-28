@@ -7,6 +7,7 @@ import Bars from "../../public/bars.svg";
 import { Sidebar } from "./Sidebar";
 import { toggleSidebar } from "../../slices/uiSlice";
 import { useDispatch } from "react-redux";
+import tw from "twin.macro";
 
 export interface NavProps {
   showLogin?: boolean;
@@ -46,11 +47,8 @@ export const Navbar = ({
           </button>
         )}
         <div
-          className={
-            showLogin
-              ? "sm:w-60 w-48 flex justify-around"
-              : "flex justify-around"
-          }
+          className="cancel-sb-pan"
+          css={[tw`flex justify-around `, showLogin && tw`w-48 sm:w-60`]}
         >
           <ToggleSwitch />
           {showLogin && (
