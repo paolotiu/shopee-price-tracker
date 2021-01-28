@@ -9,7 +9,7 @@ export const Tooltip: React.FC<Props> = ({ children, text }) => {
   const [isHover, setIsHover] = useState(false);
   const isMobile = useIsMobile();
   return (
-    <div>
+    <>
       <span
         onMouseOver={() => (isMobile ? "" : setIsHover(true))}
         onMouseLeave={() => setIsHover(false)}
@@ -24,6 +24,6 @@ export const Tooltip: React.FC<Props> = ({ children, text }) => {
       >
         {text}
       </span>
-    </div>
+    </>
   );
 };
