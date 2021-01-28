@@ -3,6 +3,8 @@ import Head from "next/head";
 import { Navbar, NavProps } from "./General/Navbar";
 import { motion } from "framer-motion";
 import { PanHandler } from "framer-motion/types/gestures/PanSession";
+import { useDispatch } from "react-redux";
+import { directSidebar } from "../slices/uiSlice";
 
 interface Props extends NavProps {
   children?: ReactNode;
@@ -23,7 +25,14 @@ const Layout = ({
   marginTop = true,
   ...props
 }: Props) => {
-  const panHandler: PanHandler = () => {};
+  const dispatch = useDispatch();
+  const panHandler: PanHandler = (e, info) => {
+    if (info.offset.x > 0) {
+      dispatch(directSidebar(true));
+    } else if (info.offset.x < 0) {
+      dispatch(directSidebar(false));
+    }
+  };
   return (
     <motion.div {...props} onPan={panHandler}>
       <Head>
