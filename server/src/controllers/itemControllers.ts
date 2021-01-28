@@ -106,15 +106,30 @@ export const deleteItem: RequestHandler[] = [
         return next(createHttpError(400, 'itemid is required'));
       }
       const userid = req.user?.id;
-
-      const user = await User.findByIdAndUpdate(userid, {
-        $pull: { items: itemid },
-      })
-        .populate('Item')
+      const item = await Item.findOne({ itemID: itemid }).lean().exec();
+      if (!item) {
+        return next(createHttpError(400, 'Item not found'));
+      }
+      const { items } = await User.findByIdAndUpdate(
+        userid,
+        {
+          $pull: { items: { item: item?._id } },
+        },
+        { fields: { items: { $elemMatch: { item: item?._id } }, _id: false } }
+      )
+        .populate({
+          path: 'items',
+          populate: {
+            path: 'item',
+          },
+        })
+        .lean<{ items: IItem[] | undefined }>()
         .exec();
 
-      const item = await Item.findById(itemid).exec();
-      res.json(item);
+      if (!items) {
+        return next(createHttpError(400, "User hasnn't saved this item"));
+      }
+      res.json(items[0]);
     } catch (error) {
       return next(error);
     }
@@ -126,7 +141,7 @@ export const checkItem: RequestHandler = async (req, res, next) => {
   const { itemid } = req.body;
 
   try {
-    const item = await Item.findById(itemid).lean().exec();
+    const item = await Item.findOne({ itemID: itemid }).lean().exec();
     if (!item) {
       return next(createHttpError(404, 'Item not found'));
     }
