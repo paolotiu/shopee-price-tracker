@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import store from "../store";
+import GlobalStylesComponent from "../components/GlobalStyles";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
+        <GlobalStylesComponent />
         <Toaster />
         <Component {...pageProps} />
       </QueryClientProvider>
