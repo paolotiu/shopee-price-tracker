@@ -96,46 +96,6 @@ export const postItemLink: RequestHandler[] = [
   },
 ];
 
-// Delete item in users tracked items
-export const deleteItem: RequestHandler[] = [
-  isAuth,
-  async (req, res, next) => {
-    try {
-      const { itemid } = req.body;
-      if (!itemid) {
-        return next(createHttpError(400, 'itemid is required'));
-      }
-      const userid = req.user?.id;
-      const item = await Item.findOne({ itemID: itemid }).lean().exec();
-      if (!item) {
-        return next(createHttpError(400, 'Item not found'));
-      }
-      const { items } = await User.findByIdAndUpdate(
-        userid,
-        {
-          $pull: { items: { item: item?._id } },
-        },
-        { fields: { items: { $elemMatch: { item: item?._id } }, _id: false } }
-      )
-        .populate({
-          path: 'items',
-          populate: {
-            path: 'item',
-          },
-        })
-        .lean<{ items: IItem[] | undefined }>()
-        .exec();
-
-      if (!items) {
-        return next(createHttpError(400, "User hasnn't saved this item"));
-      }
-      res.json(items[0]);
-    } catch (error) {
-      return next(error);
-    }
-  },
-];
-
 // Check item
 export const checkItem: RequestHandler = async (req, res, next) => {
   const { itemid } = req.body;

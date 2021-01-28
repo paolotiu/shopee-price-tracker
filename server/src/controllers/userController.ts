@@ -3,7 +3,7 @@ import User from '../models/User';
 
 import { isAuth } from '../functions/util';
 import createHttpError from 'http-errors';
-import { IItem } from '../models/Item';
+import Item, { IItem } from '../models/Item';
 
 // Return all items tracked by user
 export const checkItems: RequestHandler[] = [
@@ -61,5 +61,45 @@ export const getUser: RequestHandler[] = [
       email: user?.email,
       items: user?.items,
     });
+  },
+];
+
+// Delete item in users tracked items
+export const deleteItem: RequestHandler[] = [
+  isAuth,
+  async (req, res, next) => {
+    try {
+      const { itemid } = req.body;
+      if (!itemid) {
+        return next(createHttpError(400, 'itemid is required'));
+      }
+      const userid = req.user?.id;
+      const item = await Item.findOne({ itemID: itemid }).lean().exec();
+      if (!item) {
+        return next(createHttpError(400, 'Item not found'));
+      }
+      const { items } = await User.findByIdAndUpdate(
+        userid,
+        {
+          $pull: { items: { item: item?._id } },
+        },
+        { fields: { items: { $elemMatch: { item: item?._id } }, _id: false } }
+      )
+        .populate({
+          path: 'items',
+          populate: {
+            path: 'item',
+          },
+        })
+        .lean<{ items: IItem[] | undefined }>()
+        .exec();
+
+      if (!items) {
+        return next(createHttpError(400, "User hasn't saved this item"));
+      }
+      res.json(items[0]);
+    } catch (error) {
+      return next(error);
+    }
   },
 ];
