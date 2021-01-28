@@ -5,5 +5,5 @@ const router = Router();
 router.get('/items', checkItems);
 router.get('/', getUser);
 router.get('/item/:id', checkOneItem);
-router.delete('/item', deleteItem);
+router.delete('/item/:id', deleteItem);
 export { router as userRouter };

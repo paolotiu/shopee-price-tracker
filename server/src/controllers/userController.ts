@@ -69,12 +69,12 @@ export const deleteItem: RequestHandler[] = [
   isAuth,
   async (req, res, next) => {
     try {
-      const { itemid } = req.body;
-      if (!itemid) {
+      const { id } = req.params;
+      if (!id) {
         return next(createHttpError(400, 'itemid is required'));
       }
       const userid = req.user?.id;
-      const item = await Item.findOne({ itemID: itemid }).lean().exec();
+      const item = await Item.findOne({ itemID: id }).lean().exec();
       if (!item) {
         return next(createHttpError(400, 'Item not found'));
       }
