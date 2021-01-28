@@ -5,6 +5,7 @@ import tw from "twin.macro";
 import Dots from "../../public/dots.svg";
 import { deleteUserItem } from "../../utils/api";
 import { apiHandler } from "../../utils/apiHandler";
+import { useIsMobile } from "../../utils/useIsMobile";
 
 const ListItem = tw.li`px-3 py-2 list-none border bg-white rounded-sm border-b-0 whitespace-nowrap font-semibold hover:bg-white-pure cursor-pointer transition-colors duration-150  `;
 
@@ -14,6 +15,7 @@ interface Props {
 
 export const Option = ({ id }: Props) => {
   const [isClicked, setIsClicked] = useState(false);
+  const isMobile = useIsMobile();
   const router = useRouter();
   useEffect(() => {
     const close = () => {
@@ -49,7 +51,14 @@ export const Option = ({ id }: Props) => {
           setIsClicked(!isClicked);
         }}
       >
-        <Dots className="w-8 h-auto fill-current text-accent dark:text-accent-dark" />
+        <Dots
+          css={[
+            tw`w-8 h-auto transition duration-1000 fill-current`,
+            isMobile
+              ? tw`text-accent dark:text-accent-dark`
+              : tw`xl:text-accent xl:dark:text-accent-dark text-primary dark:text-primary-dark`,
+          ]}
+        />
       </button>
 
       <ul

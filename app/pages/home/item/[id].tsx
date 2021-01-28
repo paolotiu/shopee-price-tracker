@@ -106,7 +106,7 @@ export const ItemInfo = ({ data }: Props) => {
   return (
     <Layout title={item?.name} showLogo={false} showLogin={false}>
       <MainContent showBackground={!isMobile}>
-        <div className="flex justify-center px-3 ">
+        <div className="flex justify-center px-3 sm:px-8 ">
           <div className="flex flex-col justify-between w-full max-w-screen-md pb-10">
             <div>
               <div className="flex justify-between">
@@ -173,11 +173,10 @@ export const ItemInfo = ({ data }: Props) => {
                 <span className="text-accent">P{item?.lowest_price}</span>
               </p>
               <p
-                className={
-                  target
-                    ? "text-black dark:text-white transition duration-1000 relative max-w-min whitespace-nowrap"
-                    : "text-gray-400 transition duration-1000 relative max-w-min whitespace-nowrap"
-                }
+                css={[
+                  tw`relative transition duration-1000 max-w-min whitespace-nowrap`,
+                  target ? tw`text-black dark:text-white` : tw`text-gray-400`,
+                ]}
               >
                 Price Target:{" "}
                 {target ? (
