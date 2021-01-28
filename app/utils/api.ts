@@ -1,4 +1,3 @@
-import axios from "axios";
 import axiosDefault from "./axiosConfig";
 const CALLBACK_URL =
   process.env.NEXT_PUBLIC_CLIENT_URL + "/confirmation/" ||
