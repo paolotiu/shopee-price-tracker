@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Layout from "../../components/Layout";
 import { MainContent } from "../../components/MainContent/MainContent";
@@ -43,6 +43,7 @@ interface Props {
 const Home = ({ items }: Props) => {
   const { data, refetch, isLoading } = useQuery("items", () => getUserItems(), {
     initialData: items,
+    enabled: false,
   });
   const [url, setUrl] = useState("");
 
@@ -52,17 +53,22 @@ const Home = ({ items }: Props) => {
     });
   };
 
+  // Refetch on mount
+  useEffect(() => {
+    refetch();
+  }, []);
+
   const searchItem = async () => {
     toast.loading("Searching");
-    const { data, error } = await apiHandler(postItem(url));
-    if (data) {
+    const res = await apiHandler(postItem(url));
+    if (res.data) {
       toast.dismiss();
-      toast.success(data.message);
+      toast.success(res.data.message);
 
       refetch();
     } else {
       toast.dismiss();
-      toast.error(error.message);
+      toast.error(res.error.message);
     }
 
     setUrl("");

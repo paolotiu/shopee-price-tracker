@@ -96,7 +96,7 @@ export const getOneUserItem = async (
 
     return res.data;
   } else {
-    const res = await axiosDefault.get("/user/item" + id);
+    const res = await axiosDefault.get("/user/item/" + id);
     return res.data;
   }
 };
@@ -114,7 +114,7 @@ export const getUser = async (cookie?: string): Promise<IUser> => {
   }
 };
 
-export const postItem = async (url: string) => {
+export const postItem = async (url: string): Promise<{ message: string }> => {
   const res = await axiosDefault.post("/item", {
     link: url,
   });
@@ -123,7 +123,7 @@ export const postItem = async (url: string) => {
 };
 
 export const resendConfirmationEmail = async (email: string) => {
-  const res = await axios.post("/auth/resendEmail", {
+  const res = await axiosDefault.post("/auth/resendEmail", {
     email,
     callbackUrl: CALLBACK_URL,
   });
@@ -132,10 +132,11 @@ export const resendConfirmationEmail = async (email: string) => {
 };
 
 export const addPriceTarget = async (itemid: string, target: number) => {
-  const res = await axios.post(
-    "/item/target",
-    { itemid, target },
-    { withCredentials: true }
-  );
+  const res = await axiosDefault.post("/item/target", { itemid, target });
+  return res.data;
+};
+
+export const deleteUserItem = async (itemid: string): Promise<Item> => {
+  const res = await axiosDefault.delete("/user/item/" + itemid);
   return res.data;
 };
