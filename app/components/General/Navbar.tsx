@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { ToggleSwitch } from "./ToggleSwitch";
 import Logo from "../../public/logo.svg";
 import Bars from "../../public/bars.svg";
 
 import { Sidebar } from "./Sidebar";
-import { sidebarSelector, toggleSidebar } from "../../slices/uiSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { toggleSidebar } from "../../slices/uiSlice";
+import { useDispatch } from "react-redux";
 
 export interface NavProps {
   showLogin?: boolean;
