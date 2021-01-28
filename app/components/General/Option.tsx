@@ -7,7 +7,7 @@ import { deleteUserItem } from "../../utils/api";
 import { apiHandler } from "../../utils/apiHandler";
 import { useIsMobile } from "../../utils/useIsMobile";
 
-const ListItem = tw.li`px-3 py-2 list-none border bg-white rounded-sm border-b-0 whitespace-nowrap font-semibold hover:bg-white-pure cursor-pointer transition-colors duration-150  `;
+const ListItem = tw.li`px-3 py-2 list-none border bg-white rounded-sm  whitespace-nowrap font-semibold hover:bg-white-pure cursor-pointer transition-colors duration-150  `;
 import { motion, Variants } from "framer-motion";
 interface Props {
   id: string;
@@ -45,7 +45,7 @@ export const Option = ({ id }: Props) => {
     closed: {
       display: "none",
       transition: {
-        delay: 0.01,
+        delay: 0.1,
         when: "afterChildren",
       },
     },
@@ -55,10 +55,18 @@ export const Option = ({ id }: Props) => {
   const childrenVariants: Variants = {
     closed: {
       scale: 0.1,
-      x: -50,
+      x: -30,
       y: 0,
     },
-    open: { scale: 1, x: -100, y: 60 },
+    open: {
+      scale: 1,
+      x: -100,
+      y: 70,
+      transition: {
+        duration: 0.2,
+        ease: "easeIn",
+      },
+    },
   };
 
   return (
@@ -88,7 +96,7 @@ export const Option = ({ id }: Props) => {
           variants={childrenVariants}
           tw="absolute bottom-0 text-sm text-black bg-white rounded left-1"
         >
-          <ListItem aria-label="copy link" onClick={copyLink}>
+          <ListItem aria-label="copy link" tw="border-b-0" onClick={copyLink}>
             Copy Link
           </ListItem>
           <ListItem
