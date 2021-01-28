@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useRef } from "react";
 import Head from "next/head";
 import { Navbar, NavProps } from "./General/Navbar";
 import { motion } from "framer-motion";
@@ -27,14 +27,24 @@ const Layout = ({
 }: Props) => {
   const dispatch = useDispatch();
   const panHandler: PanHandler = (e, info) => {
+    if ((e.target as Element).id === "toggle-switch") {
+      return;
+    }
+
     if (info.offset.x > 0) {
       dispatch(directSidebar(true));
-    } else if (info.offset.x < 0) {
+    } else {
       dispatch(directSidebar(false));
     }
   };
   return (
-    <motion.div {...props} onPan={panHandler}>
+    <motion.div
+      {...props}
+      onPan={panHandler}
+      onClick={() => {
+        console.log("ho");
+      }}
+    >
       <Head>
         <title> {title}</title>
       </Head>
