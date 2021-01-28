@@ -8,7 +8,7 @@ import { apiHandler } from "../../utils/apiHandler";
 import { useIsMobile } from "../../utils/useIsMobile";
 
 const ListItem = tw.li`px-3 py-2 list-none border bg-white rounded-sm border-b-0 whitespace-nowrap font-semibold hover:bg-white-pure cursor-pointer transition-colors duration-150  `;
-
+import { motion, Variants } from "framer-motion";
 interface Props {
   id: string;
 }
@@ -34,12 +34,31 @@ export const Option = ({ id }: Props) => {
   const deleteItem = async () => {
     const { error } = await apiHandler(deleteUserItem(id));
     if (error) {
-      console.log(error);
+      toast.error(error.message);
     } else {
       router.push("/home");
 
       toast.success("Item deleted");
     }
+  };
+  const parentVariants: Variants = {
+    closed: {
+      display: "none",
+      transition: {
+        delay: 0.01,
+        when: "afterChildren",
+      },
+    },
+    open: { display: "block" },
+  };
+
+  const childrenVariants: Variants = {
+    closed: {
+      scale: 0.1,
+      x: -50,
+      y: 0,
+    },
+    open: { scale: 1, x: -100, y: 60 },
   };
 
   return (
@@ -60,24 +79,27 @@ export const Option = ({ id }: Props) => {
           ]}
         />
       </button>
-
-      <ul
-        css={[
-          tw`absolute bottom-0 px-0 text-sm text-black transform -translate-x-full translate-y-full bg-white rounded left-1`,
-          isClicked ? tw`block` : tw`hidden`,
-        ]}
+      <motion.div
+        animate={isClicked ? "open" : "closed"}
+        variants={parentVariants}
       >
-        <ListItem aria-label="copy link" onClick={copyLink}>
-          Copy Link
-        </ListItem>
-        <ListItem
-          aria-label="delete item"
-          tw="text-red-400"
-          onClick={deleteItem}
+        <motion.ul
+          animate={isClicked ? "open" : "closed"}
+          variants={childrenVariants}
+          tw="absolute bottom-0 text-sm text-black bg-white rounded left-1"
         >
-          Delete
-        </ListItem>
-      </ul>
+          <ListItem aria-label="copy link" onClick={copyLink}>
+            Copy Link
+          </ListItem>
+          <ListItem
+            aria-label="delete item"
+            tw="text-red-400"
+            onClick={deleteItem}
+          >
+            Delete
+          </ListItem>
+        </motion.ul>
+      </motion.div>
     </div>
   );
 };
