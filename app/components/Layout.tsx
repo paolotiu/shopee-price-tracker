@@ -1,6 +1,8 @@
 import React, { ReactNode } from "react";
 import Head from "next/head";
 import { Navbar, NavProps } from "./General/Navbar";
+import { motion } from "framer-motion";
+import { PanHandler } from "framer-motion/types/gestures/PanSession";
 
 interface Props extends NavProps {
   children?: ReactNode;
@@ -20,22 +22,25 @@ const Layout = ({
   showLogo,
   marginTop = true,
   ...props
-}: Props) => (
-  <div {...props}>
-    <Head>
-      <title> {title}</title>
-    </Head>
-    <div className="grid h-screen grid-flow-row ">
-      {showNavbar && (
-        <Navbar
-          isTransparent={navbarIsTransparent}
-          showLogin={showLogin}
-          showLogo={showLogo}
-        />
-      )}
-      <div>{children}</div>
-    </div>
-  </div>
-);
+}: Props) => {
+  const panHandler: PanHandler = () => {};
+  return (
+    <motion.div {...props} onPan={panHandler}>
+      <Head>
+        <title> {title}</title>
+      </Head>
+      <div className="grid h-screen grid-flow-row ">
+        {showNavbar && (
+          <Navbar
+            isTransparent={navbarIsTransparent}
+            showLogin={showLogin}
+            showLogo={showLogo}
+          />
+        )}
+        <div>{children}</div>
+      </div>
+    </motion.div>
+  );
+};
 
 export default Layout;

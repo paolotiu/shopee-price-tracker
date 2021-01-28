@@ -15,8 +15,8 @@ const uiSlice = createSlice({
       state.isSidebarOpen = !state.isSidebarOpen;
     },
 
-    directSidebar: (state, action: PayloadAction<UiState>) => {
-      state.isSidebarOpen = action.payload.isSidebarOpen;
+    directSidebar: (state, action: PayloadAction<boolean>) => {
+      state.isSidebarOpen = action.payload;
     },
   },
 });

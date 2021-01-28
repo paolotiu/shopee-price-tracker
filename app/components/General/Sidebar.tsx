@@ -1,28 +1,57 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { logOut } from "../../utils/api";
 import { useRouter } from "next/router";
 import Link from "next/link";
-interface Props {
-  isOpen: boolean;
-  closeSidebar: () => void;
-}
-export const Sidebar = ({ isOpen, closeSidebar }: Props) => {
+import tw from "twin.macro";
+import { motion, Variants } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { directSidebar, sidebarSelector } from "../../slices/uiSlice";
+
+export const Sidebar = () => {
   const router = useRouter();
+  const isOpen = useSelector(sidebarSelector);
+  const dispatch = useDispatch();
   const isHome = router.route === "/home";
+
+  const backgroundVariant: Variants = {
+    close: {
+      opacity: 0,
+      pointerEvents: "none",
+
+      transition: {
+        delay: 0.05,
+        when: "afterChildren",
+      },
+    },
+    open: { opacity: 100, pointerEvents: "auto" },
+  };
+
+  const contentVariant: Variants = {
+    close: {
+      x: -500,
+    },
+    open: { x: 0 },
+  };
+
+  useEffect(() => {}, []);
   return (
-    <div
-      className={`fixed  top-0 left-0 flex flex-col  w-screen h-screen  text-xl text-white overflow-hidden  md:flex-col bg-black-lighter bg-opacity-60 transition duration-500 ${
-        isOpen ? "opacity-100 " : "opacity-0 max-w-0  delay-1000"
-      }`}
+    <motion.div
+      css={[
+        tw`fixed top-0 left-0 flex flex-col w-screen h-screen overflow-hidden text-xl text-white transition duration-500 md:flex-col bg-black-lighter bg-opacity-60`,
+      ]}
+      initial={"close"}
+      animate={isOpen ? "open" : "close"}
+      variants={backgroundVariant}
       onClick={(e) => {
         e.stopPropagation();
-        closeSidebar();
+        dispatch(directSidebar(false));
       }}
     >
-      <div
-        className={`w-8/12 h-full relative  max-w-sm  bg-white dark:bg-black rounded-r-lg transition duration-700 delay-100 ${
-          isOpen ? "transform -translate-x-0" : "transform -translate-x-full"
-        }`}
+      <motion.div
+        animate={isOpen ? "open" : "close"}
+        transition={{ duration: 0.05 }}
+        variants={contentVariant}
+        className={`w-8/12 h-full relative  max-w-sm  bg-white dark:bg-black rounded-r-lg transition duration-700 delay-100`}
       >
         <div className="grid pt-40 overflow-hidden text-xl text-black dark:text-white">
           <Link href="/home">
@@ -49,7 +78,7 @@ export const Sidebar = ({ isOpen, closeSidebar }: Props) => {
             Logout
           </button>
         </Link>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };

@@ -5,6 +5,8 @@ import Logo from "../../public/logo.svg";
 import Bars from "../../public/bars.svg";
 
 import { Sidebar } from "./Sidebar";
+import { sidebarSelector, toggleSidebar } from "../../slices/uiSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export interface NavProps {
   showLogin?: boolean;
@@ -16,7 +18,7 @@ export const Navbar = ({
   isTransparent = false,
   showLogo = true,
 }: NavProps) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const dispatch = useDispatch();
   return (
     <>
       <nav
@@ -37,7 +39,7 @@ export const Navbar = ({
           <button
             aria-label="open sidebar"
             onClick={() => {
-              setIsSidebarOpen(!isSidebarOpen);
+              dispatch(toggleSidebar());
             }}
           >
             <Bars className="h-auto w-9" />
@@ -59,12 +61,7 @@ export const Navbar = ({
             </Link>
           )}
         </div>
-        <Sidebar
-          isOpen={isSidebarOpen}
-          closeSidebar={() => {
-            setIsSidebarOpen(false);
-          }}
-        />
+        <Sidebar />
       </nav>
     </>
   );
