@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef } from "react";
+import React, { ReactNode } from "react";
 import Head from "next/head";
 import { Navbar, NavProps } from "./General/Navbar";
 import { motion } from "framer-motion";
