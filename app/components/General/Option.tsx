@@ -55,16 +55,16 @@ export const Option = ({ id }: Props) => {
   const childrenVariants: Variants = {
     closed: {
       scale: 0.1,
-      x: -30,
-      y: 0,
+      x: -35,
+      y: 10,
     },
     open: {
       scale: 1,
       x: -100,
       y: 70,
       transition: {
-        duration: 0.2,
-        ease: "easeIn",
+        duration: 0.125,
+        ease: "easeInOut",
       },
     },
   };
