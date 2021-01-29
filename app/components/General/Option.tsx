@@ -11,9 +11,10 @@ const ListItem = tw.li`px-3 py-2 list-none border bg-white rounded-sm  whitespac
 import { motion, Variants } from "framer-motion";
 interface Props {
   id: string;
+  hasDelete?: boolean;
 }
 
-export const Option = ({ id }: Props) => {
+export const Option = ({ id, hasDelete = true }: Props) => {
   const [isClicked, setIsClicked] = useState(false);
   const isMobile = useIsMobile();
   const router = useRouter();
@@ -61,7 +62,7 @@ export const Option = ({ id }: Props) => {
     open: {
       scale: 1,
       x: -100,
-      y: 70,
+      y: hasDelete ? 70 : 20,
       transition: {
         duration: 0.125,
         ease: "easeInOut",
@@ -96,16 +97,22 @@ export const Option = ({ id }: Props) => {
           variants={childrenVariants}
           tw="absolute bottom-0 text-sm text-black bg-white rounded left-1"
         >
-          <ListItem aria-label="copy link" tw="border-b-0" onClick={copyLink}>
+          <ListItem
+            aria-label="copy link"
+            css={[hasDelete && tw`border-b-0`]}
+            onClick={copyLink}
+          >
             Copy Link
           </ListItem>
-          <ListItem
-            aria-label="delete item"
-            tw="text-red-400"
-            onClick={deleteItem}
-          >
-            Delete
-          </ListItem>
+          {hasDelete && (
+            <ListItem
+              aria-label="delete item"
+              tw="text-red-400"
+              onClick={deleteItem}
+            >
+              Delete
+            </ListItem>
+          )}
         </motion.ul>
       </motion.div>
     </div>

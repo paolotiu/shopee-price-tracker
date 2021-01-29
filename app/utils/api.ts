@@ -139,3 +139,8 @@ export const deleteUserItem = async (itemid: string): Promise<Item> => {
   const res = await axiosDefault.delete("/user/item/" + itemid);
   return res.data;
 };
+
+export const getItem = async (id: string) => {
+  const res = await axiosDefault.get("/item/" + id);
+  return res.data;
+};
