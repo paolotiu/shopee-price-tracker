@@ -60,7 +60,10 @@ const SignUp = () => {
             </a>
           </div>
 
-          <hr className="bg-white dark:bg-black hr-text" data-content="OR" />
+          <hr
+            className="transition duration-1000 bg-white  dark:bg-black hr-text dark:text-white"
+            data-content="OR"
+          />
           <SignupForm />
         </div>
       </div>

@@ -9,8 +9,8 @@ import MagGlass from "public/magnifying_glass.svg";
 import EmptyState from "public/empty_state.svg";
 
 import { toast } from "react-hot-toast";
-import Link from "next/link";
 import { GetServerSideProps } from "next";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 
 const Card = dynamic(import("components/Card/Card").then((mod) => mod.Card)!);

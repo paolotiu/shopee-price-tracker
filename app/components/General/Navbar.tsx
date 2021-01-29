@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { ToggleSwitch } from "./ToggleSwitch";
 import Logo from "../../public/logo.svg";
@@ -20,8 +20,6 @@ const Navbar: React.FC<NavProps> = ({
   showLogo = true,
 }) => {
   const dispatch = useDispatch();
-  const navRef = useRef<HTMLElement>(null);
-  console.log("navbarm", isTransparent);
   useEffect(() => {
     if (showLogo) {
       dispatch(toggleSidebarPossibility(false));
@@ -29,17 +27,12 @@ const Navbar: React.FC<NavProps> = ({
       dispatch(toggleSidebarPossibility(true));
     }
   }, [showLogo]);
-
   return (
     <>
       <nav
-        ref={navRef}
-        css={[
-          tw`fixed z-50 flex items-center justify-between w-screen p-5 transition duration-1000 max-h-16`,
-          !isTransparent
-            ? tw`bg-primary dark:bg-primary-dark `
-            : tw`bg-transparent`,
-        ]}
+        className={`fixed z-50 flex items-center justify-between w-screen p-5 transition duration-1000 bg-transparent dark:bg-transparent max-h-16 ${
+          !isTransparent && "bg-primary dark:bg-primary-dark"
+        }`}
         style={{ height: "min-content" }}
       >
         {showLogo ? (
@@ -65,7 +58,7 @@ const Navbar: React.FC<NavProps> = ({
           <ToggleSwitch />
           {showLogin && (
             <Link href="/login">
-              <a className="transition duration-100 transform underline-yellow hover:scale-110">
+              <a className="transition-transform duration-100 transform underline-yellow hover:scale-110">
                 Login
               </a>
             </Link>
