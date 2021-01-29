@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import Head from "next/head";
-import { NavProps } from "./General/Navbar";
+import { NavProps } from "components/General/Navbar";
 import { motion } from "framer-motion/dist/framer-motion";
 import { PanHandler } from "framer-motion/types/gestures/PanSession";
 import { useDispatch, useSelector } from "react-redux";

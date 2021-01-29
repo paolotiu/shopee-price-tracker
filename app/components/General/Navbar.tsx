@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import { ToggleSwitch } from "./ToggleSwitch";
 import Logo from "../../public/logo.svg";
@@ -14,12 +14,14 @@ export interface NavProps {
   isTransparent?: boolean;
   showLogo?: boolean;
 }
-const Navbar = ({
+const Navbar: React.FC<NavProps> = ({
   showLogin = true,
   isTransparent = false,
   showLogo = true,
-}: NavProps) => {
+}) => {
   const dispatch = useDispatch();
+  const navRef = useRef<HTMLElement>(null);
+  console.log("navbarm", isTransparent);
   useEffect(() => {
     if (showLogo) {
       dispatch(toggleSidebarPossibility(false));
@@ -27,12 +29,31 @@ const Navbar = ({
       dispatch(toggleSidebarPossibility(true));
     }
   }, [showLogo]);
+  useEffect(() => {
+    if (isTransparent) {
+      navRef.current?.classList.add(
+        "bg-primary",
+        "dark:bg-primary-dark",
+        "max-h-16"
+      );
+    } else {
+      navRef.current?.classList.remove(
+        "bg-primary",
+        "dark:bg-primary-dark",
+        "max-h-16"
+      );
+    }
+  }, []);
+
   return (
     <>
       <nav
+        ref={navRef}
         css={[
-          tw`fixed z-50 flex items-center justify-between w-screen p-5 transition duration-1000`,
-          !isTransparent && tw`bg-primary dark:bg-primary-dark max-h-16`,
+          tw`fixed z-50 flex items-center justify-between w-screen p-5 transition duration-1000 max-h-16`,
+          !isTransparent
+            ? tw`bg-primary dark:bg-primary-dark `
+            : tw`bg-transparent`,
         ]}
         style={{ height: "min-content" }}
       >

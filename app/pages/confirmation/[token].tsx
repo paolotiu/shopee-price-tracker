@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next";
 import React, { useState } from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { confirmEmail } from "../../utils/api";
 import { apiHandler } from "../../utils/apiHandler";
 import Layout from "../../components/Layout";
@@ -44,12 +44,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-const redirectToLogin = () => {
-  Router.push("/login");
-};
-
 const Confirmation = ({ message, isError, status }: Props) => {
   const [isResendClicked, setIsResendClicked] = useState(false);
+  const router = useRouter();
   const resendVerificationEmail = () => {
     setIsResendClicked(true);
   };
@@ -78,7 +75,7 @@ const Confirmation = ({ message, isError, status }: Props) => {
                     }
                     resendVerificationEmail();
                   }
-                : redirectToLogin
+                : () => router.push("/login")
             }
           >
             {status !== "verified"

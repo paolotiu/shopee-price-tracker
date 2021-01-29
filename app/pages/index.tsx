@@ -1,13 +1,13 @@
 import React from "react";
 import Link from "next/link";
-import Blob from "../components/Blob/Blob";
-import { Button } from "../components/General/Button";
-import Layout from "../components/Layout";
+import Blob from "components/Blob/Blob";
+import { Button } from "components/General/Button";
+import Layout from "components/Layout";
 import { GetServerSideProps } from "next";
-import { getUser } from "../utils/api";
-import { apiHandler } from "../utils/apiHandler";
-import store from "../store";
-import { addUser } from "../slices/userSlice";
+import { getUser } from "utils/api";
+import { apiHandler } from "utils/apiHandler";
+import store from "store";
+import { addUser } from "slices/userSlice";
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { data, error } = await apiHandler(getUser(req.headers.cookie));
@@ -54,6 +54,7 @@ const IndexPage = () => {
             className="hidden lg:block"
             style={{
               height: "90%",
+              maxHeight: "40vh",
             }}
           />
         </div>
