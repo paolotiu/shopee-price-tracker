@@ -1,6 +1,6 @@
 const env = process.env.NODE_ENV;
 module.exports = {
-  purge: ["./components/**/*.{js,ts,jsx,tsx}", "./pages/**/*.{js,ts,jsx,tsx}"],
+  purge: ["./components/**/*.tsx", "./pages/**/*.tsx"],
   darkMode: "class",
   theme: {
     extend: {

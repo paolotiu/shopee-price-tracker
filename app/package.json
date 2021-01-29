@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
+    "build:profile": "next build --profile",
     "start": "next start",
     "dev:https": "nodemon server.js",
     "start:https": "NODE_ENV=production node server.js",
@@ -42,6 +43,7 @@
     "babel-plugin-macros": "^3.0.1",
     "babel-plugin-styled-components": "^1.12.0",
     "cross-env": "^7.0.3",
+    "duplicate-package-checker-webpack-plugin": "^3.0.0",
     "postcss": "^8.2.4",
     "react-is": "^17.0.1",
     "stylelint-config-recommended": "^3.0.0",

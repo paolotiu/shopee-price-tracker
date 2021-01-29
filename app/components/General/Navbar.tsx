@@ -14,7 +14,7 @@ export interface NavProps {
   isTransparent?: boolean;
   showLogo?: boolean;
 }
-export const Navbar = ({
+const Navbar = ({
   showLogin = true,
   isTransparent = false,
   showLogo = true,
@@ -71,3 +71,4 @@ export const Navbar = ({
     </>
   );
 };
+export default Navbar;

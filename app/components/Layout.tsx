@@ -1,11 +1,12 @@
 import React, { ReactNode } from "react";
 import Head from "next/head";
-import { Navbar, NavProps } from "./General/Navbar";
-import { motion } from "framer-motion";
+import { NavProps } from "./General/Navbar";
+import { motion } from "framer-motion/dist/framer-motion";
 import { PanHandler } from "framer-motion/types/gestures/PanSession";
 import { useDispatch, useSelector } from "react-redux";
 import { directSidebar, sidebarPossibilitySelector } from "../slices/uiSlice";
-
+import dynamic from "next/dynamic";
+const Navbar = dynamic(() => import("components/General/Navbar"));
 interface Props extends NavProps {
   children?: ReactNode;
   title?: string;
