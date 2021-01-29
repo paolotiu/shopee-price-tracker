@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Button } from "../../components/General/Button";
 import Layout from "../../components/Layout";
 import { MainContent } from "../../components/MainContent/MainContent";
@@ -78,7 +78,6 @@ Modal.setAppElement("#__next");
 
 export const ItemInfo = ({ data, isLoggedIn }: Props) => {
   const item = data.item;
-  const [target, setTarget] = useState(data?.target || 0);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -91,7 +90,6 @@ export const ItemInfo = ({ data, isLoggedIn }: Props) => {
         "duration-1000"
       );
     }
-    setTarget(data?.target || 0);
   }, []);
   return (
     <Layout title={item?.name} showLogo={!isLoggedIn} showLogin={!isLoggedIn}>
