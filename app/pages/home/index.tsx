@@ -4,7 +4,6 @@ import Layout from "components/Layout";
 import { MainContent } from "components/MainContent/MainContent";
 import { apiHandler } from "utils/apiHandler";
 import { getUserItems, Items, postItem } from "utils/api";
-import { Card } from "components/Card/Card";
 import { useQuery } from "react-query";
 import MagGlass from "public/magnifying_glass.svg";
 import EmptyState from "public/empty_state.svg";
@@ -12,7 +11,9 @@ import EmptyState from "public/empty_state.svg";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { GetServerSideProps } from "next";
+import dynamic from "next/dynamic";
 
+const Card = dynamic(import("components/Card/Card").then((mod) => mod.Card)!);
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { error, data } = await apiHandler(
     getUserItems(context.req.headers.cookie)
