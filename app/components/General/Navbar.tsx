@@ -4,11 +4,11 @@ import { ToggleSwitch } from "./ToggleSwitch";
 import Logo from "../../public/logo.svg";
 import Bars from "../../public/bars.svg";
 
-import { Sidebar } from "./Sidebar";
 import { toggleSidebar, toggleSidebarPossibility } from "../../slices/uiSlice";
 import { useDispatch } from "react-redux";
 import tw from "twin.macro";
-
+import dynamic from "next/dynamic";
+const Sidebar = dynamic(import("components/General/Sidebar"));
 export interface NavProps {
   showLogin?: boolean;
   isTransparent?: boolean;
@@ -21,7 +21,6 @@ const Navbar = ({
 }: NavProps) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(showLogo);
     if (showLogo) {
       dispatch(toggleSidebarPossibility(false));
     } else {

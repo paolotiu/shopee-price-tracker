@@ -7,7 +7,7 @@ import { motion, Variants } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { directSidebar, sidebarSelector } from "../../slices/uiSlice";
 
-export const Sidebar = () => {
+const Sidebar = () => {
   const router = useRouter();
   const isOpen = useSelector(sidebarSelector);
   const dispatch = useDispatch();
@@ -67,18 +67,18 @@ export const Sidebar = () => {
           </Link>
           <span className="py-4 pl-8 ">Account</span>
         </div>
-        <Link href="/">
-          <button
-            aria-label="logout"
-            className="absolute ml-8 text-red-400 bottom-6 max-w-min"
-            onClick={async () => {
-              logOut();
-            }}
-          >
-            Logout
-          </button>
-        </Link>
+        <button
+          aria-label="logout"
+          className="absolute ml-8 text-red-400 bottom-6 max-w-min"
+          onClick={async () => {
+            await logOut();
+            router.push("/");
+          }}
+        >
+          Logout
+        </button>
       </motion.div>
     </motion.div>
   );
 };
+export default Sidebar;

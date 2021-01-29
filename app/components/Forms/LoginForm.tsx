@@ -31,7 +31,6 @@ const LoginForm = () => {
         },
       });
     } else {
-      console.log(data);
       dispatch(addUser(data?.email, data?.items, true));
       router.push("/home");
     }
