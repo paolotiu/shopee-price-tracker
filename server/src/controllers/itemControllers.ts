@@ -137,7 +137,7 @@ export const addTarget: RequestHandler[] = [
       const user = await User.findOneAndUpdate(
         { _id: userid, 'items.item': itemid },
         { $set: { 'items.$.target': target } },
-        { fields: 'items.$', projection: { _id: 0 } }
+        { fields: { items: { item: itemid } }, projection: { _id: 0 } }
       )
         .lean()
         .exec();
