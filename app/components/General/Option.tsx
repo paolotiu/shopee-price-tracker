@@ -90,6 +90,7 @@ export const Option = ({ id, hasDelete = true }: Props) => {
       </button>
       <motion.div
         animate={isClicked ? "open" : "closed"}
+        initial={"closed"}
         variants={parentVariants}
       >
         <motion.ul

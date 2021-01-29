@@ -10,8 +10,12 @@ import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import toast from "react-hot-toast";
 
-const Cards = dynamic(() => import("components/Card/CardContainer"));
-const Searchbar = dynamic(() => import("components/Searchbar/Searchbar"));
+const Cards = dynamic(() => import("components/Card/CardContainer"), {
+  loading: () => <p>Loading...</p>,
+});
+const Searchbar = dynamic(() => import("components/Searchbar/Searchbar"), {
+  ssr: false,
+});
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { error, data } = await apiHandler(
