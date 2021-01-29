@@ -1,6 +1,9 @@
+import dynamic from "next/dynamic";
 import React from "react";
-import { Background } from "../Background/Background";
-
+const Background = dynamic(
+  () =>
+    import("components/Background/Background").then((mod) => mod.Background)!
+);
 interface Props {
   showBottomBlob?: boolean;
   showBackground?: boolean;
