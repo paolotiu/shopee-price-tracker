@@ -7,7 +7,7 @@
     "start": "next start",
     "dev:https": "nodemon server.js",
     "start:https": "NODE_ENV=production node server.js",
-    "analyze": "cross-env ANALYZE=true next build",
+    "analyze": "cross-env ANALYZE=true BROWSER=none next build",
     "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
     "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build",
     "type-check": "tsc"
@@ -24,7 +24,6 @@
     "react-dom": "^16.12.0",
     "react-hot-toast": "^1.0.1",
     "react-modal": "^3.12.1",
-    "react-multiline-clamp": "^1.0.6",
     "react-query": "^3.5.16",
     "react-redux": "^7.2.2",
     "react-spinners": "^0.10.4",

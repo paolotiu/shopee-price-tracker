@@ -1,7 +1,6 @@
 import React from "react";
 import { Detail } from "./Detail";
 import ClampLines from "react-clamp-lines";
-import Clamp from "react-multiline-clamp";
 interface Props {
   title: string;
   desc: string;
@@ -22,10 +21,7 @@ export const Card = ({
   avg_rating = Math.round((avg_rating + Number.EPSILON) * 100) / 100;
   return (
     <div className="flex flex-col justify-between w-full h-full max-w-lg transition duration-1000 p-7 dark:bg-white bg-white-pure ">
-      <div>
-        {/* <ClampLines lines={2}>
-          <h1 className="pb-1 font-bold text-black-lighter ">{title}</h1>
-        </ClampLines> */}
+      <div className="overflow-hidden">
         <ClampLines
           text={title}
           id="title"
@@ -34,18 +30,9 @@ export const Card = ({
           className="pb-1 font-bold text-black-lighter"
         />
         <hr />
-        {/* {desc && (
-          <ClampLines
-            text={desc}
-            id="desc"
-            lines={3}
-            buttons={false}
-            innerElement="p"
-            className="pt-2 text-sm text-gray-400 pb-7 "
-          />
-        )} */}
-        <p className="pt-2 overflow-hidden text-sm text-gray-400 pb-7">
-          <Clamp lines={3}>{desc}</Clamp>
+
+        <p className="flex items-center pt-2 overflow-hidden text-sm text-gray-400 pb-7">
+          <span className="line-clamp">{desc}</span>
         </p>
       </div>
       <div className="grid grid-flow-col auto-cols-fr -mb-7 -mx-7 bg-primary top-full">

@@ -73,6 +73,13 @@
   line-height: 1.5em;
   background-color: inherit;
 }
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 @media only screen and (min-width: 768px) {
   .card-container {
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
