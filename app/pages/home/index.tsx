@@ -124,7 +124,7 @@ const Home = ({ items }: Props) => {
                           desc={item.item.description || "Help"}
                           price={item.item.price}
                           onSale={item.item.onSale}
-                          total_ratings={item.item.total_rating_count}
+                          sold={item.item.historical_sold}
                           avg_rating={item.item.avg_rating}
                         />
                       </a>

@@ -6,7 +6,7 @@ interface Props {
   desc: string;
   price: string | number;
   onSale: boolean;
-  total_ratings: number;
+  sold: number;
   avg_rating: number;
 }
 
@@ -15,7 +15,7 @@ export const Card = ({
   desc,
   price,
   onSale,
-  total_ratings,
+  sold,
   avg_rating,
 }: Props) => {
   avg_rating = Math.round((avg_rating + Number.EPSILON) * 100) / 100;
@@ -45,7 +45,7 @@ export const Card = ({
         />
         <Detail
           title="Sold"
-          content={total_ratings}
+          content={sold}
           borderLeft
           borderRight
           dontShowOnMobile
