@@ -29,21 +29,6 @@ const Navbar: React.FC<NavProps> = ({
       dispatch(toggleSidebarPossibility(true));
     }
   }, [showLogo]);
-  useEffect(() => {
-    if (isTransparent) {
-      navRef.current?.classList.add(
-        "bg-primary",
-        "dark:bg-primary-dark",
-        "max-h-16"
-      );
-    } else {
-      navRef.current?.classList.remove(
-        "bg-primary",
-        "dark:bg-primary-dark",
-        "max-h-16"
-      );
-    }
-  }, []);
 
   return (
     <>
