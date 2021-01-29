@@ -98,7 +98,7 @@ export const postItemLink: RequestHandler[] = [
 
 // Check item
 export const checkItem: RequestHandler = async (req, res, next) => {
-  const { itemid } = req.body;
+  const { itemid } = req.params;
 
   try {
     const item = await Item.findOne({ itemID: itemid }).lean().exec();
@@ -106,7 +106,7 @@ export const checkItem: RequestHandler = async (req, res, next) => {
       return next(createHttpError(404, 'Item not found'));
     }
 
-    return res.json(item);
+    return res.json({ item });
   } catch (error) {
     return next(error);
   }
