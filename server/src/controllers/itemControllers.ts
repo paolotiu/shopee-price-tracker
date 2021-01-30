@@ -115,13 +115,17 @@ export const checkItem: RequestHandler = async (req, res, next) => {
 // update Items
 export const updateItemPrices: RequestHandler[] = [
   async (req, res, next) => {
-    const { secret } = req.body;
-    if (secret !== process.env.UPDATE_SECRET) {
-      return res.status(403).json('Not allowed');
-    }
-    const response = await updatePrices();
+    try {
+      const { secret } = req.body;
+      if (secret !== process.env.UPDATE_SECRET) {
+        return res.status(403).json('Not allowed');
+      }
+      const response = await updatePrices();
 
-    return res.json(response);
+      return res.json(response);
+    } catch (error) {
+      return next(error);
+    }
   },
 ];
 
