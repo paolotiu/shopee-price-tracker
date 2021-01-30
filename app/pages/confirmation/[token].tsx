@@ -1,9 +1,9 @@
 import { GetServerSideProps } from "next";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { confirmEmail } from "../../utils/api";
-import { apiHandler } from "../../utils/apiHandler";
-import Layout from "../../components/Layout";
+import { confirmEmail } from "utils/api";
+import { apiHandler } from "utils/apiHandler";
+import Layout from "components/Layout";
 import toast from "react-hot-toast";
 
 interface Props {
