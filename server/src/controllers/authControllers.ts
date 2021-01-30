@@ -5,8 +5,7 @@ import passport from 'passport';
 import createHttpError from 'http-errors';
 import { signUpSchema } from './validation';
 import jwt from 'jsonwebtoken';
-import { sendConfirmationEmail } from '../config/nodemailer';
-import { type } from 'os';
+import { sendConfirmationEmail, sendPasswordReset } from '../config/nodemailer';
 
 export const signUpUser: RequestHandler = (req, res, next) => {
   const { email, password, callbackUrl } = req.body;
@@ -19,7 +18,6 @@ export const signUpUser: RequestHandler = (req, res, next) => {
   if (validationError) {
     return next(createHttpError(403, validationError));
   }
-  const hash = bcrypt.hashSync(password, 10);
   User.findOne({ email: email }).exec((err, user) => {
     if (err) return next(err);
 
@@ -29,7 +27,7 @@ export const signUpUser: RequestHandler = (req, res, next) => {
     if (user) {
       try {
         (async () => {
-          await user.updateOne({ password: hash }).exec();
+          await user.updateOne({ password: password }).exec();
         })();
       } catch (error) {
         return next(error);
@@ -39,7 +37,7 @@ export const signUpUser: RequestHandler = (req, res, next) => {
     }
     const newUser = new User({
       email: email,
-      password: hash,
+      password: password,
     });
 
     // Sign jwt
@@ -172,4 +170,59 @@ export const facebookCallback: RequestHandler[] = [
 
 export const oauthFail: RequestHandler = (req, res) => {
   return res.json('Login Failed');
+};
+
+export const forgetPassword: RequestHandler = async (req, res, next) => {
+  const { email, callbackUrl } = req.body;
+  try {
+    User.findOne({ email: email }).then((user) => {
+      if (!user) return next(createHttpError(401, 'User not found'));
+
+      // generate and set password token
+      user.generatePasswordReset();
+
+      user.save().then(async (user) => {
+        const link = callbackUrl + user.resetPasswordToken;
+        // await sendPasswordReset(user.email, link);
+        res.json({ message: 'email has been sent', token: user.resetPasswordToken });
+      });
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const reset: RequestHandler = (req, res, next) => {
+  const { token } = req.params;
+  User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } }).exec(
+    (err, user) => {
+      if (err) return next(err);
+      if (!user) return next(createHttpError(401, 'Token is invalid or expired'));
+    }
+  );
+};
+
+export const resetPassword: RequestHandler = (req, res, next) => {
+  const { password } = req.body;
+  const token = req.params;
+  if (!password) {
+    return next(createHttpError(400, 'Password is required'));
+  }
+  User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } }).exec(
+    (err, user) => {
+      if (err) return next(err);
+      if (!user) return next(createHttpError(401, 'Token is invalid or expired'));
+
+      //Set the new password
+      user.password = password;
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpires = undefined;
+
+      //Save
+      user.save((err) => {
+        if (err) return next(err);
+        res.json({ message: 'Your password has been changed' });
+      });
+    }
+  );
 };

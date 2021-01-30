@@ -8,6 +8,8 @@ import {
   googleCallback,
   facebookAuth,
   facebookCallback,
+  forgetPassword,
+  resetPassword,
 } from '../controllers/authControllers';
 const router = Router();
 
@@ -22,6 +24,10 @@ router.get('/logout', (req, res, next) => {
 });
 router.post('/resendEmail', resendConfirmationEmail);
 router.get('/confirmation/:token', confirmEmail);
+
+// Forget Password
+router.post('/recover', forgetPassword);
+router.post('/reset/:token', resetPassword);
 
 // Google Routes
 router.get('/google', googleAuth);
