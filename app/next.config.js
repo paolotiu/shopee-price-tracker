@@ -1,7 +1,7 @@
-// const withBundleAnalyzer = require("@next/bundle-analyzer")({
-//   enabled: process.env.ANALYZE === "true",
-// });
-module.exports = {
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+module.exports = withBundleAnalyzer({
   webpack(config, { buildId, dev, isServer, defaultLoaders, webpack }) {
     config.module.rules.push({
       test: /\.svg$/,
@@ -31,4 +31,4 @@ module.exports = {
   //   NEXT_PUBLIC_SERVER_URL: "https://price-tracker-pt.herokuapp.com",
   //   NEXT_PUBLIC_CLIENT_URL: "https://spt-bypt.vercel.app",
   // },
-};
+});

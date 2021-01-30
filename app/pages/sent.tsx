@@ -1,15 +1,17 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import React, { useEffect } from "react";
+import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { useTimer } from "utils/useTimer";
 import Layout from "../components/Layout";
 import { userSelector } from "../slices/userSlice";
 import { resendConfirmationEmail } from "../utils/api";
 import { apiHandler } from "../utils/apiHandler";
 const Sent = () => {
-  const [seconds, setSeconds] = useState(0);
+  const [seconds, setSeconds] = useTimer();
   const { email } = useSelector(userSelector);
   const router = useRouter();
+
   const resendEmail = async () => {
     if (seconds) {
       toast.error(`Wait for ${seconds} seconds to resend email`);
@@ -25,15 +27,6 @@ const Sent = () => {
     // Start timer till resend again
     setSeconds(60);
   };
-  useEffect(() => {
-    if (!seconds) return;
-    const timer = setInterval(() => {
-      console.log("HEYo");
-      setSeconds(seconds - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [seconds]);
 
   useEffect(() => {
     if (!email) {

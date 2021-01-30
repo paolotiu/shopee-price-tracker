@@ -174,6 +174,11 @@ export const oauthFail: RequestHandler = (req, res) => {
 
 export const forgetPassword: RequestHandler = async (req, res, next) => {
   const { email, callbackUrl } = req.body;
+  if (!email) {
+    return next(createHttpError(400, 'Email required'));
+  } else if (!callbackUrl) {
+    return next(createHttpError(400, 'callbackUrl required'));
+  }
   try {
     User.findOne({ email: email }).then((user) => {
       if (!user) return next(createHttpError(401, 'User not found'));
@@ -183,7 +188,7 @@ export const forgetPassword: RequestHandler = async (req, res, next) => {
 
       user.save().then(async (user) => {
         const link = callbackUrl + user.resetPasswordToken;
-        // await sendPasswordReset(user.email, link);
+        await sendPasswordReset(user.email, link);
         res.json({ message: 'email has been sent', token: user.resetPasswordToken });
       });
     });

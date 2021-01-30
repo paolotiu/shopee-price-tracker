@@ -117,12 +117,11 @@ const LoginForm = () => {
             </div>
             <div className="flex items-center mb-6 -mt-4">
               <div className="flex ml-auto">
-                <a
-                  href="#"
-                  className="inline-flex text-xs font-thin text-gray-500 transition duration-1000 sm:text-sm dark:text-gray-100 hover:text-gray-700 dark:hover:text-white"
-                >
-                  Forgot Your Password?
-                </a>
+                <Link href="/forget">
+                  <a className="inline-flex text-xs font-thin text-gray-500 transition duration-1000 sm:text-sm dark:text-gray-100 hover:text-gray-700 dark:hover:text-white">
+                    Forgot Your Password?
+                  </a>
+                </Link>
               </div>
             </div>
             <button

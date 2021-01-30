@@ -144,3 +144,11 @@ export const getItem = async (id: string) => {
   const res = await axiosDefault.get("/item/" + id);
   return res.data;
 };
+
+export const sendForgetEmail = async (email: string) => {
+  const res = await axiosDefault.post("/auth/recover", {
+    email,
+    callbackUrl: process.env.NEXT_PUBLIC_CLIENT_URL + "/reset/",
+  });
+  return res.data;
+};
