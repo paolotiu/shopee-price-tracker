@@ -209,7 +209,7 @@ export const reset: RequestHandler = (req, res, next) => {
 
 export const resetPassword: RequestHandler = (req, res, next) => {
   const { password } = req.body;
-  const token = req.params;
+  const { token } = req.params;
   if (!password) {
     return next(createHttpError(400, 'Password is required'));
   }
