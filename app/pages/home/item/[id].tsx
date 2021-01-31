@@ -1,20 +1,20 @@
 import { GetServerSideProps } from "next";
-import Peso from "../../../public/peso.svg";
-import Question from "../../../public/question.svg";
+import Peso from "public/peso.svg";
+import Question from "public/question.svg";
 import React, { useEffect, useRef, useState } from "react";
-import { Button } from "../../../components/General/Button";
-import Layout from "../../../components/Layout";
-import { MainContent } from "../../../components/MainContent/MainContent";
+import { Button } from "components/General/Button";
+import Layout from "components/Layout";
+import { MainContent } from "components/MainContent/MainContent";
 import ClampLines from "react-clamp-lines";
 import Modal from "react-modal";
 import tw from "twin.macro";
 import { addPriceTarget, getOneUserItem, Item } from "../../../utils/api";
-import { ItemDetail } from "../../../components/ItemDetail/ItemDetail";
-import { apiHandler } from "../../../utils/apiHandler";
+import { ItemDetail } from "components/ItemDetail/ItemDetail";
+import { apiHandler } from "utils/apiHandler";
 import toast from "react-hot-toast";
-import { useIsMobile } from "../../../utils/useIsMobile";
-import { Tooltip } from "../../../components/General/Tooltip";
-import { Option } from "../../../components/General/Option";
+import { useIsMobile } from "utils/useIsMobile";
+import { Tooltip } from "components/General/Tooltip";
+import { Option } from "components/General/Option";
 
 export const getServerSideProps: GetServerSideProps = async ({
   params,
