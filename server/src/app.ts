@@ -58,7 +58,6 @@ app.use(express.urlencoded({ extended: false }));
 
 // Setup passport
 import configPassport from './config/passport';
-import { Session } from 'inspector';
 configPassport(passport);
 
 app.use(passport.initialize());
