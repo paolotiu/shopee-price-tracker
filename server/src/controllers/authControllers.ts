@@ -180,19 +180,18 @@ export const forgetPassword: RequestHandler = async (req, res, next) => {
     return next(createHttpError(400, 'callbackUrl required'));
   }
   try {
-    User.findOne({ email: email }).then((user) => {
-      if (!user) return next(createHttpError(401, 'User not found'));
+    const user = await User.findOne({ email: email }).exec();
+    if (!user) return next(createHttpError(401, 'User not found'));
+    // generate and set password token
+    user.generatePasswordReset();
 
-      // generate and set password token
-      user.generatePasswordReset();
+    const savedUser = await user.save();
 
-      user.save().then(async (user) => {
-        const link = callbackUrl + user.resetPasswordToken;
-        await sendPasswordReset(user.email, link);
-        res.json({ message: 'email has been sent', token: user.resetPasswordToken });
-      });
-    });
+    const link = callbackUrl + savedUser.resetPasswordToken;
+    await sendPasswordReset(user.email, link);
+    return res.json({ message: 'email has been sent', token: user.resetPasswordToken });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

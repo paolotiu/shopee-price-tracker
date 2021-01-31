@@ -1,24 +1,27 @@
 import nodemailer from 'nodemailer';
 import convert from '../util/convertHtmltoHB';
+import dotenv from 'dotenv';
+dotenv.config();
+const mailOptions = {
+  host: 'smtp.zoho.com',
+  service: 'Zoho',
+  port: 465,
+  secure: false,
+  auth: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASS,
+  },
+};
 export const sendConfirmationEmail = async (receiver: string, url: string) => {
-  try {
-    const transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: process.env.GMAIL_USER, // generated ethereal user
-        pass: process.env.GMAIL_PASS, // generated ethereal password
-      },
-    });
+  const transporter = nodemailer.createTransport(mailOptions);
 
-    const converted = await convert('src/assets/confirmationTemplate.html', { link: url });
-    return transporter.sendMail({
-      to: receiver,
-      subject: 'Confirm Email',
-      html: converted,
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  const converted = await convert('src/assets/confirmationTemplate.html', { link: url });
+  return transporter.sendMail({
+    to: receiver,
+    from: `noreply<${process.env.MAIL_USER}>`,
+    subject: 'Confirm Email',
+    html: converted,
+  });
 };
 
 export const sendTargetNotif = (
@@ -27,34 +30,24 @@ export const sendTargetNotif = (
   price: number,
   target: number
 ) => {
-  const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASS,
-    },
-  });
+  const transporter = nodemailer.createTransport(mailOptions);
 
   return transporter.sendMail({
     to: receiver,
+    from: `noreply<${process.env.MAIL_USER}>`,
     subject: 'Target Price Hit!',
     html: `Your target price of ₱${target} was hit! ${itemName} is now currently ₱${price} `,
   });
 };
 
 export const sendPasswordReset = async (receiver: string, url: string) => {
-  const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASS,
-    },
-  });
+  const transporter = nodemailer.createTransport(mailOptions);
   const converted = await convert('src/assets/passwordChangeTemplate.html', { link: url });
-
-  return transporter.sendMail({
+  const res = await transporter.sendMail({
     to: receiver,
+    from: `noreply<${process.env.MAIL_USER}>`,
     subject: 'Password change request',
     html: converted,
   });
+  return res;
 };
