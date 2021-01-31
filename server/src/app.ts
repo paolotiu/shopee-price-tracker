@@ -64,7 +64,9 @@ configPassport(passport);
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.get('/test', (req, res, next) => {
+  return res.json('Tested');
+});
 app.use('/', IndexRouter);
 
 // catch 404 and forward to error handler
