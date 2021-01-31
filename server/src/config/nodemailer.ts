@@ -42,7 +42,7 @@ export const sendTargetNotif = (
   });
 };
 
-export const sendPasswordReset = (receiver: string, url: string) => {
+export const sendPasswordReset = async (receiver: string, url: string) => {
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -50,10 +50,11 @@ export const sendPasswordReset = (receiver: string, url: string) => {
       pass: process.env.GMAIL_PASS,
     },
   });
+  const converted = await convert('src/assets/passwordChangeTemplate.html', { link: url });
 
   return transporter.sendMail({
     to: receiver,
     subject: 'Password change request',
-    html: url,
+    html: converted,
   });
 };
