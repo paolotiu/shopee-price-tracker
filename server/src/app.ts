@@ -29,13 +29,13 @@ require('./config/mongoDB');
 app.use(logger('dev'));
 app.enable('trust proxy'); // For heroku to work
 
+app.use(cors({ credentials: true }));
 const cookieSettings: session.CookieOptions =
   process.env.NODE_ENV === 'development'
     ? { maxAge: 1000 * 60 * 60 * 24 }
     : { maxAge: 1000 * 60 * 60 * 24, secure: true, sameSite: 'none' };
 
 app.use(cookieParser());
-app.use(cors({ origin: true, credentials: true }));
 app.use(
   session({
     resave: false,
