@@ -33,7 +33,7 @@ app.use(cors({ origin: true, credentials: true }));
 const cookieSettings: session.CookieOptions =
   process.env.NODE_ENV === 'development'
     ? { maxAge: 1000 * 60 * 60 * 24 }
-    : { maxAge: 1000 * 60 * 60 * 24, secure: true, sameSite: 'none' };
+    : { maxAge: 1000 * 60 * 60 * 24, secure: true, sameSite: 'lax' };
 
 app.use(cookieParser());
 app.use(
