@@ -18,6 +18,7 @@ const Searchbar = dynamic(() => import("components/Searchbar/Searchbar"), {
 });
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  console.log(context.req.headers.cookie);
   const { error, data } = await apiHandler(
     getUserItems(context.req.headers.cookie)
   );
