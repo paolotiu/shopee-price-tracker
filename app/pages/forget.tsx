@@ -19,7 +19,7 @@ const Forget = () => {
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success("Email sent");
+      toast.success("Email sent", { duration: 10000 });
       setSeconds(120);
     }
     setIsSending(false);

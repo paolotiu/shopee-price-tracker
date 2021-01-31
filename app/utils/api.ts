@@ -152,3 +152,8 @@ export const sendForgetEmail = async (email: string) => {
   });
   return res.data;
 };
+
+export const resetPassword = async (token: string, password: string) => {
+  const res = await axiosDefault.post("/auth/reset/" + token, { password });
+  return res.data;
+};
