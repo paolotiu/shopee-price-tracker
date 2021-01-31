@@ -8,7 +8,7 @@ import { apiHandler } from "../../utils/apiHandler";
 import { useIsMobile } from "../../utils/useIsMobile";
 
 const ListItem = tw.li`px-3 py-2 list-none border bg-white rounded-sm  whitespace-nowrap font-semibold hover:bg-white-pure cursor-pointer transition-colors duration-150  `;
-import { m as motion, Variants } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 interface Props {
   id: string;
   hasDelete?: boolean;
