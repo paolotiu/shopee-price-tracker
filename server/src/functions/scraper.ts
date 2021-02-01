@@ -5,7 +5,10 @@ export const scrape = async (link: string): Promise<Item.RootObject> => {
   if (!link || !link.search('shopee.ph')) {
     throw new Error('Not a valid link');
   }
-  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+  const browser = await puppeteer.launch({
+    executablePath: process.env.CHROME_BIN,
+    args: ['--no-sandbox', '--headless', '--disable-gpu'],
+  });
   const page = await browser.newPage();
   let result: Item.RootObject | undefined | null;
   let closed = false;
