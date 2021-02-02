@@ -32,7 +32,7 @@ app.use(cors({ origin: true, credentials: true }));
 const cookieSettings: session.CookieOptions =
   process.env.NODE_ENV === 'development'
     ? { maxAge: 1000 * 60 * 60 * 24 }
-    : { maxAge: 1000 * 60 * 60 * 24, domain: 'shopeetracker.com', secure: true};
+    : { maxAge: 1000 * 60 * 60 * 24, domain: 'shopeetracker.com' };
 
 app.use(cookieParser());
 app.enable('trust proxy');
