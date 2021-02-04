@@ -1,5 +1,4 @@
-import { PathLike } from 'fs';
-import fs from 'fs/promises';
+import { promises as fs } from 'fs';
 import handlebars from 'handlebars';
 import p from 'path';
 const convert = async (path: string, replacements: { [key: string]: string }) => {
