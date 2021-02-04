@@ -6,7 +6,6 @@ export const scrape = async (link: string): Promise<Item.RootObject> => {
     throw new Error('Not a valid link');
   }
   const browser = await puppeteer.launch({
-    executablePath: process.env.CHROME_BIN,
     args: ['--no-sandbox', '--headless', '--disable-gpu'],
   });
   const page = await browser.newPage();
