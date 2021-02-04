@@ -1,6 +1,7 @@
 FROM buildkite/puppeteer
 
 ENV PATH="${PATH}:/node_modules/.bin"
+ENV NODE_ENV="production"
 WORKDIR /server
 
 COPY package*.json yarn.lock  ./
