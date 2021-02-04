@@ -3,7 +3,6 @@
 // Import deps
 import app from './app';
 import fs from 'fs';
-const debug = require('debug')('server');
 import https from 'https';
 import http from 'http';
 // Set the port
@@ -61,7 +60,5 @@ function onError(error: NodeJS.ErrnoException) {
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr?.port;
-  debug('Listening on ' + bind);
-  console.log('listening');
-  console.log('hey');
+  console.log('listening on ' + bind);
 }
