@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "node build/index.js",
+    "start": "tsc && node build/index.js",
     "dev": " export DEBUG=server && nodemon src/index.ts",
     "dev:https": " export DEBUG=server && export PROTOCOL=https && nodemon src/index.ts"
   },
