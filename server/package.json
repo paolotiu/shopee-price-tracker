@@ -7,7 +7,7 @@
     "build": "tsc",
     "test": "jest --watch",
     "start": "node build/index.js",
-    "dev": " export DEBUG=server && nodemon src/index.ts",
+    "dev": "NODE_ENV=development nodemon src/index.ts",
     "dev:https": " export DEBUG=server && export PROTOCOL=https && nodemon src/index.ts"
   },
   "dependencies": {
