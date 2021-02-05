@@ -19,18 +19,33 @@ const Sidebar = () => {
       pointerEvents: "none",
 
       transition: {
-        delay: 0.05,
+        delay: 0.001,
+        duration: 0.3,
         when: "afterChildren",
       },
     },
-    open: { opacity: 100, pointerEvents: "auto" },
+    open: {
+      opacity: 100,
+      pointerEvents: "auto",
+      transition: {
+        duration: 0.0001,
+      },
+    },
   };
 
   const contentVariant: Variants = {
     close: {
       x: -500,
+      transition: {
+        duration: 0,
+      },
     },
-    open: { x: 0 },
+    open: {
+      x: 0,
+      transition: {
+        duration: 0.0001,
+      },
+    },
   };
 
   useEffect(() => {}, []);
@@ -49,7 +64,6 @@ const Sidebar = () => {
     >
       <motion.div
         animate={isOpen ? "open" : "close"}
-        transition={{ duration: 0.05 }}
         variants={contentVariant}
         className={`w-8/12 h-full relative  max-w-sm  bg-white dark:bg-black rounded-r-lg transition duration-700 delay-100`}
       >
