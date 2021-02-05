@@ -45,7 +45,7 @@ export const checkOneItem: RequestHandler[] = [
     if (!items) {
       return next(createHttpError(400, 'No item matched'));
     }
-    const item = items.filter(({ item }) => item.itemID === id)[0];
+    const item = items.filter(({ item }) => item?.itemID === id)[0];
     if (!item) {
       return next(createHttpError(400, 'No item matched!'));
     }
