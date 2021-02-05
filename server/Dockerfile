@@ -1,13 +1,19 @@
+# Stage 0
+FROM buildkite/puppeteer
+WORKDIR /app
+COPY package*.json yarn.lock ./
+RUN yarn install
+COPY . .
+RUN yarn run build
+
+
+# Stage 1
+
 FROM buildkite/puppeteer
 
-ENV PATH="${PATH}:/node_modules/.bin"
-ENV NODE_ENV="production"
-WORKDIR /server
-
-COPY package*.json yarn.lock  ./
-RUN yarn install
-
-COPY . .
-EXPOSE 3000
-
+WORKDIR /app
+COPY package*.json yarn.lock ./
+RUN yarn install --production=true
+COPY --from=0 /app/build ./build
+EXPOSE 3001
 CMD ["yarn", "start"]

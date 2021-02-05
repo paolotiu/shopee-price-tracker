@@ -1,3 +1,4 @@
-**/node_modules
-**/Procfile
-**/.env
+node_modules
+Procfile
+.env
+build
