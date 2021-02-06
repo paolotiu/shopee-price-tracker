@@ -135,9 +135,12 @@ function render(data: PriceWithDate[], svgRef: React.RefObject<SVGSVGElement>) {
   //
   // TOOLTIP
   //
-  const focus = svg.append("g");
+  const focus = svg.append("g").style("display", "none");
 
-  focus.append("circle").attr("r", 3).attr("class", "fill-current text-white");
+  focus
+    .append("circle")
+    .attr("r", 3)
+    .attr("class", "fill-current dark:text-white text-dark-lighter");
 
   const tooltip = d3
     .select(svgRef.current)
@@ -152,7 +155,10 @@ function render(data: PriceWithDate[], svgRef: React.RefObject<SVGSVGElement>) {
     return tooltip
       .append("text")
       .style("font-size", ".5em")
-      .attr("class", " pointer-events-none fill-current text-white w-5");
+      .attr(
+        "class",
+        " pointer-events-none fill-current dark:text-white text-dark"
+      );
   });
 
   svg
@@ -165,6 +171,7 @@ function render(data: PriceWithDate[], svgRef: React.RefObject<SVGSVGElement>) {
       focus.style("display", null);
     })
     .on("mouseout touchend", () => {
+      focus.style("display", "none");
       tooltip.transition().duration(300).style("opacity", 0);
     })
     .on("mousemove touchmove", mousemove);
