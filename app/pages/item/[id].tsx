@@ -1,15 +1,16 @@
 import { GetServerSideProps } from "next";
 import React, { useEffect } from "react";
-import { Button } from "../../components/General/Button";
-import Layout from "../../components/Layout";
-import { MainContent } from "../../components/MainContent/MainContent";
+import { Button } from "components/General/Button";
+import Layout from "components/Layout";
+import { MainContent } from "components/MainContent/MainContent";
 import ClampLines from "react-clamp-lines";
 import Modal from "react-modal";
-import { getItem, getOneUserItem, Item } from "../../utils/api";
-import { ItemDetail } from "../../components/ItemDetail/ItemDetail";
-import { apiHandler } from "../../utils/apiHandler";
-import { useIsMobile } from "../../utils/useIsMobile";
-import { Option } from "../../components/General/Option";
+import { getItem, getOneUserItem, Item } from "utils/api";
+import { ItemDetail } from "components/ItemDetail/ItemDetail";
+import { apiHandler } from "utils/apiHandler";
+import { useIsMobile } from "utils/useIsMobile";
+import { Option } from "components/General/Option";
+import dynamic from "next/dynamic";
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({
   params,
@@ -75,6 +76,8 @@ interface Props {
   isLoggedIn: boolean;
 }
 Modal.setAppElement("#__next");
+
+const PriceChart = dynamic(() => import("components/Charts/PriceChart"));
 
 export const ItemInfo = ({ data, isLoggedIn }: Props) => {
   const item = data.item;
@@ -146,6 +149,7 @@ export const ItemInfo = ({ data, isLoggedIn }: Props) => {
               <ItemDetail img="/eye.svg" title="Views:" detail={item?.views} />
             </div>
             <hr />
+            <PriceChart data={item.all_prices} />
             <div className="grid gap-2 py-10 font-bold ">
               <p>
                 Current Price:{"  "}

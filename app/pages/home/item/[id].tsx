@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 import { useIsMobile } from "utils/useIsMobile";
 import { Tooltip } from "components/General/Tooltip";
 import { Option } from "components/General/Option";
-
+import dynamic from "next/dynamic";
 export const getServerSideProps: GetServerSideProps = async ({
   params,
   req,
@@ -69,6 +69,8 @@ interface Props {
   data: Item;
 }
 Modal.setAppElement("#__next");
+const PriceChart = dynamic(() => import("components/Charts/PriceChart"));
+
 export const ItemInfo = ({ data }: Props) => {
   const item = data.item;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -124,7 +126,11 @@ export const ItemInfo = ({ data }: Props) => {
               )}
             </div>
             <hr />
-
+            <div className="my-4 text-center">
+              {/* <h3 className="text-lg">Price History</h3> */}
+              <PriceChart data={item.all_prices} />
+            </div>
+            <hr />
             <div
               className="grid grid-cols-2 py-4 md:text-lg gap-x-4 gap-y-4 sm:gap-y-7 sm:grid-cols-3 whitespace-nowrap"
               // style={{

@@ -7,6 +7,8 @@ interface IUser {
   items: string[];
 }
 
+export type PriceWithDate = { price: number; time: Date };
+
 export type Item = {
   item: {
     _id: string;
@@ -16,7 +18,7 @@ export type Item = {
     price: number;
     api_url: string;
     description: string;
-    all_prices: [{ price: number; time: Date }];
+    all_prices: PriceWithDate[];
     onSale: boolean;
     avg_rating: number;
     lowest_price: number;
