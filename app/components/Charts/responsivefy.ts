@@ -1,8 +1,5 @@
 import * as d3 from "d3";
-export function responsivefy(
-  svg: d3.Selection<any, any, any, any>,
-  ...args: any[]
-) {
+export function responsivefy(svg: d3.Selection<any, any, any, any>) {
   // get container + svg aspect ratio
   const container = d3.select(svg.node()?.parentNode as any),
     width = parseInt(svg.style("width")),
