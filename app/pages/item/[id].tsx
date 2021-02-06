@@ -6,7 +6,6 @@ import { MainContent } from "components/MainContent/MainContent";
 import ClampLines from "react-clamp-lines";
 import Modal from "react-modal";
 import { getItem, getOneUserItem, Item } from "utils/api";
-import { ItemDetail } from "components/ItemDetail/ItemDetail";
 import { apiHandler } from "utils/apiHandler";
 import { useIsMobile } from "utils/useIsMobile";
 import { Option } from "components/General/Option";
@@ -78,7 +77,9 @@ interface Props {
 Modal.setAppElement("#__next");
 
 const PriceChart = dynamic(() => import("components/Charts/PriceChart"));
-
+const ItemDetails = dynamic(
+  () => import("components/ItemDetail/ItemDetailContainer")
+);
 export const ItemInfo = ({ data, isLoggedIn }: Props) => {
   const item = data.item;
   const isMobile = useIsMobile();
@@ -116,38 +117,7 @@ export const ItemInfo = ({ data, isLoggedIn }: Props) => {
             </div>
             <hr />
 
-            <div className="grid grid-cols-2 py-4 md:text-lg gap-x-4 gap-y-4 sm:gap-y-7 sm:grid-cols-3 whitespace-nowrap">
-              <ItemDetail
-                img="/free_shipping.svg"
-                title="Free Shipping:"
-                detail={item?.free_shipping ? "Yes" : "No"}
-              />
-              <ItemDetail
-                img="/discount.svg"
-                title="Discount:"
-                detail={item?.discount ? item.discount + "%" : "None"}
-              />
-              <ItemDetail
-                img="/star.svg"
-                title="Rating:"
-                detail={
-                  item?.avg_rating
-                    ? Math.round(item?.avg_rating * 100) / 100
-                    : ""
-                }
-              />
-              <ItemDetail
-                img="/sold.svg"
-                title="Sold:"
-                detail={item?.historical_sold}
-              />
-              <ItemDetail
-                img="/heart.svg"
-                title="Likes:"
-                detail={item?.likes}
-              />
-              <ItemDetail img="/eye.svg" title="Views:" detail={item?.views} />
-            </div>
+            <ItemDetails item={data} />
             <hr />
             <PriceChart data={item.all_prices} />
             <div className="grid gap-2 py-10 font-bold ">
