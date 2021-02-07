@@ -45,7 +45,7 @@ const PriceChart = ({ data: rawData }: Props) => {
         >
           {date}
         </p>
-        <p className="px-2 py-1 text-sm text-black bg-white rounded-b">
+        <p className="px-2 py-1 text-sm font-bold text-black bg-white rounded-b">
           P{price}
         </p>
       </div>
@@ -263,11 +263,10 @@ function render(
     const leftOffset =
       (event.pageX || event.targetTouches[0].pageX) -
       (svgRef.current?.getBoundingClientRect().x || 0);
-    const topOffest =
-      (event.pageY || event.targetTouches[0].pageY) -
-      (svgRef.current?.getBoundingClientRect().y || 0) -
-      window.pageXOffset;
-    console.log("BBox", svgRef.current?.getBBox());
+    // const topOffest =
+    //   (event.pageY || event.targetTouches[0].pageY) -
+    //   (svgRef.current?.getBoundingClientRect().y || 0) -
+    //   window.pageXOffset;
 
     const isHalfway = x0 / data.length < 0.5;
 
@@ -275,7 +274,7 @@ function render(
       .transition()
       .duration(100)
       .style("left", `${leftOffset + (isHalfway ? 40 : -90)}px`)
-      .style("top", `${topOffest}px`);
+      .style("top", `${y(d0.price)}px`);
     // tooltipBg.style(
     //   "transform",
     //   `translate(${x(d0.time) + 18}px,${y(d0.price) + 15}px)`
