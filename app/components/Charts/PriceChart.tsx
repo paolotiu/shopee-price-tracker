@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { PriceWithDate } from "utils/api";
 import { responsivefy } from "./responsivefy";
@@ -8,18 +8,24 @@ interface Props {
 
 const PriceChart = ({ data: rawData }: Props) => {
   const svgRef = useRef<SVGSVGElement>(null);
+  const [price, setPrice] = useState(0);
+  const [date, setDate] = useState("");
 
+  const setTooltipContent = (price: number, date: string) => {
+    setPrice(price);
+    setDate(date);
+  };
   useEffect(() => {
     if (rawData.length) {
       rawData.forEach((x) => (x.time = new Date(x.time)));
-      render(rawData, svgRef);
+      render(rawData, svgRef, setTooltipContent);
       let windowWidth = window.innerWidth;
 
       // Rerender everytime window size changes
       const renderChart = () => {
         if (window.innerWidth !== windowWidth && svgRef.current) {
           windowWidth = window.innerWidth;
-          render(rawData, svgRef);
+          render(rawData, svgRef, setTooltipContent);
         }
       };
       window.addEventListener("resize", renderChart);
@@ -28,8 +34,22 @@ const PriceChart = ({ data: rawData }: Props) => {
     }
   }, []);
   return (
-    <>
-      <svg ref={svgRef}>
+    <div id="container" className="relative overflow-hidden">
+      <div
+        id="chart-tooltip"
+        className="absolute transition duration-200 shadow-md"
+      >
+        <p
+          className="px-2 py-1 font-bold text-gray-600 bg-gray-300 rounded-b-none bg-opacity-80"
+          style={{ fontSize: "10px" }}
+        >
+          {date}
+        </p>
+        <p className="px-2 py-1 text-sm text-black bg-white rounded-b">
+          P{price}
+        </p>
+      </div>
+      <svg ref={svgRef} style={{ touchAction: "none" }}>
         <linearGradient
           id="gradient"
           gradientUnits="userSpaceOnUse"
@@ -42,13 +62,17 @@ const PriceChart = ({ data: rawData }: Props) => {
           <stop offset="80%" stopColor="#FF8D28" stopOpacity="0" />
         </linearGradient>
       </svg>
-    </>
+    </div>
   );
 };
 
 export default PriceChart;
 
-function render(data: PriceWithDate[], svgRef: React.RefObject<SVGSVGElement>) {
+function render(
+  data: PriceWithDate[],
+  svgRef: React.RefObject<SVGSVGElement>,
+  setTooltipContent: (price: number, date: string) => void
+) {
   // Configs
   const windowWidth = window.innerWidth;
   const fontSize = 7,
@@ -84,7 +108,13 @@ function render(data: PriceWithDate[], svgRef: React.RefObject<SVGSVGElement>) {
     .range([0, width]);
 
   // Format xAxis
-  const xAxis = d3.axisBottom(x).tickFormat(d3.timeFormat("%m/%d") as any);
+  const xAxis = d3
+    .axisBottom(x)
+    .tickPadding(5)
+    .tickSizeOuter(0)
+    .tickSizeOuter(10)
+    .ticks(5)
+    .tickFormat(d3.timeFormat("%m/%d") as any);
   // Append x-Axis
   svg
     .append("g")
@@ -102,7 +132,7 @@ function render(data: PriceWithDate[], svgRef: React.RefObject<SVGSVGElement>) {
   // Append y-axis
   svg
     .append("g")
-    .call(d3.axisLeft(y))
+    .call(d3.axisLeft(y).ticks(5))
     .style("stroke-width", strokeWidth)
     .style("font-size", fontSize);
 
@@ -140,27 +170,28 @@ function render(data: PriceWithDate[], svgRef: React.RefObject<SVGSVGElement>) {
   focus
     .append("circle")
     .attr("r", 3)
-    .attr("class", "fill-current dark:text-white text-dark-lighter");
+    .attr("class", "fill-current dark:text-white text-white-pure");
 
-  const tooltip = d3
-    .select(svgRef.current)
-    .append("g")
-    .style("opacity", 0)
-    .attr("class", "relative");
-  const tooltipBg = tooltip
-    .append("rect")
-    .style("fill", "none")
-    .attr("class", "w-10 h-5 absolute text-dark rounded ");
-  const tooltipText = [1, 2, 3].map(() => {
-    return tooltip
-      .append("text")
-      .style("font-size", ".5em")
-      .attr(
-        "class",
-        " pointer-events-none fill-current dark:text-white text-dark"
-      );
-  });
+  // const tooltip = d3
+  //   .select(svgRef.current)
+  //   .append("g")
+  //   .style("opacity", 0)
+  //   .attr("class", "relative");
+  // const tooltipBg = tooltip
+  //   .append("rect")
+  //   .style("fill", "none")
+  //   .attr("class", "w-10 h-5 absolute text-dark rounded ");
+  // const tooltipText = [1, 2, 3].map(() => {
+  //   return tooltip
+  //     .append("text")
+  //     .style("font-size", ".5em")
+  //     .attr(
+  //       "class",
+  //       " pointer-events-none fill-current dark:text-white text-dark"
+  //     );
+  // });
 
+  const tooltip = d3.select("#chart-tooltip");
   svg
     .append("rect")
     .attr("width", width)
@@ -169,10 +200,13 @@ function render(data: PriceWithDate[], svgRef: React.RefObject<SVGSVGElement>) {
     .style("opacity", 0)
     .on("mouseover touchstart", () => {
       focus.style("display", null);
+      tooltip.style("opacity", 100);
     })
     .on("mouseout touchend", () => {
       focus.style("display", "none");
-      tooltip.transition().duration(300).style("opacity", 0);
+      tooltip.style("opacity", 0);
+
+      // tooltip.transition().duration(300).style("opacity", 0);
     })
     .on("mousemove touchmove", mousemove);
 
@@ -187,33 +221,49 @@ function render(data: PriceWithDate[], svgRef: React.RefObject<SVGSVGElement>) {
       return;
     }
     focus.attr("transform", `translate(${x(d0.time)},${y(d0.price)})`);
-    tooltip.transition().duration(100).style("opacity", 0.9);
+    // tooltip.transition().duration(100).style("opacity", 0.9);
     // console.log(xPos, x(d0.time));
-    tooltipText.forEach((elem, i) => {
-      elem.style(
-        "transform",
-        `translate(${x(d0.time) + 20}px,${y(d0.price) + 30 + 10 * i}px)`
-      );
 
-      switch (i) {
-        case 0:
-          elem.text(`Price: P${d0.price}`);
-          break;
-        case 1:
-          elem.text(`Date: ${d3.timeFormat("%m/%d")(d0.time)}`);
-          break;
-        case 2:
-          elem.text(`Time: ${d3.timeFormat("%H:%M")(d0.time)}`);
-          break;
-        default:
-          break;
-      }
-    });
+    setTooltipContent(d0.price, d3.timeFormat("%m/%d  %H:%M")(d0.time));
+    // tooltipText.forEach((elem, i) => {
+    //   elem.style(
+    //     "transform",
+    //     `translate(${x(d0.time) + 20}px,${y(d0.price) + 30 + 10 * i}px)`
+    //   );
 
-    tooltipBg.style(
-      "transform",
-      `translate(${x(d0.time) + 18}px,${y(d0.price) + 15}px)`
-    );
+    //   switch (i) {
+    //     case 0:
+    //       elem.text(`Price: P${d0.price}`);
+    //       break;
+    //     case 1:
+    //       elem.text(`Date: ${d3.timeFormat("%m/%d")(d0.time)}`);
+    //       break;
+    //     case 2:
+    //       elem.text(`Time: ${d3.timeFormat("%H:%M")(d0.time)}`);
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // });
+
+    // Get left and top offset of cursor
+    const leftOffset =
+      (event.pageX || event.targetTouches[0].pageX) -
+      (svgRef.current?.getBoundingClientRect().x || 0);
+    const topOffest =
+      (event.pageY || event.targetTouches[0].pageY) -
+      (svgRef.current?.getBoundingClientRect().y || 0);
+    const isHalfway = x0 / data.length < 0.5;
+
+    tooltip
+      .transition()
+      .duration(100)
+      .style("left", `${leftOffset + (isHalfway ? 40 : -90)}px`)
+      .style("top", `${topOffest}px`);
+    // tooltipBg.style(
+    //   "transform",
+    //   `translate(${x(d0.time) + 18}px,${y(d0.price) + 15}px)`
+    // );
   }
   // function mousemove(event) {
   //   const xPos = d3.mouse(this)[0];
