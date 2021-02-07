@@ -37,7 +37,7 @@ const PriceChart = ({ data: rawData }: Props) => {
     <div id="container" className="relative top-0 left-0 overflow-hidden">
       <div
         id="chart-tooltip"
-        className="absolute transition duration-200 shadow-md opacity-0"
+        className="absolute transition duration-200 shadow-md opacity-0 pointer-events-none"
       >
         <p
           className="px-2 py-1 font-bold text-gray-600 bg-gray-300 rounded-b-none bg-opacity-80"
@@ -136,6 +136,19 @@ function render(
     .style("stroke-width", strokeWidth)
     .style("font-size", fontSize);
 
+  if (data.length <= 1) {
+    console.log("hey");
+    svg
+      .append("text")
+      .text("Not enough data available")
+      .attr("class", "text-gray-300 text-base")
+      .style("text-anchor", "middle")
+      .style(
+        "transform",
+        `translate(${x(data[0].time)}px, ${height / 2 + margin.top}px)`
+      );
+    return;
+  }
   // Create line generator
   const line = d3
     .line<PriceWithDate>()
@@ -250,7 +263,12 @@ function render(
     const leftOffset =
       (event.pageX || event.targetTouches[0].pageX) -
       (svgRef.current?.getBoundingClientRect().x || 0);
-    const topOffest = (event.pageY || event.targetTouches[0].pageY) - 410;
+    const topOffest =
+      (event.pageY || event.targetTouches[0].pageY) -
+      (svgRef.current?.getBoundingClientRect().y || 0) -
+      window.pageXOffset;
+    console.log("BBox", svgRef.current?.getBBox());
+
     const isHalfway = x0 / data.length < 0.5;
 
     tooltip
