@@ -250,11 +250,9 @@ function render(
     const leftOffset =
       (event.pageX || event.targetTouches[0].pageX) -
       (svgRef.current?.getBoundingClientRect().x || 0);
-    const topOffest =
-      (event.pageY || event.targetTouches[0].pageY) -
-      (svgRef.current?.getBoundingClientRect().y || 0);
+    const topOffest = (event.pageY || event.targetTouches[0].pageY) - 410;
     const isHalfway = x0 / data.length < 0.5;
-    console.log(svgRef.current?.getBoundingClientRect().y, event.pageY);
+
     tooltip
       .transition()
       .duration(100)
