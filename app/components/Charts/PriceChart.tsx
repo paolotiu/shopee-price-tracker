@@ -34,10 +34,10 @@ const PriceChart = ({ data: rawData }: Props) => {
     }
   }, []);
   return (
-    <div id="container" className="relative overflow-hidden">
+    <div id="container" className="relative top-0 left-0 overflow-hidden">
       <div
         id="chart-tooltip"
-        className="absolute transition duration-200 shadow-md"
+        className="absolute transition duration-200 shadow-md opacity-0"
       >
         <p
           className="px-2 py-1 font-bold text-gray-600 bg-gray-300 rounded-b-none bg-opacity-80"
@@ -254,7 +254,7 @@ function render(
       (event.pageY || event.targetTouches[0].pageY) -
       (svgRef.current?.getBoundingClientRect().y || 0);
     const isHalfway = x0 / data.length < 0.5;
-
+    console.log(svgRef.current?.getBoundingClientRect().y, event.pageY);
     tooltip
       .transition()
       .duration(100)
