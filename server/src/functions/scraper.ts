@@ -2,7 +2,7 @@ import puppeteer from 'puppeteer';
 import axios from 'axios';
 import { Item } from '../types/Item';
 export const scrape = async (link: string): Promise<Item.RootObject> => {
-  if (!link || !link.search('shopee.ph')) {
+  if (!link || !link.search('shopee')) {
     throw new Error('Not a valid link');
   }
   const browser = await puppeteer.launch({
@@ -15,7 +15,7 @@ export const scrape = async (link: string): Promise<Item.RootObject> => {
   await page.setRequestInterception(true);
 
   page.on('request', async (request) => {
-    if (request.url().includes('shopee.ph/api/v2/item/get')) {
+    if (request.url().includes('/api/v2/item/get')) {
       const url = request.url();
       const { data } = await axios.get<Item.RootObject>(url);
       result = data;
