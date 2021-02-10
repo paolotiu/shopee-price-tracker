@@ -15,7 +15,7 @@ const mailOptions = {
 export const sendConfirmationEmail = async (receiver: string, url: string) => {
   const transporter = nodemailer.createTransport(mailOptions);
 
-  const converted = await convert('src/assets/confirmationTemplate.html', { link: url });
+  const converted = await convert('../assets/confirmationTemplate.html', { link: url });
   return transporter.sendMail({
     to: receiver,
     from: `noreply<${process.env.MAIL_USER}>`,
@@ -42,7 +42,7 @@ export const sendTargetNotif = (
 
 export const sendPasswordReset = async (receiver: string, url: string) => {
   const transporter = nodemailer.createTransport(mailOptions);
-  const converted = await convert('src/assets/passwordChangeTemplate.html', { link: url });
+  const converted = await convert('../assets/passwordChangeTemplate.html', { link: url });
   const res = await transporter.sendMail({
     to: receiver,
     from: `noreply<${process.env.MAIL_USER}>`,
