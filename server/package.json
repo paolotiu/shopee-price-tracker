@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc && cp -r ./src/assets ./build/assets",
+    "build": "tsc && cp -r ./src/assets ./build",
     "test": "NODE_ENV=development && jest --testTimeout=10000 --detectOpenHandles --watch",
     "start": "node build/index.js",
     "dev": "NODE_ENV=development nodemon src/index.ts",
