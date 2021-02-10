@@ -22,17 +22,17 @@ dotenv.config();
 // Make app
 const app = express();
 
+const isProd = !(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test');
 // Setup mongoDB connection
-require('./config/mongoDB');
+import './config/mongoDB';
 
 // Setup middlewares
 app.use(logger('dev'));
 
 app.use(cors({ origin: true, credentials: true }));
-const cookieSettings: session.CookieOptions =
-  process.env.NODE_ENV === 'development'
-    ? { maxAge: 1000 * 60 * 60 * 24 }
-    : { maxAge: 1000 * 60 * 60 * 24, domain: 'shopeetracker.com' };
+const cookieSettings: session.CookieOptions = !isProd
+  ? { maxAge: 1000 * 60 * 60 * 24 }
+  : { maxAge: 1000 * 60 * 60 * 24, domain: 'shopeetracker.com' };
 
 app.use(cookieParser());
 app.enable('trust proxy');

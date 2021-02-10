@@ -103,7 +103,7 @@ export const checkItem: RequestHandler = async (req, res, next) => {
   try {
     const item = await Item.findOne({ itemID: itemid }).lean().exec();
     if (!item) {
-      return next(createHttpError(404, 'Item not found'));
+      return next(createHttpError(400, 'Item not found'));
     }
 
     return res.json({ item });
