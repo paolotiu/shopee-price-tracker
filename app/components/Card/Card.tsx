@@ -19,6 +19,7 @@ export const Card = ({
   avg_rating,
 }: Props) => {
   avg_rating = Math.round((avg_rating + Number.EPSILON) * 100) / 100;
+  price = typeof price === "number" ? Math.floor(price) : price;
   return (
     <div className="flex flex-col justify-between w-full h-full max-w-lg transition duration-1000 p-7 dark:bg-white bg-white-pure ">
       <div className="overflow-hidden">
